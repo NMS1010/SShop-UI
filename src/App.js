@@ -7,7 +7,18 @@ function App() {
             <div className="App">
                 <Routes>
                     {publicRoutes.map((page, index) => {
-                        return <Route key={index} path={page.path} element={<page.component />} />;
+                        const Layout = page.layout;
+                        return (
+                            <Route
+                                key={index}
+                                path={page.path}
+                                element={
+                                    <Layout>
+                                        <page.component />
+                                    </Layout>
+                                }
+                            />
+                        );
                     })}
                 </Routes>
             </div>
