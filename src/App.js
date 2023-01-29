@@ -1,12 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { publicRoutes } from './routes';
+import routes from './routes';
 
 function App() {
     return (
         <Router>
             <div className="App">
                 <Routes>
-                    {publicRoutes.map((page, index) => {
+                    {routes.map((page, index) => {
                         const Layout = page.layout;
                         return (
                             <Route

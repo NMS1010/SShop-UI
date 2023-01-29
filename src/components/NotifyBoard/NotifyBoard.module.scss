@@ -1,0 +1,21 @@
+$border-color: #e5eaf2;
+
+.container {
+    position: absolute;
+    top: 100%;
+    left: 100%;
+    // background-color: red;
+    border: 1px solid $border-color;
+    border-radius: 0.5rem;
+    .header {
+        border-bottom: 1px solid $border-color;
+        .title {
+            font-size: 2rem;
+            text-align: center;
+            padding: 1rem;
+        }
+    }
+    .content {
+        padding: 3rem;
+    }
+}

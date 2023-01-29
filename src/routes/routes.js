@@ -6,10 +6,10 @@ import config from '../configs/index';
 const publicRoutes = [
     { path: config.routes.home, component: Home, layout: ClientLayout },
     { path: config.routes.shop, component: Shop, layout: ClientLayout },
-    { path: config.routes.admin_home, component: AdminHome, layout: AdminLayout },
 ];
 
 //must login
-const privateRoutes = [];
+const privateRoutes = [{ path: config.routes.admin_home, component: AdminHome, layout: AdminLayout }];
 
-export { publicRoutes, privateRoutes };
+const routes = [...publicRoutes, ...privateRoutes];
+export default routes;
