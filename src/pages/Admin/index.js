@@ -1,1 +1,2 @@
-export { default as AdminHome } from './AdminHome';
+export { default as Dashboard } from './Dashboard';
+export { default as User } from './User';
