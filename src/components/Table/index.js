@@ -1,5 +1,27 @@
+import { useMemo } from 'react';
 import { useTable } from 'react-table';
-const Table = ({ columns, data }) => {
+import styles from './Table.module.scss';
+const Table = ({ data, ignoredField = [] }) => {
+    const columns = useMemo(
+        () =>
+            data[0]
+                ? Object.keys(data[0])
+                      .filter((key) => !ignoredField.includes(key))
+                      .map((key) => {
+                          let obj = {
+                              Header: key.charAt(0).toUpperCase() + key.slice(1),
+                              accessor: key,
+                          };
+                          if (key == 'image')
+                              return {
+                                  ...obj,
+                                  Cell: ({ value }) => <img src={`${process.env.REACT_APP_HOST}${value}`} />,
+                              };
+                          return obj;
+                      })
+                : [],
+        [data],
+    );
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
         columns,
         data,
@@ -21,6 +43,8 @@ const Table = ({ columns, data }) => {
                     return (
                         <tr {...row.getRowProps()}>
                             {row.cells.map((cell) => {
+                                if (Array.isArray(cell.value))
+                                    return <td {...cell.getCellProps()}>{cell.value.length}</td>;
                                 return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
                             })}
                         </tr>
