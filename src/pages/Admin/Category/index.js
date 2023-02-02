@@ -1,22 +1,21 @@
 import { useEffect, useState } from 'react';
+import Loading from '../../../components/Loading';
 import Table from '../../../components/Table';
 import * as categoriesAPI from '../../../services/categoriesAPI';
 
 const Category = () => {
     const ignoredField = ['parentCategoryId', 'parentCategoryName'];
     const [categories, setCategories] = useState([]);
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         const fetchAPI = async () => {
             let data = await categoriesAPI.getAllCategories();
+            setLoading(data ? false : true);
             setCategories(data ? data.items : []);
         };
         fetchAPI();
     }, []);
-    return (
-        <div>
-            <Table data={categories} ignoredField={ignoredField} />
-        </div>
-    );
+    return <div>{loading ? <Loading /> : <Table data={categories} ignoredField={ignoredField} />}</div>;
 };
 
 export default Category;
