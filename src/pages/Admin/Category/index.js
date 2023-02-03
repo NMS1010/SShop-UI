@@ -9,13 +9,17 @@ const Category = () => {
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         const fetchAPI = async () => {
-            let data = await categoriesAPI.getAllCategories();
+            let data = await categoriesAPI.getAllCategories({ pageSize: 5 });
             setLoading(data ? false : true);
             setCategories(data ? data.items : []);
         };
         fetchAPI();
     }, []);
-    return <div>{loading ? <Loading /> : <Table data={categories} ignoredField={ignoredField} />}</div>;
+    return (
+        <div>
+            {loading ? <Loading /> : <Table data={categories} ignoredField={ignoredField} uniqueField={'categoryId'} />}
+        </div>
+    );
 };
 
 export default Category;
