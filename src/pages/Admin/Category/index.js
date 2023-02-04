@@ -5,6 +5,9 @@ import * as categoriesAPI from '../../../services/categoriesAPI';
 import CategoryForm from './CategoryForm';
 import classNames from 'classnames/bind';
 import styles from './Category.module.scss';
+import Alert from '../../../components/Alert';
+import OutsideAlerter from '../../../components/OutsideAlerter';
+import ModalWrapper from '../../../components/ModalWrapper';
 const cx = classNames.bind(styles);
 const Category = () => {
     const ignoredField = ['parentCategoryId', 'parentCategoryName'];
@@ -32,14 +35,15 @@ const Category = () => {
     };
     const handleUpdateCategory = (categoryId) => {
         const category = categories.find((val) => val.categoryId === categoryId);
-        setSelectedCategory(category);
         setAction({ add: false, edit: true, delete: false });
+        setSelectedCategory(category);
         setIsOutClick(false);
     };
     const handleDeleteCategory = (categoryId) => {
         const category = categories.find((val) => val.categoryId === categoryId);
         setAction({ add: false, edit: false, delete: true });
         setSelectedCategory(category);
+        setIsOutClick(false);
     };
     return (
         <div className={cx('container')}>
@@ -57,14 +61,29 @@ const Category = () => {
                         handleDeleteItem={handleDeleteCategory}
                     />
                     {action.add && !isOutClick && (
-                        <CategoryForm setIsOutClick={setIsOutClick} categories={categories} />
+                        <ModalWrapper>
+                            <OutsideAlerter setIsOut={setIsOutClick}>
+                                <CategoryForm categories={categories} />
+                            </OutsideAlerter>
+                        </ModalWrapper>
                     )}
                     {action.edit && !isOutClick && (
-                        <CategoryForm
-                            setIsOutClick={setIsOutClick}
-                            categories={categories}
-                            category={selectedCategory}
-                        />
+                        <ModalWrapper>
+                            <OutsideAlerter setIsOut={setIsOutClick}>
+                                <CategoryForm categories={categories} category={selectedCategory} />
+                            </OutsideAlerter>
+                        </ModalWrapper>
+                    )}
+                    {action.delete && !isOutClick && (
+                        <ModalWrapper>
+                            <OutsideAlerter setIsOut={setIsOutClick}>
+                                <Alert
+                                    title={'Delete Confirmation'}
+                                    content={'Do you want to remove this category ?'}
+                                    cancelClick={() => setIsOutClick(true)}
+                                />
+                            </OutsideAlerter>
+                        </ModalWrapper>
                     )}
                 </>
             )}

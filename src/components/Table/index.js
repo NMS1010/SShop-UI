@@ -147,16 +147,10 @@ const Table = ({
                                         </Dropdown.Toggle>
 
                                         <Dropdown.Menu>
-                                            <Dropdown.Item
-                                                href="#/action-1"
-                                                onClick={() => handleUpdateItem(row.values[uniqueField])}
-                                            >
+                                            <Dropdown.Item onClick={() => handleUpdateItem(row.values[uniqueField])}>
                                                 Sửa
                                             </Dropdown.Item>
-                                            <Dropdown.Item
-                                                href="#/action-2"
-                                                onClick={() => handleDeleteItem(row.values[uniqueField])}
-                                            >
+                                            <Dropdown.Item onClick={() => handleDeleteItem(row.values[uniqueField])}>
                                                 Xoá
                                             </Dropdown.Item>
                                         </Dropdown.Menu>
