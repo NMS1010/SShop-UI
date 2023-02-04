@@ -1,11 +1,25 @@
 import { useMemo, useState } from 'react';
-import { usePagination, useRowSelect, useTable } from 'react-table';
+import { usePagination, useRowSelect, useTable, useSortBy } from 'react-table';
 import CheckBox from './CheckBox';
 import styles from './Table.module.scss';
 import classNames from 'classnames/bind';
+import Button from '../Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Dropdown from 'react-bootstrap/Dropdown';
 
 const cx = classNames.bind(styles);
-const Table = ({ data, ignoredField = [], uniqueField }) => {
+const Table = ({
+    data,
+    ignoredField = [],
+    uniqueField,
+    isSearch = true,
+    isAddNew = false,
+    handleAddNew = () => {},
+    handleUpdateItem = () => {},
+    handleDeleteItem = () => {},
+}) => {
     const [filterData, setFilterData] = useState({ keyword: '', items: data });
     const columns = useMemo(
         () =>
@@ -43,17 +57,6 @@ const Table = ({ data, ignoredField = [], uniqueField }) => {
                 Cell: ({ row }) => <CheckBox {...row.getToggleRowSelectedProps()} />,
             },
             ...columns,
-            {
-                id: 'action',
-                Header: 'Action',
-                Cell: ({ row }) => {
-                    return (
-                        <p {...row.getRowProps()}>
-                            {uniqueField}: {row.values[uniqueField]}
-                        </p>
-                    );
-                },
-            },
         ]);
     };
     const {
@@ -77,6 +80,7 @@ const Table = ({ data, ignoredField = [], uniqueField }) => {
             columns,
             data: filterData.items,
         },
+        useSortBy,
         usePagination,
         useRowSelect,
         addColumns,
@@ -85,27 +89,44 @@ const Table = ({ data, ignoredField = [], uniqueField }) => {
         setFilterData({
             keyword: e.target.value,
             items: data.filter((val) => {
-                return val.name.toLowerCase().includes(e.target.value.toLowerCase());
+                console.log(page);
+                return Object.keys(val).some((attr) => {
+                    return (
+                        attr !== 'image' && val[attr]?.toString().toLowerCase().includes(e.target.value.toLowerCase())
+                    );
+                });
             }),
         });
     };
     return (
         <div className={cx('container')}>
-            <div className={cx('search')}>
-                <input
-                    type={'text'}
-                    onChange={(e) => {
-                        handleSearch(e);
-                    }}
-                />
+            <div className={cx('tool')}>
+                {isSearch && (
+                    <div className={cx('search')}>
+                        <FontAwesomeIcon className={cx('search-icon')} icon={faSearch} />
+                        <input
+                            type={'text'}
+                            className={cx('search-input')}
+                            placeholder="Search"
+                            onChange={(e) => {
+                                handleSearch(e);
+                            }}
+                        />
+                    </div>
+                )}
+                {isAddNew && <Button children={'Add New'} className={cx('add-btn')} onClick={handleAddNew} />}
             </div>
             <table {...getTableProps()}>
                 <thead>
                     {headerGroups.map((headerGroup) => (
                         <tr {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map((column) => (
-                                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                                    {column.render('Header')}
+                                    <span>{column.isSorted ? (column.isSortedDesc ? '🔽' : '🔼') : ''}</span>
+                                </th>
                             ))}
+                            <th>Action</th>
                         </tr>
                     ))}
                 </thead>
@@ -119,6 +140,28 @@ const Table = ({ data, ignoredField = [], uniqueField }) => {
                                         return <td {...cell.getCellProps()}>{cell.value.length}</td>;
                                     return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
                                 })}
+                                <td className={cx('action')}>
+                                    <Dropdown>
+                                        <Dropdown.Toggle variant="info" id="dropdown-basic">
+                                            Action
+                                        </Dropdown.Toggle>
+
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item
+                                                href="#/action-1"
+                                                onClick={() => handleUpdateItem(row.values[uniqueField])}
+                                            >
+                                                Sửa
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                href="#/action-2"
+                                                onClick={() => handleDeleteItem(row.values[uniqueField])}
+                                            >
+                                                Xoá
+                                            </Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                </td>
                             </tr>
                         );
                     })}

@@ -1,12 +1,9 @@
 import classNames from 'classnames/bind';
-import styles from './Button.module.scss';
-
-const cx = classNames.bind(styles);
-const Button = () => {
+const Button = ({ type = '', className, children, onClick }) => {
     return (
-        <div className={cx('container')}>
-            <button className={cx('button')}></button>
-        </div>
+        <button type={type} onClick={onClick} className={className}>
+            {children}
+        </button>
     );
 };
 export default Button;
