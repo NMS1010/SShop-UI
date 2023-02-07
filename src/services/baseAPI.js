@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const httpRequest = axios.create({
+const axiosClient = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
 });
 export const getData = async (url, params = {}) => {
-    const response = await httpRequest.get(url, { params });
+    const response = await axiosClient.get(url, { params });
     return response.data;
 };

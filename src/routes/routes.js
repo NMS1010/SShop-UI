@@ -5,15 +5,15 @@ import config from '../configs/index';
 import Category from '../pages/Admin/Category';
 //not login
 const publicRoutes = [
-    { path: config.routes.home, component: Home, layout: ClientLayout },
-    { path: config.routes.shop, component: Shop, layout: ClientLayout },
+    { path: config.routes.home, component: Home, layout: ClientLayout, private: false, roles: [] },
+    { path: config.routes.shop, component: Shop, layout: ClientLayout, private: false, roles: [] },
 ];
 
 //must login
 const privateRoutes = [
-    { path: config.routes.admin_home, component: Dashboard, layout: AdminLayout },
-    { path: config.routes.admin_users, component: User, layout: AdminLayout },
-    { path: config.routes.admin_categories, component: Category, layout: AdminLayout },
+    { path: config.routes.admin_home, component: Dashboard, layout: AdminLayout, private: true, roles: ['admin'] },
+    { path: config.routes.admin_users, component: User, layout: AdminLayout, private: true, roles: ['admin'] },
+    { path: config.routes.admin_categories, component: Category, layout: AdminLayout, private: true, roles: ['admin'] },
 ];
 
 const routes = [...publicRoutes, ...privateRoutes];
