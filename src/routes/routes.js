@@ -1,5 +1,5 @@
 import { Home, Shop } from '../pages/Client';
-import { Dashboard, User } from '../pages/Admin';
+import { Dashboard, User, Login } from '../pages/Admin';
 import { AdminLayout, ClientLayout } from '../layouts';
 import config from '../configs/index';
 import Category from '../pages/Admin/Category';
@@ -7,6 +7,7 @@ import Category from '../pages/Admin/Category';
 const publicRoutes = [
     { path: config.routes.home, component: Home, layout: ClientLayout, private: false, roles: [] },
     { path: config.routes.shop, component: Shop, layout: ClientLayout, private: false, roles: [] },
+    { path: config.routes.admin_login, component: Login, layout: null, private: false, roles: [] },
 ];
 
 //must login

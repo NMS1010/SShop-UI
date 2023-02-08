@@ -3,6 +3,7 @@ import * as authAPI from '../../services/authAPI';
 import * as usersAPI from '../../services/usersAPI';
 export const login = async (username, password) => {
     const response = await authAPI.login(username, password);
+    localStorage.setItem('token', response.data);
     return async (dispatch) => {
         dispatch({
             type: types.LOGIN,

@@ -1,8 +1,18 @@
-const PrivateRoute = ({ children, roles }) => {
-    let isAuthenticated = localStorage.getItem('jwt_token');
-    if (!isAuthenticated) return <h1>Must login</h1>;
+import { connect } from 'react-redux';
+import { redirect } from 'react-router-dom';
+
+const PrivateRoute = ({ children, roles, loginComponent, currentUser }) => {
+    console.log(currentUser);
+    if (!currentUser) {
+        return loginComponent;
+    }
 
     return children;
 };
-
-export default PrivateRoute;
+function mapStateToProps(state) {
+    const { currentUser } = state.authReducers;
+    return {
+        currentUser: currentUser,
+    };
+}
+export default connect(mapStateToProps)(PrivateRoute);

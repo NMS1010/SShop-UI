@@ -4,4 +4,5 @@ import rootReducer from './reducers';
 
 const middleware = [thunkMiddleware];
 const middlewareEnhancer = applyMiddleware(...middleware);
-export default store = createStore(rootReducer, middlewareEnhancer);
+const store = createStore(rootReducer, middlewareEnhancer);
+export default store;

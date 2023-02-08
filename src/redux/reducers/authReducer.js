@@ -1,6 +1,9 @@
 import * as types from '../actions/types';
-const initialState = {};
-export default function (state = initialState, action) {
+const initialState = {
+    accessToken: localStorage.getItem('token'),
+    currentUser: localStorage.getItem('currentUser') && JSON.parse(localStorage.getItem('currentUser')),
+};
+const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case types.LOGIN:
             return { ...state, accessToken: action.payload.accessToken };
@@ -11,4 +14,5 @@ export default function (state = initialState, action) {
         default:
             return state;
     }
-}
+};
+export default authReducer;

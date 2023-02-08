@@ -1,29 +1,34 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import routes from './routes';
+import Login from './pages/Admin/Login/';
 function App() {
     return (
         <Router>
             <div className="App">
                 <Routes>
                     {routes.map((page, index) => {
-                        const Layout = page.layout;
-                        const isLogin = page.private;
+                        const loginRequire = page.private;
+                        const roles = page.roles;
                         return (
                             <Route
                                 key={index}
                                 path={page.path}
                                 element={
-                                    isLogin ? (
-                                        <PrivateRoute>
-                                            <Layout>
+                                    page.layout ? (
+                                        loginRequire ? (
+                                            <PrivateRoute loginComponent={roles.includes('admin') && <Login />}>
+                                                <page.layout>
+                                                    <page.component />
+                                                </page.layout>
+                                            </PrivateRoute>
+                                        ) : (
+                                            <page.layout>
                                                 <page.component />
-                                            </Layout>
-                                        </PrivateRoute>
+                                            </page.layout>
+                                        )
                                     ) : (
-                                        <Layout>
-                                            <page.component />
-                                        </Layout>
+                                        <page.component />
                                     )
                                 }
                             />
