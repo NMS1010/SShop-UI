@@ -6,5 +6,6 @@ export const getAllCategories = async (params = {}) => {
         return res.data;
     } catch (error) {
         console.log(error);
+        return false;
     }
 };

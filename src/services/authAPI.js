@@ -6,6 +6,7 @@ export const login = async (username, password) => {
         return response.data;
     } catch (err) {
         console.log(err);
+        return false;
     }
 };
 

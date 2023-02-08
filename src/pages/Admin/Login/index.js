@@ -8,7 +8,7 @@ import Loading from '../../../components/Loading';
 import jwtDecode from 'jwt-decode';
 const cx = classNames.bind(styles);
 
-const Login = ({ token, dispatch, message }) => {
+const Login = ({ dispatch, message, isLogin }) => {
     const [inputFields, setInputFields] = useState({
         username: '',
         password: '',
@@ -40,6 +40,8 @@ const Login = ({ token, dispatch, message }) => {
         if (isValidateErrors) return;
         setLoading(true);
         dispatch(await authActions.login(inputFields.username, inputFields.password));
+        let token = localStorage.getItem('token');
+
         if (token && token.length > 100) {
             let jwtDecodeObj = jwtDecode(token);
             let nameIdentifier = Object.keys(jwtDecodeObj).find((val) => val.includes('nameidentifier'));
@@ -52,42 +54,51 @@ const Login = ({ token, dispatch, message }) => {
             {loading ? (
                 <Loading />
             ) : (
-                <div className={cx('container')}>
-                    <h1 className={cx('title')}>Login</h1>
-                    <form className={cx('form')} onSubmit={handleSubmit}>
-                        <div className={cx('form-group')}>
-                            <label htmlFor="username">Username</label>
-                            <input name="username" value={inputFields.username} type={'text'} onChange={handleChange} />
-                            <small>{validationMessage.username}</small>
-                        </div>
-                        <div className={cx('form-group')}>
-                            <label htmlFor="password">Password</label>
-                            <input
-                                name="password"
-                                onChange={handleChange}
-                                type={'password'}
-                                value={inputFields.password}
-                            />
-                            <small>{validationMessage.password}</small>
-                        </div>
-                        <div className={cx('action-btn')}>
-                            <Button className={cx('submit-btn')} type="submit">
-                                Login
-                            </Button>
-                        </div>
-                    </form>
-                </div>
+                <>
+                    <h1>Login: {message}</h1>
+                    <div className={cx('container')}>
+                        <h1 className={cx('title')}>Login</h1>
+                        <form className={cx('form')} onSubmit={handleSubmit}>
+                            <div className={cx('form-group')}>
+                                <label htmlFor="username">Username</label>
+                                <input
+                                    name="username"
+                                    value={inputFields.username}
+                                    type={'text'}
+                                    onChange={handleChange}
+                                />
+                                <small>{validationMessage.username}</small>
+                            </div>
+                            <div className={cx('form-group')}>
+                                <label htmlFor="password">Password</label>
+                                <input
+                                    name="password"
+                                    onChange={handleChange}
+                                    type={'password'}
+                                    value={inputFields.password}
+                                />
+                                <small>{validationMessage.password}</small>
+                            </div>
+                            <div className={cx('action-btn')}>
+                                <Button className={cx('submit-btn')} type="submit">
+                                    Login
+                                </Button>
+                            </div>
+                        </form>
+                    </div>
+                </>
             )}
         </>
     );
 };
 function mapStateToProps(state) {
-    const { accessToken, currentUser } = state.authReducer;
+    console.log(state);
+    const { currentUser, isLogin } = state.authReducer;
     const { message } = state.messageReducer;
     return {
-        token: accessToken,
         currentUser: currentUser,
         message: message,
+        isLogin: isLogin,
     };
 }
 export default connect(mapStateToProps)(Login);

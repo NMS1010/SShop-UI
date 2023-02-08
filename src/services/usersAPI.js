@@ -5,5 +5,6 @@ export const getUserById = async (id) => {
         return response;
     } catch (error) {
         console.log(error);
+        return false;
     }
 };

@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import { redirect } from 'react-router-dom';
 
 const PrivateRoute = ({ children, roles, loginComponent, currentUser }) => {
-    console.log(currentUser);
     if (!currentUser) {
         return loginComponent;
     }
@@ -10,7 +9,7 @@ const PrivateRoute = ({ children, roles, loginComponent, currentUser }) => {
     return children;
 };
 function mapStateToProps(state) {
-    const { currentUser } = state.authReducers;
+    const { currentUser } = state.authReducer;
     return {
         currentUser: currentUser,
     };

@@ -3,9 +3,13 @@ import authHeader from '../utils/authHeader';
 
 export const axiosClient = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
-    headers: authHeader(),
+    headers: { Authorization: authHeader() },
 });
 export const getData = async (url, params = {}) => {
+    axiosClient.interceptors.request.use((config) => {
+        config.headers['Authorization'] = authHeader();
+        return config;
+    });
     const response = await axiosClient.get(url, { params });
     return response.data;
 };

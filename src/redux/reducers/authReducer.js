@@ -1,16 +1,22 @@
 import * as types from '../actions/types';
 const initialState = {
-    accessToken: localStorage.getItem('token'),
-    currentUser: localStorage.getItem('currentUser') && JSON.parse(localStorage.getItem('currentUser')),
+    currentUser: null,
+    isLogin: localStorage.getItem('token') && localStorage.getItem('token') > 100 ? true : false,
 };
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
-        case types.LOGIN:
-            return { ...state, accessToken: action.payload.accessToken };
-
         case types.GET_CURRENT_USER:
-            return { ...state, currentUser: action.payload.currentUser };
-
+            return { ...state, currentUser: action.payload.currentUser, isLogin: true };
+        case types.LOGIN_SUCCESS:
+            return {
+                ...state,
+                isLogin: true,
+            };
+        case types.LOGIN_FAIL:
+            return {
+                ...state,
+                isLogin: false,
+            };
         default:
             return state;
     }
