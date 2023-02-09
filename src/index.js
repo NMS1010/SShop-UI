@@ -9,12 +9,10 @@ import Toast from './components/Toast';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Provider store={store}>
-        <Toast position={'bottom-right'} autoDelete={true}>
-            <React.StrictMode>
-                <GlobalStyles>
-                    <App />
-                </GlobalStyles>
-            </React.StrictMode>
+        <Toast position={'top-right'} autoDelete={true}>
+            <GlobalStyles>
+                <App />
+            </GlobalStyles>
         </Toast>
     </Provider>,
 );

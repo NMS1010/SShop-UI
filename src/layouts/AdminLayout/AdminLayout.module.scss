@@ -1,5 +1,6 @@
 .container {
     background-color: var(--admin-background-color);
+    overflow: auto;
 }
 .page {
     max-width: 1200px;

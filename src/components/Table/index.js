@@ -34,7 +34,13 @@ const Table = ({
                           if (key === 'image' || key.toLowerCase().includes('image'))
                               return {
                                   ...obj,
-                                  Cell: ({ value }) => <img src={`${process.env.REACT_APP_HOST}${value}`} />,
+                                  Cell: ({ value }) => (
+                                      <img
+                                          width={'80rem'}
+                                          height={'80rem'}
+                                          src={`${process.env.REACT_APP_HOST}${value}`}
+                                      />
+                                  ),
                               };
                           return obj;
                       })

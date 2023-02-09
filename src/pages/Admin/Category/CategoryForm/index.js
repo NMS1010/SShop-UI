@@ -1,11 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './CategoryForm.module.scss';
 import FileUploader from '../../../../components/FileUploader';
-import OutsideAlerter from '../../../../components/OutsideAlerter';
 import Button from '../../../../components/Button';
+import * as categoriesAPI from '../../../../services/categoriesAPI';
+import { connect } from 'react-redux';
+import * as messageAction from '../../../../redux/actions/messageAction';
+
 const cx = classNames.bind(styles);
-const CategoryForm = ({ category = null, categories = [] }) => {
+const CategoryForm = ({
+    setAction = () => {},
+    category = null,
+    categories = [],
+    dispatch,
+    getAllCategories = () => {},
+}) => {
     const [inputFields, setInputFields] = useState({
         name: category?.name,
         content: category?.content,
@@ -20,13 +29,13 @@ const CategoryForm = ({ category = null, categories = [] }) => {
         image: null,
     });
 
-    const validation = () => {
+    const validation = useCallback(() => {
         let errors = { ...validationMessage };
         inputFields.name?.trim() ? (errors.name = '') : (errors.name = 'Name is required');
         inputFields.content?.trim() ? (errors.content = '') : (errors.content = 'Content is required');
         !fileSelected && !category?.image ? (errors.image = 'Image is required') : (errors.image = '');
         setValidationMessage(errors);
-    };
+    });
     useEffect(() => {
         validation();
     }, [inputFields, fileSelected]);
@@ -36,6 +45,33 @@ const CategoryForm = ({ category = null, categories = [] }) => {
     };
     const handleSubmit = (e) => {
         e.preventDefault();
+        let isValidateErrors = Object.keys(validationMessage).some((err) => {
+            return validationMessage[err] !== '';
+        });
+        if (isValidateErrors) return;
+        const category = {
+            name: inputFields?.name,
+            parentCategoryId: inputFields?.parentCategory,
+            content: inputFields?.content,
+            image: fileSelected,
+        };
+        const createCategory = async () => {
+            let response = await categoriesAPI.createCategory(category);
+            if (!response) {
+                dispatch(
+                    messageAction.setMessage({
+                        id: Math.random(),
+                        title: 'Category',
+                        message: response?.errors || 'Error while creating this category',
+                        backgroundColor: '#d9534f',
+                        icon: '',
+                    }),
+                );
+            }
+            await getAllCategories();
+        };
+        createCategory();
+        setAction({ add: false, edit: false, delete: false });
     };
     return (
         <div className={cx('container')}>
@@ -56,12 +92,12 @@ const CategoryForm = ({ category = null, categories = [] }) => {
                     <select name="parentCategory" onChange={handleChange}>
                         {categories.map((category) => {
                             return (
-                                <option selected={category.image} value={category.id} key={category.id}>
+                                <option selected={category.image} value={category.categoryId} key={category.id}>
                                     {category.name}
                                 </option>
                             );
                         })}
-                        <option selected={category?.image} value={null}>
+                        <option selected={category?.image} value={'null'}>
                             No parent category
                         </option>
                     </select>
@@ -81,5 +117,13 @@ const CategoryForm = ({ category = null, categories = [] }) => {
         </div>
     );
 };
-
-export default CategoryForm;
+function mapStateToProps(state) {
+    const { currentUser, isLogin } = state.authReducer;
+    const { message } = state.messageReducer;
+    return {
+        currentUser: currentUser,
+        message: message,
+        isLogin: isLogin,
+    };
+}
+export default connect(mapStateToProps)(CategoryForm);

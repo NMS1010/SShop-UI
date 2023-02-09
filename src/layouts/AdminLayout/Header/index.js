@@ -7,6 +7,7 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import NotifyBoard from '../../../components/NotifyBoard';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import OutsideAlerter from '../../../components/OutsideAlerter';
 const cx = classNames.bind(styles);
 
 const Header = ({ title }) => {

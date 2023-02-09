@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Loading from '../../../components/Loading';
 import Table from '../../../components/Table';
 import * as categoriesAPI from '../../../services/categoriesAPI';
@@ -8,8 +8,10 @@ import styles from './Category.module.scss';
 import Alert from '../../../components/Alert';
 import OutsideAlerter from '../../../components/OutsideAlerter';
 import ModalWrapper from '../../../components/ModalWrapper';
+import { connect } from 'react-redux';
+import * as messageAction from '../../../redux/actions/messageAction';
 const cx = classNames.bind(styles);
-const Category = () => {
+const Category = ({ dispatch }) => {
     const ignoredField = ['parentCategoryId', 'parentCategoryName'];
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -19,14 +21,25 @@ const Category = () => {
         add: false,
         edit: false,
         delete: false,
-        outClick: false,
+    });
+    const fetchAPI = useCallback(async () => {
+        setLoading(true);
+        let response = await categoriesAPI.getAllCategories();
+        setLoading(!response?.isSuccess);
+        setCategories(response?.isSuccess ? response?.data?.items : []);
+        if (!response || !response?.isSuccess) {
+            dispatch(
+                messageAction.setMessage({
+                    id: Math.random(),
+                    title: 'Category',
+                    message: response?.errors || 'Error while retrieving categories',
+                    backgroundColor: '#d9534f',
+                    icon: '',
+                }),
+            );
+        }
     });
     useEffect(() => {
-        const fetchAPI = async () => {
-            let data = await categoriesAPI.getAllCategories({ pageSize: 5 });
-            setLoading(data ? false : true);
-            setCategories(data ? data.items : []);
-        };
         fetchAPI();
     }, []);
     const handleAddCategory = () => {
@@ -63,7 +76,11 @@ const Category = () => {
                     {action.add && !isOutClick && (
                         <ModalWrapper>
                             <OutsideAlerter setIsOut={setIsOutClick}>
-                                <CategoryForm categories={categories} />
+                                <CategoryForm
+                                    setAction={setAction}
+                                    categories={categories}
+                                    getAllCategories={fetchAPI}
+                                />
                             </OutsideAlerter>
                         </ModalWrapper>
                     )}
@@ -90,5 +107,13 @@ const Category = () => {
         </div>
     );
 };
-
-export default Category;
+function mapStateToProps(state) {
+    const { currentUser, isLogin } = state.authReducer;
+    const { message } = state.messageReducer;
+    return {
+        currentUser: currentUser,
+        message: message,
+        isLogin: isLogin,
+    };
+}
+export default connect(mapStateToProps)(Category);
