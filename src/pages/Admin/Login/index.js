@@ -2,9 +2,9 @@ import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import styles from './Login.module.scss';
 import { connect } from 'react-redux';
-import * as authActions from '../../../redux/actions/authActions';
+import * as authAction from '../../../redux/actions/authAction';
+import * as messageAction from '../../../redux/actions/messageAction';
 import Button from '../../../components/Button';
-import Loading from '../../../components/Loading';
 import jwtDecode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 import Toast from '../../../components/Toast';
@@ -12,7 +12,6 @@ const cx = classNames.bind(styles);
 
 const Login = ({ dispatch, message, isLogin }) => {
     let navigate = useNavigate();
-    const [toastList, setToastList] = useState([]);
     const [inputFields, setInputFields] = useState({
         username: '',
         password: '',
@@ -43,32 +42,20 @@ const Login = ({ dispatch, message, isLogin }) => {
         });
         if (isValidateErrors) return;
         setLoading(true);
-        dispatch(await authActions.login(inputFields.username, inputFields.password));
+        dispatch(await authAction.login(inputFields.username, inputFields.password));
         let token = localStorage.getItem('token');
 
         if (token && token.length > 100) {
             let jwtDecodeObj = jwtDecode(token);
             let nameIdentifier = Object.keys(jwtDecodeObj).find((val) => val.includes('nameidentifier'));
-            dispatch(await authActions.getCurrentUser(jwtDecodeObj[nameIdentifier]));
+            dispatch(await authAction.getCurrentUser(jwtDecodeObj[nameIdentifier]));
         }
-        if (message) {
-            setToastList([
-                ...toastList,
-                {
-                    id: Math.random(),
-                    title: 'Login',
-                    message,
-                    backgroundColor: '#d9534f',
-                    icon: '',
-                },
-            ]);
-        }
+
         setLoading(false);
         navigate('/admin/');
     };
     return (
         <>
-            <Toast setToastList={setToastList} toastList={toastList} position={'bottom-right'} autoDelete={true} />
             <div className={cx('container')}>
                 <h1 className={cx('title')}>Login</h1>
                 <form className={cx('form')} onSubmit={handleSubmit}>

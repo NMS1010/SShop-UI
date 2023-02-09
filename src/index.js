@@ -5,14 +5,17 @@ import reportWebVitals from './reportWebVitals';
 import GlobalStyles from './components/GlobalStyles';
 import { Provider } from 'react-redux';
 import store from './redux/store';
+import Toast from './components/Toast';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Provider store={store}>
-        <React.StrictMode>
-            <GlobalStyles>
-                <App />
-            </GlobalStyles>
-        </React.StrictMode>
+        <Toast position={'bottom-right'} autoDelete={true}>
+            <React.StrictMode>
+                <GlobalStyles>
+                    <App />
+                </GlobalStyles>
+            </React.StrictMode>
+        </Toast>
     </Provider>,
 );
 

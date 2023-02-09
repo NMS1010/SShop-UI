@@ -6,8 +6,9 @@ export const setMessage = (message) => {
         payload: message,
     };
 };
-export const clearMessage = () => {
+export const clearMessage = (id) => {
     return {
         type: types.CLEAR_MESSAGE,
+        payload: id,
     };
 };
