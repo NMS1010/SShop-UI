@@ -9,16 +9,27 @@ export const login = async (username, password) => {
             dispatch({
                 type: types.LOGIN_FAIL,
             });
-            dispatch({
-                type: types.SET_MESSAGE,
-                payload: response?.errors,
-            });
+            if (!response) {
+                dispatch({
+                    type: types.SET_MESSAGE,
+                    payload: 'Cannot connect to server',
+                });
+            } else
+                dispatch({
+                    type: types.SET_MESSAGE,
+                    payload: response?.errors,
+                });
         } else {
             localStorage.setItem('token', response.data);
         }
     };
 };
-
+export const logout = () => {
+    localStorage.removeItem('token');
+    return {
+        type: types.LOGOUT,
+    };
+};
 export const getCurrentUser = async (id) => {
     const response = await usersAPI.getUserById(id);
     return async (dispatch) => {
