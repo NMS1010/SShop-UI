@@ -25,9 +25,9 @@ const Category = ({ dispatch }) => {
     const fetchAPI = useCallback(async () => {
         setLoading(true);
         let response = await categoriesAPI.getAllCategories();
-        setLoading(!response?.isSuccess);
-        setCategories(response?.isSuccess ? response?.data?.items : []);
         if (!response || !response?.isSuccess) {
+            setLoading(true);
+            setCategories([]);
             dispatch(
                 messageAction.setMessage({
                     id: Math.random(),
@@ -37,6 +37,9 @@ const Category = ({ dispatch }) => {
                     icon: '',
                 }),
             );
+        } else {
+            setLoading(false);
+            setCategories(response?.data?.items);
         }
     });
     useEffect(() => {

@@ -6,6 +6,7 @@ import Button from '../../../../components/Button';
 import * as categoriesAPI from '../../../../services/categoriesAPI';
 import { connect } from 'react-redux';
 import * as messageAction from '../../../../redux/actions/messageAction';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 const CategoryForm = ({
@@ -15,6 +16,8 @@ const CategoryForm = ({
     dispatch,
     getAllCategories = () => {},
 }) => {
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     const [inputFields, setInputFields] = useState({
         name: category?.name,
         content: category?.content,
@@ -49,29 +52,47 @@ const CategoryForm = ({
             return validationMessage[err] !== '';
         });
         if (isValidateErrors) return;
-        const category = {
+        const categoryObj = {
+            categoryId: category?.categoryId,
             name: inputFields?.name,
-            parentCategoryId: inputFields?.parentCategory,
+            parentCategoryId: inputFields?.parentCategory || null,
             content: inputFields?.content,
             image: fileSelected,
         };
-        const createCategory = async () => {
-            let response = await categoriesAPI.createCategory(category);
-            if (!response) {
+        const handleCategory = async () => {
+            setLoading(true);
+            let response = category
+                ? await categoriesAPI.updateCategory(categoryObj)
+                : await categoriesAPI.createCategory(categoryObj);
+            if (!response || !response.isSuccess) {
                 dispatch(
                     messageAction.setMessage({
                         id: Math.random(),
                         title: 'Category',
-                        message: response?.errors || 'Error while creating this category',
+                        message: response?.errors || 'Error while handling this category',
                         backgroundColor: '#d9534f',
                         icon: '',
                     }),
                 );
+                if (!response) {
+                    navigate('/admin/login');
+                }
+            } else {
+                dispatch(
+                    messageAction.setMessage({
+                        id: Math.random(),
+                        title: 'Category',
+                        message: 'Handling this category successfully',
+                        backgroundColor: '#5cb85c',
+                        icon: '',
+                    }),
+                );
+                setAction({ add: false, edit: false, delete: false });
+                await getAllCategories();
             }
-            await getAllCategories();
+            setLoading(false);
         };
-        createCategory();
-        setAction({ add: false, edit: false, delete: false });
+        handleCategory();
     };
     return (
         <div className={cx('container')}>
@@ -97,7 +118,7 @@ const CategoryForm = ({
                                 </option>
                             );
                         })}
-                        <option selected={category?.image} value={'null'}>
+                        <option selected={category?.image} value={null}>
                             No parent category
                         </option>
                     </select>
@@ -109,7 +130,7 @@ const CategoryForm = ({
                     <small>{validationMessage.image}</small>
                 </div>
                 <div className={cx('action-btn')}>
-                    <Button className={cx('submit-btn')} type="submit">
+                    <Button className={cx('submit-btn')} type="submit" loading={loading}>
                         {category ? 'Update' : 'Create'}
                     </Button>
                 </div>

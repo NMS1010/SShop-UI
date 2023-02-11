@@ -21,17 +21,37 @@ export const getData = async (url, params = {}) => {
 };
 export const createData = async (url, obj) => {
     addTokenHeader();
-    let response = await axiosClient.postForm(
-        url,
-        { ...obj },
-        {
-            headers: {
-                'Content-Type': 'multipart/form-data',
+    try {
+        let response = await axiosClient.postForm(
+            url,
+            { ...obj },
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
             },
-        },
-    );
-    if (response.status === 401) {
+        );
+        return response.data;
+    } catch (error) {
         localStorage.removeItem('token');
+        return false;
     }
-    return response.data;
+};
+export const updateData = async (url, obj) => {
+    addTokenHeader();
+    try {
+        let response = await axiosClient.putForm(
+            url,
+            { ...obj },
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            },
+        );
+        return response.data;
+    } catch (error) {
+        localStorage.removeItem('token');
+        return false;
+    }
 };

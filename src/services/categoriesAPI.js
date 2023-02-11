@@ -11,11 +11,8 @@ export const getAllCategories = async (params = {}) => {
 };
 
 export const createCategory = async (category) => {
-    try {
-        let res = await axiosClient.createData('categories/add', category);
-        return res?.isSuccess;
-    } catch (error) {
-        console.log(error);
-        return false;
-    }
+    return await axiosClient.createData('categories/add', category);
+};
+export const updateCategory = async (category) => {
+    return await axiosClient.updateData('categories/update', category);
 };
