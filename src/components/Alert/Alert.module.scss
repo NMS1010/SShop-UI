@@ -25,20 +25,21 @@
         .cancel-btn {
             padding: 1rem;
             border-radius: 1rem;
-            border: 0.2px solid transparent;
+            border: 0.2px solid #ccc;
             transition: all 0.5s ease-in-out;
+            width: 30%;
         }
         .confirm-btn {
-            background-color: aquamarine;
+            background-color: #fff;
             &:hover {
-                background-color: #fff;
+                background-color: aquamarine;
                 border: 0.2px solid #ccc;
             }
         }
         .cancel-btn {
-            background-color: rgb(212, 53, 53);
+            background-color: #fff;
             &:hover {
-                background-color: #fff;
+                background-color: rgb(212, 53, 53);
                 border: 0.2px solid #ccc;
             }
         }

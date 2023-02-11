@@ -55,15 +55,21 @@ const CategoryForm = ({
         const categoryObj = {
             categoryId: category?.categoryId,
             name: inputFields?.name,
-            parentCategoryId: inputFields?.parentCategory || null,
             content: inputFields?.content,
             image: fileSelected,
         };
+        if (inputFields.parentCategory !== '0') {
+            categoryObj['parentCategoryId'] = inputFields.parentCategory;
+        }
         const handleCategory = async () => {
             setLoading(true);
             let response = category
                 ? await categoriesAPI.updateCategory(categoryObj)
                 : await categoriesAPI.createCategory(categoryObj);
+            if (response === 'unauthorized') {
+                navigate('/admin/login');
+                return;
+            }
             if (!response || !response.isSuccess) {
                 dispatch(
                     messageAction.setMessage({
@@ -74,9 +80,6 @@ const CategoryForm = ({
                         icon: '',
                     }),
                 );
-                if (!response) {
-                    navigate('/admin/login');
-                }
             } else {
                 dispatch(
                     messageAction.setMessage({
@@ -118,8 +121,8 @@ const CategoryForm = ({
                                 </option>
                             );
                         })}
-                        <option selected={category?.image} value={null}>
-                            No parent category
+                        <option selected={category?.image} value={0}>
+                            No parent Category
                         </option>
                     </select>
                 </div>

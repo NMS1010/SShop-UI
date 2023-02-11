@@ -15,6 +15,7 @@ const Category = ({ dispatch }) => {
     const ignoredField = ['parentCategoryId', 'parentCategoryName'];
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [buttonLoading, setButtonLoading] = useState(false);
     const [isOutClick, setIsOutClick] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [action, setAction] = useState({
@@ -61,6 +62,25 @@ const Category = ({ dispatch }) => {
         setSelectedCategory(category);
         setIsOutClick(false);
     };
+    const deleteCategory = async () => {
+        setButtonLoading(true);
+        const response = await categoriesAPI.deleteCategory(selectedCategory.categoryId);
+        setButtonLoading(false);
+        setIsOutClick(true);
+        if (!response || !response?.isSuccess) {
+            dispatch(
+                messageAction.setMessage({
+                    id: Math.random(),
+                    title: 'Category',
+                    message: response?.errors || 'Error while deleting this category',
+                    backgroundColor: '#d9534f',
+                    icon: '',
+                }),
+            );
+        } else {
+            await fetchAPI();
+        }
+    };
     return (
         <div className={cx('container')}>
             {loading ? (
@@ -101,6 +121,8 @@ const Category = ({ dispatch }) => {
                                     title={'Delete Confirmation'}
                                     content={'Do you want to remove this category ?'}
                                     cancelClick={() => setIsOutClick(true)}
+                                    confirmClick={() => deleteCategory()}
+                                    loading={buttonLoading}
                                 />
                             </OutsideAlerter>
                         </ModalWrapper>

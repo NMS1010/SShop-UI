@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import authHeader from '../utils/authHeader';
 
 export const axiosClient = axios.create({
@@ -10,14 +11,41 @@ const addTokenHeader = () => {
         config.headers['Authorization'] = authHeader();
         return config;
     });
+    axios.interceptors.response.use(
+        (response) => {
+            return response;
+        },
+        function (error) {
+            return Promise.reject(error.response);
+        },
+    );
 };
 export const getData = async (url, params = {}) => {
     addTokenHeader();
-    const response = await axiosClient.get(url, { params });
-    if (response.status === 401) {
-        localStorage.removeItem('token');
+    try {
+        const response = await axiosClient.get(url, { params });
+        return response.data;
+    } catch (error) {
+        if (error.response.status === 401) {
+            localStorage.removeItem('token');
+            return 'unauthorized';
+        }
+        return false;
     }
-    return response.data;
+};
+
+export const deleteData = async (url) => {
+    addTokenHeader();
+    try {
+        const response = await axiosClient.delete(url);
+        return response.data;
+    } catch (error) {
+        if (error.response.status === 401) {
+            localStorage.removeItem('token');
+            return 'unauthorized';
+        }
+        return false;
+    }
 };
 export const createData = async (url, obj) => {
     addTokenHeader();
@@ -33,7 +61,10 @@ export const createData = async (url, obj) => {
         );
         return response.data;
     } catch (error) {
-        localStorage.removeItem('token');
+        if (error.response.status === 401) {
+            localStorage.removeItem('token');
+            return 'unauthorized';
+        }
         return false;
     }
 };
@@ -51,7 +82,10 @@ export const updateData = async (url, obj) => {
         );
         return response.data;
     } catch (error) {
-        localStorage.removeItem('token');
+        if (error.response.status === 401) {
+            localStorage.removeItem('token');
+            return 'unauthorized';
+        }
         return false;
     }
 };

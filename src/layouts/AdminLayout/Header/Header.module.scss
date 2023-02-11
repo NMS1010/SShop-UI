@@ -1,10 +1,16 @@
 .container {
-    position: sticky;
-    z-index: 100;
+    position: fixed;
+    z-index: 109;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     font-size: 2.5rem;
     padding: 2rem 0;
+    width: 100%;
+    left: 0;
+    top: 0;
+    height: var(--admin-header-height);
+    backdrop-filter: blur(6px);
+    background-color: transparent;
     .info {
         display: flex;
         .bar {
