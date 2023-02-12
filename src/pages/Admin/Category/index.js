@@ -78,6 +78,15 @@ const Category = ({ dispatch }) => {
                 }),
             );
         } else {
+            dispatch(
+                messageAction.setMessage({
+                    id: Math.random(),
+                    title: 'Category',
+                    message: 'Succeed in deleting this category',
+                    backgroundColor: '#5cb85c',
+                    icon: '',
+                }),
+            );
             await fetchAPI();
         }
     };
@@ -110,7 +119,12 @@ const Category = ({ dispatch }) => {
                     {action.edit && !isOutClick && (
                         <ModalWrapper>
                             <OutsideAlerter setIsOut={setIsOutClick}>
-                                <CategoryForm categories={categories} category={selectedCategory} />
+                                <CategoryForm
+                                    categories={categories}
+                                    category={selectedCategory}
+                                    getAllCategories={fetchAPI}
+                                    setAction={setAction}
+                                />
                             </OutsideAlerter>
                         </ModalWrapper>
                     )}

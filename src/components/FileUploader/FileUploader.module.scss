@@ -1,0 +1,23 @@
+.container {
+    #file-input {
+        display: none;
+    }
+
+    .preview {
+    }
+
+    img {
+        width: 30%;
+        object-fit: cover;
+        margin-left: 3rem;
+    }
+
+    label {
+        font-weight: 600;
+        cursor: pointer;
+        color: #fff;
+        border-radius: 0.8rem;
+        padding: 1rem 2rem;
+        background-color: rgb(101, 101, 255);
+    }
+}

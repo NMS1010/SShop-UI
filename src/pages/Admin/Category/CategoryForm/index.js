@@ -1,14 +1,18 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 import classNames from 'classnames/bind';
 import styles from './CategoryForm.module.scss';
+
 import FileUploader from '../../../../components/FileUploader';
 import Button from '../../../../components/Button';
+
 import * as categoriesAPI from '../../../../services/categoriesAPI';
-import { connect } from 'react-redux';
 import * as messageAction from '../../../../redux/actions/messageAction';
-import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
+
 const CategoryForm = ({
     setAction = () => {},
     category = null,
@@ -63,12 +67,22 @@ const CategoryForm = ({
         }
         const handleCategory = async () => {
             setLoading(true);
-            let response = category
-                ? await categoriesAPI.updateCategory(categoryObj)
-                : await categoriesAPI.createCategory(categoryObj);
-            if (response === 'unauthorized') {
+            let response =
+                category !== null
+                    ? await categoriesAPI.updateCategory(categoryObj)
+                    : await categoriesAPI.createCategory(categoryObj);
+
+            if (response === 401) {
+                dispatch(
+                    messageAction.setMessage({
+                        id: Math.random(),
+                        title: 'Login',
+                        message: 'Token has expired, please login to continue',
+                        backgroundColor: '#d9534f',
+                        icon: '',
+                    }),
+                );
                 navigate('/admin/login');
-                return;
             }
             if (!response || !response.isSuccess) {
                 dispatch(
@@ -114,21 +128,32 @@ const CategoryForm = ({
                 <div className={cx('form-group')}>
                     <label htmlFor="parentCategory">Parent Category</label>
                     <select name="parentCategory" onChange={handleChange}>
-                        {categories.map((category) => {
+                        <option selected={true} value={0}>
+                            No parent Category
+                        </option>
+                        {categories.map((cate) => {
+                            if (cate?.categoryId === category?.categoryId) {
+                                return;
+                            }
                             return (
-                                <option selected={category.image} value={category.categoryId} key={category.id}>
-                                    {category.name}
+                                <option
+                                    selected={cate?.categoryId === category?.parentCategoryId}
+                                    value={cate?.categoryId}
+                                    key={cate?.categoryId}
+                                >
+                                    {cate.name}
                                 </option>
                             );
                         })}
-                        <option selected={category?.image} value={0}>
-                            No parent Category
-                        </option>
                     </select>
                 </div>
                 <div className={cx('form-group')}>
-                    {category?.image && <img width={'100px'} src={`${process.env.REACT_APP_HOST}${category?.image}`} />}
-                    <FileUploader setFileSelected={setFileSelected} setFileSelectedError={setFileSelectedError} />
+                    <FileUploader
+                        accept={'image/*'}
+                        setFileSelected={setFileSelected}
+                        setFileSelectedError={setFileSelectedError}
+                        imgUrl={category?.image}
+                    />
                     <small>{fileSelectedError}</small>
                     <small>{validationMessage.image}</small>
                 </div>

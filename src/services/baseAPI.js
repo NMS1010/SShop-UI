@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import authHeader from '../utils/authHeader';
+import { authHeader } from '../utils';
 
 export const axiosClient = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -26,9 +25,9 @@ export const getData = async (url, params = {}) => {
         const response = await axiosClient.get(url, { params });
         return response.data;
     } catch (error) {
-        if (error.response.status === 401) {
+        if (!error.response || error.response.status === 401) {
             localStorage.removeItem('token');
-            return 'unauthorized';
+            return 401;
         }
         return false;
     }
@@ -40,9 +39,9 @@ export const deleteData = async (url) => {
         const response = await axiosClient.delete(url);
         return response.data;
     } catch (error) {
-        if (error.response.status === 401) {
+        if (!error.response || error.response.status === 401) {
             localStorage.removeItem('token');
-            return 'unauthorized';
+            return 401;
         }
         return false;
     }
@@ -61,9 +60,9 @@ export const createData = async (url, obj) => {
         );
         return response.data;
     } catch (error) {
-        if (error.response.status === 401) {
+        if (!error.response || error.response.status === 401) {
             localStorage.removeItem('token');
-            return 'unauthorized';
+            return 401;
         }
         return false;
     }
@@ -82,9 +81,9 @@ export const updateData = async (url, obj) => {
         );
         return response.data;
     } catch (error) {
-        if (error.response.status === 401) {
+        if (!error.response || error.response.status === 401) {
             localStorage.removeItem('token');
-            return 'unauthorized';
+            return 401;
         }
         return false;
     }

@@ -1,13 +1,14 @@
 import classNames from 'classnames/bind';
+import { NavLink } from 'react-router-dom';
+
 import SidebarItem from '../Sidebar/SidebarItem';
 import styles from './Sidebar.module.scss';
-import logo from '../../../assets/images/admin/logo.svg';
 
+import logo from '../../../assets/images/admin/logo.svg';
 import dashboardIcon from '../../../assets/images/admin/icons/dashboard.svg';
 import userIcon from '../../../assets/images/admin/icons/user.svg';
 import categoryIcon from '../../../assets/images/admin/icons/category.svg';
 import config from '../../../configs';
-import { NavLink } from 'react-router-dom';
 const cx = classNames.bind(styles);
 
 const Sidebar = ({ setTitle }) => {

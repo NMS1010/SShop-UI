@@ -3,11 +3,9 @@ import { useEffect, useState } from 'react';
 import styles from './Login.module.scss';
 import { connect } from 'react-redux';
 import * as authAction from '../../../redux/actions/authAction';
-import * as messageAction from '../../../redux/actions/messageAction';
 import Button from '../../../components/Button';
 import jwtDecode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
-import Toast from '../../../components/Toast';
 const cx = classNames.bind(styles);
 
 const Login = ({ dispatch, message, isLogin }) => {

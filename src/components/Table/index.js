@@ -94,7 +94,6 @@ const Table = ({
         setFilterData({
             keyword: e.target.value,
             items: data.filter((val) => {
-                console.log(page);
                 return Object.keys(val).some((attr) => {
                     return (
                         attr !== 'image' && val[attr]?.toString().toLowerCase().includes(e.target.value.toLowerCase())
