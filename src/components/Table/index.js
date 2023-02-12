@@ -120,7 +120,7 @@ const Table = ({
                 )}
                 {isAddNew && <Button children={'Add New'} className={cx('add-btn')} onClick={handleAddNew} />}
             </div>
-            <table {...getTableProps()}>
+            <table style={{ margin: 'auto' }} {...getTableProps()}>
                 <thead>
                     {headerGroups.map((headerGroup) => (
                         <tr {...headerGroup.getHeaderGroupProps()}>

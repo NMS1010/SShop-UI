@@ -5,18 +5,19 @@ import PropTypes from 'prop-types';
 
 const cx = classNames.bind(styles);
 
-const NotifyBoard = ({ title, children }) => {
+const NotifyBoard = ({ TitleComponent = () => {}, children }) => {
     return (
         <div className={cx('container')}>
             <div className={cx('header')}>
-                <p className={cx('title')}>{title}</p>
+                <TitleComponent />
+                {/* <p className={cx('title')}>{title}</p> */}
             </div>
             <div className={cx('content')}>{children}</div>
         </div>
     );
 };
 NotifyBoard.propTypes = {
-    title: PropTypes.string.isRequired,
+    TitleComponent: PropTypes.object,
     children: PropTypes.node,
 };
 export default NotifyBoard;

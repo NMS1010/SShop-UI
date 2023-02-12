@@ -5,10 +5,8 @@ import SidebarItem from '../Sidebar/SidebarItem';
 import styles from './Sidebar.module.scss';
 
 import logo from '../../../assets/images/admin/logo.svg';
-import dashboardIcon from '../../../assets/images/admin/icons/dashboard.svg';
-import userIcon from '../../../assets/images/admin/icons/user.svg';
-import categoryIcon from '../../../assets/images/admin/icons/category.svg';
 import config from '../../../configs';
+import sideBarItemList from './itemList';
 const cx = classNames.bind(styles);
 
 const Sidebar = ({ setTitle }) => {
@@ -20,19 +18,15 @@ const Sidebar = ({ setTitle }) => {
                 </NavLink>
             </div>
             <div className={cx('content')}>
-                <SidebarItem
-                    path={config.routes.admin_home}
-                    setTitle={setTitle}
-                    content="Dashboard"
-                    icon={dashboardIcon}
-                />
-                <SidebarItem path={config.routes.admin_users} setTitle={setTitle} content="Users" icon={userIcon} />
-                <SidebarItem
-                    path={config.routes.admin_categories}
-                    setTitle={setTitle}
-                    content="Categories"
-                    icon={categoryIcon}
-                />
+                {sideBarItemList.map((item, idx) => (
+                    <SidebarItem
+                        key={idx}
+                        path={item.path}
+                        setTitle={setTitle}
+                        content={item.content}
+                        icon={item.icon}
+                    />
+                ))}
             </div>
         </div>
     );
