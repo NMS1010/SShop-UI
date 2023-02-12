@@ -1,21 +1,21 @@
 import { useCallback, useEffect, useState } from 'react';
 import Loading from '../../../components/Loading';
 import Table from '../../../components/Table';
-import * as categoriesAPI from '../../../services/categoriesAPI';
-import CategoryForm from './CategoryForm';
+import * as brandsAPI from '../../../services/brandsAPI';
+import BrandForm from './BrandForm';
 import Alert from '../../../components/Alert';
 import OutsideAlerter from '../../../components/OutsideAlerter';
 import ModalWrapper from '../../../components/ModalWrapper';
 import { connect } from 'react-redux';
 import * as messageAction from '../../../redux/actions/messageAction';
 
-const Category = ({ dispatch }) => {
-    const ignoredField = ['parentCategoryId', 'parentCategoryName'];
-    const [categories, setCategories] = useState([]);
+const Brand = ({ dispatch }) => {
+    const ignoredField = [];
+    const [brands, setbrands] = useState([]);
     const [loading, setLoading] = useState(true);
     const [buttonLoading, setButtonLoading] = useState(false);
     const [isOutClick, setIsOutClick] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [selectedBrand, setSelectedBrand] = useState(null);
     const [action, setAction] = useState({
         add: false,
         edit: false,
@@ -23,54 +23,54 @@ const Category = ({ dispatch }) => {
     });
     const fetchAPI = useCallback(async () => {
         setLoading(true);
-        let response = await categoriesAPI.getAllCategories();
+        let response = await brandsAPI.getAllBrands();
         if (!response || !response?.isSuccess) {
             setLoading(true);
-            setCategories([]);
+            setbrands([]);
             dispatch(
                 messageAction.setMessage({
                     id: Math.random(),
-                    title: 'Category',
-                    message: response?.errors || 'Error while retrieving categories',
+                    title: 'Brand',
+                    message: response?.errors || 'Error while retrieving brands',
                     backgroundColor: '#d9534f',
                     icon: '',
                 }),
             );
         } else {
             setLoading(false);
-            setCategories(response?.data?.items);
+            setbrands(response?.data?.items);
         }
     });
     useEffect(() => {
         fetchAPI();
     }, []);
-    const handleAddCategory = () => {
+    const handleAddBrand = () => {
         setAction({ add: true, edit: false, delete: false });
         setIsOutClick(false);
     };
-    const handleUpdateCategory = (categoryId) => {
-        const category = categories.find((val) => val.categoryId === categoryId);
+    const handleUpdateBrand = (brandId) => {
+        const brand = brands.find((val) => val.brandId === brandId);
         setAction({ add: false, edit: true, delete: false });
-        setSelectedCategory(category);
+        setSelectedBrand(brand);
         setIsOutClick(false);
     };
-    const handleDeleteCategory = (categoryId) => {
-        const category = categories.find((val) => val.categoryId === categoryId);
+    const handleDeleteBrand = (brandId) => {
+        const brand = brands.find((val) => val.brandId === brandId);
         setAction({ add: false, edit: false, delete: true });
-        setSelectedCategory(category);
+        setSelectedBrand(brand);
         setIsOutClick(false);
     };
-    const deleteCategory = async () => {
+    const deleteBrand = async () => {
         setButtonLoading(true);
-        const response = await categoriesAPI.deleteCategory(selectedCategory.categoryId);
+        const response = await brandsAPI.deleteBrand(selectedBrand.brandId);
         setButtonLoading(false);
         setIsOutClick(true);
         if (!response || !response?.isSuccess) {
             dispatch(
                 messageAction.setMessage({
                     id: Math.random(),
-                    title: 'Category',
-                    message: response?.errors || 'Error while deleting this category',
+                    title: 'Brand',
+                    message: response?.errors || 'Error while deleting this Brand',
                     backgroundColor: '#d9534f',
                     icon: '',
                 }),
@@ -79,8 +79,8 @@ const Category = ({ dispatch }) => {
             dispatch(
                 messageAction.setMessage({
                     id: Math.random(),
-                    title: 'Category',
-                    message: 'Succeed in deleting this category',
+                    title: 'Brand',
+                    message: 'Succeed in deleting this Brand',
                     backgroundColor: '#5cb85c',
                     icon: '',
                 }),
@@ -95,32 +95,28 @@ const Category = ({ dispatch }) => {
             ) : (
                 <>
                     <Table
-                        data={categories}
+                        data={brands}
                         ignoredField={ignoredField}
-                        uniqueField={'categoryId'}
+                        uniqueField={'brandId'}
                         isAddNew={true}
-                        handleAddNew={handleAddCategory}
-                        handleUpdateItem={handleUpdateCategory}
-                        handleDeleteItem={handleDeleteCategory}
+                        handleAddNew={handleAddBrand}
+                        handleUpdateItem={handleUpdateBrand}
+                        handleDeleteItem={handleDeleteBrand}
                     />
                     {action.add && !isOutClick && (
                         <ModalWrapper>
                             <OutsideAlerter setIsOut={setIsOutClick}>
-                                <CategoryForm
-                                    setAction={setAction}
-                                    categories={categories}
-                                    getAllCategories={fetchAPI}
-                                />
+                                <BrandForm setAction={setAction} brands={brands} getAllBrands={fetchAPI} />
                             </OutsideAlerter>
                         </ModalWrapper>
                     )}
                     {action.edit && !isOutClick && (
                         <ModalWrapper>
                             <OutsideAlerter setIsOut={setIsOutClick}>
-                                <CategoryForm
-                                    categories={categories}
-                                    category={selectedCategory}
-                                    getAllCategories={fetchAPI}
+                                <BrandForm
+                                    brands={brands}
+                                    brand={selectedBrand}
+                                    getAllBrands={fetchAPI}
                                     setAction={setAction}
                                 />
                             </OutsideAlerter>
@@ -131,9 +127,9 @@ const Category = ({ dispatch }) => {
                             <OutsideAlerter setIsOut={setIsOutClick}>
                                 <Alert
                                     title={'Delete Confirmation'}
-                                    content={'Do you want to remove this category ?'}
+                                    content={'Do you want to remove this brand ?'}
                                     cancelClick={() => setIsOutClick(true)}
-                                    confirmClick={() => deleteCategory()}
+                                    confirmClick={() => deleteBrand()}
                                     loading={buttonLoading}
                                 />
                             </OutsideAlerter>
@@ -153,4 +149,4 @@ function mapStateToProps(state) {
         isLogin: isLogin,
     };
 }
-export default connect(mapStateToProps)(Category);
+export default connect(mapStateToProps)(Brand);

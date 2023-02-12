@@ -46,11 +46,11 @@ const Header = ({ title, currentUser, isLogin, dispatch }) => {
             </div>
             <div className={cx('action')}>
                 <div className={cx('notify')}>
-                    {isShowNotify && (
+                    {/* {isShowNotify && (
                         <NotifyBoard title={'Notifications'}>
                             <p>content</p>
                         </NotifyBoard>
-                    )}
+                    )} */}
                     <FontAwesomeIcon icon={faBell} onClick={() => handleShowNotify()} />
                 </div>
                 <div className={cx('user-detail')}>
