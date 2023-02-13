@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import styles from './Toast.module.scss';
 import * as messageAction from '../../redux/actions/messageAction';
@@ -25,7 +25,7 @@ const Toast = ({ children, message, dispatch, position, autoDelete, autoDeleteTi
         dispatch(messageAction.clearMessage(id));
     };
     return (
-        <>
+        <Fragment>
             <div className={cx('container') + cx(' ') + cx(`${position}`)}>
                 {list.map((toast) => {
                     return (
@@ -47,7 +47,7 @@ const Toast = ({ children, message, dispatch, position, autoDelete, autoDeleteTi
                 })}
             </div>
             {children}
-        </>
+        </Fragment>
     );
 };
 function mapStateToProps(state) {

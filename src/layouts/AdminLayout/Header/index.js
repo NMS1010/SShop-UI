@@ -57,32 +57,40 @@ const Header = ({ title, currentUser, isLogin, dispatch }) => {
                     {isShowUserOption && (
                         <NotifyBoard
                             TitleComponent={() => (
-                                <div className="pt-5 pb-4 pe-4 ps-4">
-                                    <div className="text-center">
-                                        <img
-                                            className="img-fluid img-thumbnail"
-                                            style={{ borderRadius: '0.5rem', width: '5rem' }}
-                                            src={isLogin && `${process.env.REACT_APP_HOST}${currentUser.avatar}`}
-                                            alt={'user avatar'}
-                                            onClick={() => handleShowUserOption()}
-                                        />
+                                <div className="d-flex justify-content-between">
+                                    <img
+                                        style={{ width: '7rem', height: '7rem', marginTop: '1rem' }}
+                                        src={isLogin && `${process.env.REACT_APP_HOST}${currentUser.avatar}`}
+                                        alt={'user avatar'}
+                                        onClick={() => handleShowUserOption()}
+                                    />
+
+                                    <div className="ms-4">
+                                        <p style={{ fontWeight: 'bold' }} className="mt-2 mb-2 fs-3">
+                                            {`${currentUser.firstName} ${currentUser.lastName}`}
+                                        </p>
+                                        <p className="mt-2 mb-2 fs-4">{`${currentUser.phoneNumber}`}</p>
                                     </div>
-                                    <p className="mt-2 mb-2 fs-3 text-center">{`${currentUser.firstName} ${currentUser.lastName}`}</p>
                                 </div>
                             )}
                         >
-                            <Link>Profile</Link>
+                            <Link style={{ textAlign: 'left' }}>
+                                <p className="mb-0">Profile</p>
+                                <p className="mb-0 fs-5">Account settings</p>
+                            </Link>
+
                             <Link to={'/admin/login'} onClick={() => logOut()}>
                                 Logout
                             </Link>
                         </NotifyBoard>
                     )}
-                    <img
-                        src={isLogin && `${process.env.REACT_APP_HOST}${currentUser.avatar}`}
-                        alt={'user avatar'}
-                        onClick={() => handleShowUserOption()}
-                    />
-                    {/* <FontAwesomeIcon icon={faUser} onClick={() => handleShowUserOption()} /> */}
+                    <div onClick={() => handleShowUserOption()}>
+                        <img
+                            src={isLogin && `${process.env.REACT_APP_HOST}${currentUser.avatar}`}
+                            alt={'user avatar'}
+                        />
+                        <span className="ms-3 fs-3">Hi, {currentUser.firstName}</span>
+                    </div>
                 </div>
             </div>
         </header>
