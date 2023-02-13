@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import * as messageAction from '../../../redux/actions/messageAction';
 
 const Brand = ({ dispatch }) => {
-    const ignoredField = [];
+    const hiddenColumns = [];
     const [brands, setbrands] = useState([]);
     const [loading, setLoading] = useState(true);
     const [buttonLoading, setButtonLoading] = useState(false);
@@ -96,7 +96,7 @@ const Brand = ({ dispatch }) => {
                 <>
                     <Table
                         data={brands}
-                        ignoredField={ignoredField}
+                        hiddenColumns={hiddenColumns}
                         uniqueField={'brandId'}
                         isAddNew={true}
                         handleAddNew={handleAddBrand}

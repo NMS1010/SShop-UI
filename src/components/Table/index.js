@@ -11,7 +11,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 const cx = classNames.bind(styles);
 const Table = ({
     data,
-    ignoredField = [],
+    hiddenColumns = [],
     uniqueField,
     isSearch = true,
     isAddNew = false,
@@ -23,28 +23,27 @@ const Table = ({
     const columns = useMemo(
         () =>
             data[0]
-                ? Object.keys(data[0])
-                      .filter((key) => !ignoredField.includes(key))
-                      .map((key) => {
-                          let obj = {
-                              Header: key.charAt(0).toUpperCase() + key.slice(1),
-                              accessor: key,
+                ? Object.keys(data[0]).map((key) => {
+                      let obj = {
+                          Header: key.charAt(0).toUpperCase() + key.slice(1),
+                          accessor: key,
+                      };
+                      if (
+                          key === 'image' ||
+                          key === 'avatar' ||
+                          key.toLowerCase().includes('image') ||
+                          key.toLowerCase().includes('avatar')
+                      )
+                          return {
+                              ...obj,
+                              Cell: ({ value }) => (
+                                  <img width={'80rem'} height={'80rem'} src={`${process.env.REACT_APP_HOST}${value}`} />
+                              ),
                           };
-                          if (key === 'image' || key.toLowerCase().includes('image'))
-                              return {
-                                  ...obj,
-                                  Cell: ({ value }) => (
-                                      <img
-                                          width={'80rem'}
-                                          height={'80rem'}
-                                          src={`${process.env.REACT_APP_HOST}${value}`}
-                                      />
-                                  ),
-                              };
-                          return obj;
-                      })
+                      return obj;
+                  })
                 : [],
-        [data, ignoredField],
+        [data],
     );
     // Create selection (include checkbox) column
     const addColumns = (hooks) => {
@@ -84,11 +83,14 @@ const Table = ({
         {
             columns,
             data: filterData.items,
+            initialState: {
+                hiddenColumns,
+            },
         },
         useSortBy,
         usePagination,
         useRowSelect,
-        addColumns,
+        data.length > 0 && addColumns,
     );
     const handleSearch = (e) => {
         setFilterData({
@@ -130,7 +132,7 @@ const Table = ({
                                     <span>{column.isSorted ? (column.isSortedDesc ? '🔽' : '🔼') : ''}</span>
                                 </th>
                             ))}
-                            <th>Action</th>
+                            {data.length > 0 && <th>Action</th>}
                         </tr>
                     ))}
                 </thead>

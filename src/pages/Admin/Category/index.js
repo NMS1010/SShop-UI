@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import * as messageAction from '../../../redux/actions/messageAction';
 
 const Category = ({ dispatch }) => {
-    const ignoredField = ['parentCategoryId', 'parentCategoryName'];
+    const hiddenColumns = ['parentCategoryId', 'parentCategoryName'];
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [buttonLoading, setButtonLoading] = useState(false);
@@ -96,7 +96,7 @@ const Category = ({ dispatch }) => {
                 <>
                     <Table
                         data={categories}
-                        ignoredField={ignoredField}
+                        hiddenColumns={hiddenColumns}
                         uniqueField={'categoryId'}
                         isAddNew={true}
                         handleAddNew={handleAddCategory}
