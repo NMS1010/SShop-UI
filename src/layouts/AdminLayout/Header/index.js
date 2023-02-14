@@ -13,6 +13,7 @@ import * as messageAction from '../../../redux/actions/messageAction';
 const cx = classNames.bind(styles);
 
 const Header = ({ title, currentUser, isLogin, dispatch }) => {
+    console.log(currentUser);
     const navigate = useNavigate();
     const [isShowNotify, setIsShowNotify] = useState(false);
     const [isShowUserOption, setIsShowUserOption] = useState(false);

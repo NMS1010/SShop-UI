@@ -16,7 +16,7 @@
     }
 }
 a {
-    text-decoration: none;
+    text-decoration: none !important;
 }
 .active {
     background-color: var(--admin-hover-background);

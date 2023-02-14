@@ -2,14 +2,16 @@ import { useCallback, useEffect, useState } from 'react';
 import Loading from '../../../components/Loading';
 import Table from '../../../components/Table';
 import * as usersAPI from '../../../services/usersAPI';
-import UserForm from './UserForm';
+import UserDetail from './UserDetail';
 import Alert from '../../../components/Alert';
 import OutsideAlerter from '../../../components/OutsideAlerter';
 import ModalWrapper from '../../../components/ModalWrapper';
 import { connect } from 'react-redux';
 import * as messageAction from '../../../redux/actions/messageAction';
+import { useNavigate } from 'react-router-dom';
 
 const User = ({ dispatch }) => {
+    const navigate = useNavigate();
     const hiddenColumns = [
         'dateUpdated',
         'password',
@@ -49,6 +51,18 @@ const User = ({ dispatch }) => {
                     icon: '',
                 }),
             );
+            if (response == 401) {
+                dispatch(
+                    messageAction.setMessage({
+                        id: Math.random(),
+                        title: 'Login',
+                        message: 'Token has expired, please login to continue',
+                        backgroundColor: '#d9534f',
+                        icon: '',
+                    }),
+                );
+                navigate('/admin/login');
+            }
         } else {
             setLoading(false);
             setusers(response?.data?.items);
