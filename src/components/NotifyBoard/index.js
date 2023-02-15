@@ -17,7 +17,7 @@ const NotifyBoard = ({ TitleComponent = () => {}, children }) => {
     );
 };
 NotifyBoard.propTypes = {
-    TitleComponent: PropTypes.object,
+    TitleComponent: PropTypes.func,
     children: PropTypes.node,
 };
 export default NotifyBoard;

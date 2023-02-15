@@ -1,12 +1,14 @@
 import classNames from 'classnames/bind';
 import { Fragment, useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './Toast.module.scss';
 import * as messageAction from '../../redux/actions/messageAction';
 
 const cx = classNames.bind(styles);
 
-const Toast = ({ children, message, dispatch, position, autoDelete, autoDeleteTime = 3000 }) => {
+const Toast = ({ children, position, autoDelete, autoDeleteTime = 3000 }) => {
+    const message = useSelector((state) => state?.messageReducer);
+    const dispatch = useDispatch();
     const [list, setList] = useState(message);
     useEffect(() => {
         setList([...message]);
@@ -50,9 +52,5 @@ const Toast = ({ children, message, dispatch, position, autoDelete, autoDeleteTi
         </Fragment>
     );
 };
-function mapStateToProps(state) {
-    return {
-        message: state.messageReducer,
-    };
-}
-export default connect(mapStateToProps)(Toast);
+
+export default Toast;

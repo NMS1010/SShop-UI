@@ -6,11 +6,12 @@ import UserDetail from './UserDetail';
 import Alert from '../../../components/Alert';
 import OutsideAlerter from '../../../components/OutsideAlerter';
 import ModalWrapper from '../../../components/ModalWrapper';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as messageAction from '../../../redux/actions/messageAction';
 import { useNavigate } from 'react-router-dom';
 
-const User = ({ dispatch }) => {
+const User = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const hiddenColumns = [
         'dateUpdated',
@@ -155,13 +156,4 @@ const User = ({ dispatch }) => {
         </div>
     );
 };
-function mapStateToProps(state) {
-    const { currentUser, isLogin } = state.authReducer;
-    const { message } = state.messageReducer;
-    return {
-        currentUser: currentUser,
-        message: message,
-        isLogin: isLogin,
-    };
-}
-export default connect(mapStateToProps)(User);
+export default User;

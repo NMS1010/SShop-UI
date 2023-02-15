@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import classNames from 'classnames/bind';
 import styles from '../../CommonCSSForm/CommonCSSForm.module.scss';
@@ -13,8 +13,9 @@ import * as messageAction from '../../../../redux/actions/messageAction';
 
 const cx = classNames.bind(styles);
 
-const BrandForm = ({ setAction = () => {}, brand = null, brands = [], dispatch, getAllBrands = () => {} }) => {
+const BrandForm = ({ setAction = () => {}, brand = null, brands = [], getAllBrands = () => {} }) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const [inputFields, setInputFields] = useState({
         brandName: brand?.brandName,
@@ -131,13 +132,4 @@ const BrandForm = ({ setAction = () => {}, brand = null, brands = [], dispatch, 
         </div>
     );
 };
-function mapStateToProps(state) {
-    const { currentUser, isLogin } = state.authReducer;
-    const { message } = state.messageReducer;
-    return {
-        currentUser: currentUser,
-        message: message,
-        isLogin: isLogin,
-    };
-}
-export default connect(mapStateToProps)(BrandForm);
+export default BrandForm;

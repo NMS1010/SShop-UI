@@ -6,10 +6,11 @@ import CategoryForm from './CategoryForm';
 import Alert from '../../../components/Alert';
 import OutsideAlerter from '../../../components/OutsideAlerter';
 import ModalWrapper from '../../../components/ModalWrapper';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as messageAction from '../../../redux/actions/messageAction';
 
-const Category = ({ dispatch }) => {
+const Category = () => {
+    const dispatch = useDispatch();
     const hiddenColumns = ['parentCategoryId', 'parentCategoryName'];
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -144,13 +145,4 @@ const Category = ({ dispatch }) => {
         </div>
     );
 };
-function mapStateToProps(state) {
-    const { currentUser, isLogin } = state.authReducer;
-    const { message } = state.messageReducer;
-    return {
-        currentUser: currentUser,
-        message: message,
-        isLogin: isLogin,
-    };
-}
-export default connect(mapStateToProps)(Category);
+export default Category;

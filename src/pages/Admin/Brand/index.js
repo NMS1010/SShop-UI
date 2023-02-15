@@ -6,11 +6,12 @@ import BrandForm from './BrandForm';
 import Alert from '../../../components/Alert';
 import OutsideAlerter from '../../../components/OutsideAlerter';
 import ModalWrapper from '../../../components/ModalWrapper';
-import { connect } from 'react-redux';
 import * as messageAction from '../../../redux/actions/messageAction';
+import { useDispatch } from 'react-redux';
 
-const Brand = ({ dispatch }) => {
+const Brand = () => {
     const hiddenColumns = [];
+    const dispatch = useDispatch();
     const [brands, setbrands] = useState([]);
     const [loading, setLoading] = useState(true);
     const [buttonLoading, setButtonLoading] = useState(false);
@@ -140,13 +141,5 @@ const Brand = ({ dispatch }) => {
         </div>
     );
 };
-function mapStateToProps(state) {
-    const { currentUser, isLogin } = state.authReducer;
-    const { message } = state.messageReducer;
-    return {
-        currentUser: currentUser,
-        message: message,
-        isLogin: isLogin,
-    };
-}
-export default connect(mapStateToProps)(Brand);
+
+export default Brand;

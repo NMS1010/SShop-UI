@@ -1,20 +1,22 @@
 import classNames from 'classnames/bind';
 import styles from './Header.module.scss';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faUser } from '@fortawesome/free-regular-svg-icons';
+import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import NotifyBoard from '../../../components/NotifyBoard';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { connect } from 'react-redux';
 import * as authAction from '../../../redux/actions/authAction';
 import * as messageAction from '../../../redux/actions/messageAction';
+import { useSelector, useDispatch } from 'react-redux';
+
 const cx = classNames.bind(styles);
 
-const Header = ({ title, currentUser, isLogin, dispatch }) => {
-    console.log(currentUser);
-    const navigate = useNavigate();
+const Header = ({ title }) => {
+    const dispatch = useDispatch();
+    const { currentUser, isLogin } = useSelector((state) => state?.authReducer);
+
     const [isShowNotify, setIsShowNotify] = useState(false);
     const [isShowUserOption, setIsShowUserOption] = useState(false);
     const handleShowNotify = () => {
@@ -97,11 +99,5 @@ const Header = ({ title, currentUser, isLogin, dispatch }) => {
         </header>
     );
 };
-function mapStateToProps(state) {
-    const { currentUser, isLogin } = state.authReducer;
-    return {
-        currentUser: currentUser,
-        isLogin: isLogin,
-    };
-}
-export default connect(mapStateToProps)(Header);
+
+export default Header;

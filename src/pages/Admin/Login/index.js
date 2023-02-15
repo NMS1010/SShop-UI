@@ -1,15 +1,16 @@
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import styles from './Login.module.scss';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import * as authAction from '../../../redux/actions/authAction';
 import Button from '../../../components/Button';
 import jwtDecode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 const cx = classNames.bind(styles);
 
-const Login = ({ dispatch, message, isLogin }) => {
-    let navigate = useNavigate();
+const Login = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [inputFields, setInputFields] = useState({
         username: '',
         password: '',
@@ -77,13 +78,4 @@ const Login = ({ dispatch, message, isLogin }) => {
         </>
     );
 };
-function mapStateToProps(state) {
-    const { currentUser, isLogin } = state.authReducer;
-    const { message } = state.messageReducer;
-    return {
-        currentUser: currentUser,
-        message: message,
-        isLogin: isLogin,
-    };
-}
-export default connect(mapStateToProps)(Login);
+export default Login;

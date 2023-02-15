@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import classNames from 'classnames/bind';
 import styles from '../../CommonCSSForm/CommonCSSForm.module.scss';
@@ -13,13 +13,8 @@ import * as messageAction from '../../../../redux/actions/messageAction';
 
 const cx = classNames.bind(styles);
 
-const CategoryForm = ({
-    setAction = () => {},
-    category = null,
-    categories = [],
-    dispatch,
-    getAllCategories = () => {},
-}) => {
+const CategoryForm = ({ setAction = () => {}, category = null, categories = [], getAllCategories = () => {} }) => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [inputFields, setInputFields] = useState({
@@ -166,13 +161,4 @@ const CategoryForm = ({
         </div>
     );
 };
-function mapStateToProps(state) {
-    const { currentUser, isLogin } = state.authReducer;
-    const { message } = state.messageReducer;
-    return {
-        currentUser: currentUser,
-        message: message,
-        isLogin: isLogin,
-    };
-}
-export default connect(mapStateToProps)(CategoryForm);
+export default CategoryForm;

@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
 import FileUploader from '../../../../components/FileUploader';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
-
+import * as rolesAPI from '../../../../services/rolesAPI';
 const animatedComponents = makeAnimated();
 const UserDetail = ({ selectedUser }) => {
     const userRoles = selectedUser.roles.map((val) => {
@@ -13,9 +13,19 @@ const UserDetail = ({ selectedUser }) => {
         };
     });
     const [roles, setRoles] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [fileSelected, setFileSelected] = useState(null);
     const [fileSelectedError, setFileSelectedError] = useState('');
     const [validated, setValidated] = useState(false);
+    useEffect(() => {
+        const fetchAPI = async () => {
+            setLoading(true);
+            let rs = await rolesAPI.getAllRoles();
+            setLoading(false);
+            setRoles(rs);
+        };
+    }, [roles]);
+
     const handleSubmit = () => {};
     return (
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
