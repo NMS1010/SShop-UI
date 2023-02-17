@@ -1,10 +1,9 @@
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import styles from './Login.module.scss';
-import { connect, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as authAction from '../../../redux/actions/authAction';
 import Button from '../../../components/Button';
-import jwtDecode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 const cx = classNames.bind(styles);
 
@@ -42,14 +41,6 @@ const Login = () => {
         if (isValidateErrors) return;
         setLoading(true);
         dispatch(await authAction.login(inputFields.username, inputFields.password));
-        let token = localStorage.getItem('token');
-
-        if (token && token.length > 100) {
-            let jwtDecodeObj = jwtDecode(token);
-            let nameIdentifier = Object.keys(jwtDecodeObj).find((val) => val.includes('nameidentifier'));
-            dispatch(await authAction.getCurrentUser(jwtDecodeObj[nameIdentifier]));
-        }
-
         setLoading(false);
         navigate('/admin/');
     };

@@ -8,6 +8,7 @@ const admin = {
     admin_categories: '/admin/categories',
     admin_brands: '/admin/brands',
     admin_login: '/admin/login',
+    admin_profile: '/admin/profile',
 };
 const routes = {
     ...client,

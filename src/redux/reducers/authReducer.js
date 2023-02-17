@@ -5,13 +5,8 @@ const initialState = {
 };
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
-        case types.GET_CURRENT_USER:
-            return { ...state, currentUser: action.payload.currentUser, isLogin: true };
         case types.LOGIN_SUCCESS:
-            return {
-                ...state,
-                isLogin: true,
-            };
+            return { ...state, currentUser: action.payload.currentUser, isLogin: true };
         case types.LOGIN_FAIL:
             return {
                 ...state,
@@ -20,6 +15,7 @@ const authReducer = (state = initialState, action) => {
         case types.LOGOUT:
             return {
                 ...state,
+                currentUser: null,
                 isLogin: false,
             };
         default:

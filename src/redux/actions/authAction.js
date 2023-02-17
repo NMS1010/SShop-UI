@@ -2,6 +2,7 @@ import * as types from './types';
 import * as authAPI from '../../services/authAPI';
 import * as usersAPI from '../../services/usersAPI';
 import * as messageAction from './messageAction';
+import jwtDecode from 'jwt-decode';
 export const login = async (username, password) => {
     const response = await authAPI.login(username, password);
     return async (dispatch) => {
@@ -11,7 +12,6 @@ export const login = async (username, password) => {
                 type: types.LOGIN_FAIL,
             });
             if (!response) {
-                console.log(response);
                 dispatch(
                     messageAction.setMessage({
                         id: Math.random(),
@@ -32,7 +32,30 @@ export const login = async (username, password) => {
                     }),
                 );
         } else {
-            localStorage.setItem('token', response.data);
+            let token = response.data;
+            localStorage.setItem('token', token);
+            let success = await dispatch(await getCurrentUser());
+            if (success) {
+                dispatch(
+                    messageAction.setMessage({
+                        id: Math.random(),
+                        title: 'Login',
+                        message: 'Login successfully',
+                        backgroundColor: '#5cb85c',
+                        icon: '',
+                    }),
+                );
+            } else {
+                dispatch(
+                    messageAction.setMessage({
+                        id: Math.random(),
+                        title: 'Login',
+                        message: 'Failed to login',
+                        backgroundColor: '#d9534f',
+                        icon: '',
+                    }),
+                );
+            }
         }
     };
 };
@@ -42,7 +65,15 @@ export const logout = () => {
         type: types.LOGOUT,
     };
 };
-export const getCurrentUser = async (id) => {
+
+export const getCurrentUser = async () => {
+    let token = localStorage.getItem('token');
+    let id = null;
+    if (token && token.length > 100) {
+        let jwtDecodeObj = jwtDecode(token);
+        let nameIdentifier = Object.keys(jwtDecodeObj).find((val) => val.includes('nameidentifier'));
+        id = jwtDecodeObj[nameIdentifier];
+    }
     const response = await usersAPI.getUserById(id);
     return async (dispatch) => {
         if (!response || !response?.isSuccess) {
@@ -59,25 +90,15 @@ export const getCurrentUser = async (id) => {
                     icon: '',
                 }),
             );
+            return false;
         } else {
             dispatch({
                 type: types.LOGIN_SUCCESS,
-            });
-            dispatch(
-                messageAction.setMessage({
-                    id: Math.random(),
-                    title: 'Login',
-                    message: 'Login successfully',
-                    backgroundColor: '#5cb85c',
-                    icon: '',
-                }),
-            );
-            dispatch({
-                type: types.GET_CURRENT_USER,
                 payload: {
                     currentUser: response?.data,
                 },
             });
+            return true;
         }
     };
 };

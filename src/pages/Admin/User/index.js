@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react';
 import Loading from '../../../components/Loading';
 import Table from '../../../components/Table';
 import * as usersAPI from '../../../services/usersAPI';
-import UserDetail from './UserDetail';
 import Alert from '../../../components/Alert';
 import OutsideAlerter from '../../../components/OutsideAlerter';
 import ModalWrapper from '../../../components/ModalWrapper';

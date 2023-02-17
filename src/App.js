@@ -17,7 +17,10 @@ function App() {
                                 element={
                                     page.layout ? (
                                         loginRequire ? (
-                                            <PrivateRoute loginComponent={roles.includes('admin') && <Login />}>
+                                            <PrivateRoute
+                                                loginComponent={roles.includes('admin') && <Login />}
+                                                roles={roles}
+                                            >
                                                 <page.layout>
                                                     <page.component />
                                                 </page.layout>

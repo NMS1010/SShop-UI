@@ -122,14 +122,14 @@ const Table = ({
                 )}
                 {isAddNew && <Button children={'Add New'} className={cx('add-btn')} onClick={handleAddNew} />}
             </div>
-            <table style={{ margin: 'auto' }} {...getTableProps()}>
+            <table style={{ width: '100%' }} {...getTableProps()}>
                 <thead>
                     {headerGroups.map((headerGroup) => (
                         <tr {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map((column) => (
                                 <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                                     {column.render('Header')}
-                                    <span>{column.isSorted ? (column.isSortedDesc ? '🔽' : '🔼') : ''}</span>
+                                    {/* <span>{column.isSorted ? (column.isSortedDesc ? '🔽' : '🔼') : ''}</span> */}
                                 </th>
                             ))}
                             {data.length > 0 && <th>Action</th>}

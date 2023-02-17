@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './Header.module.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
@@ -77,7 +77,7 @@ const Header = ({ title }) => {
                                 </div>
                             )}
                         >
-                            <Link style={{ textAlign: 'left' }}>
+                            <Link style={{ textAlign: 'left' }} to={'/admin/profile'}>
                                 <p className="mb-0">Profile</p>
                                 <p className="mb-0 fs-5">Account settings</p>
                             </Link>

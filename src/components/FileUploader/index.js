@@ -24,11 +24,9 @@ const FileUploader = ({
     };
     return (
         <div className={cx('container')}>
-            <div className={cx('preview')}>
-                <label htmlFor={cx('file-input')}>Upload Image</label>
-                <input accept={accept} type="file" id={cx('file-input')} onChange={(e) => handleSelectFile(e)} />
-                <img id={cx('img-preview')} src={imageURL} />
-            </div>
+            <label htmlFor={cx('file-input')}>Upload Image</label>
+            <input accept={accept} type="file" id={cx('file-input')} onChange={(e) => handleSelectFile(e)} />
+            <img id={cx('img-preview')} src={imageURL} />
         </div>
     );
 };
