@@ -42,7 +42,7 @@ const Profile = ({ user }) => {
     const [loading, setLoading] = useState(false);
     const [fileSelected, setFileSelected] = useState(null);
     const [fileSelectedError, setFileSelectedError] = useState('');
-    const [validated, setValidated] = useState(false);
+    //const [validated, setValidated] = useState(false);
     const handleChange = (e) => {
         const { name, value } = e.target;
         setInputFields({ ...inputFields, [name]: value });
@@ -74,7 +74,7 @@ const Profile = ({ user }) => {
         if (!form.checkValidity() || inputFields?.roles?.length === 0) {
             return;
         }
-        setValidated(true);
+        // setValidated(true);
 
         const handleUpdateUser = async () => {
             const roleIdsChosen = inputFields?.roles?.map((r) => {
@@ -331,12 +331,14 @@ const Profile = ({ user }) => {
                                     </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="validationAvatar">
-                                    <FileUploader
-                                        imgUrl={selectedUser?.avatar}
-                                        setFileSelected={setFileSelected}
-                                        setFileSelectedError={setFileSelectedError}
-                                    />
-                                    <small>{fileSelectedError}</small>
+                                    <div className="text-center">
+                                        <FileUploader
+                                            imgUrl={selectedUser?.avatar}
+                                            setFileSelected={setFileSelected}
+                                            setFileSelectedError={setFileSelectedError}
+                                        />
+                                        <small>{fileSelectedError}</small>
+                                    </div>
                                     <div className="text-center mt-5">
                                         <Button
                                             variant="outline-info"

@@ -9,6 +9,7 @@ const admin = {
     admin_brands: '/admin/brands',
     admin_login: '/admin/login',
     admin_profile: '/admin/profile',
+    admin_products: '/admin/products',
 };
 const routes = {
     ...client,

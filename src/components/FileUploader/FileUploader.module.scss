@@ -1,4 +1,6 @@
 .container {
+    position: relative;
+    text-align: center;
     #file-input {
         display: none;
     }
@@ -14,7 +16,10 @@
         cursor: pointer;
         color: #fff;
         border-radius: 0.8rem;
-        padding: 1rem 2rem;
+        padding: 1rem;
         background-color: rgb(101, 101, 255);
+        position: absolute;
+        top: 5%;
+        right: 35%;
     }
 }
