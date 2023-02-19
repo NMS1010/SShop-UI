@@ -51,7 +51,7 @@ const User = () => {
                     icon: '',
                 }),
             );
-            if (response == 401) {
+            if (response === 401) {
                 dispatch(
                     messageAction.setMessage({
                         id: Math.random(),

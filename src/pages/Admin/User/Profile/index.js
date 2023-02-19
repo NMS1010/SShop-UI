@@ -42,7 +42,7 @@ const Profile = ({ user }) => {
     const [loading, setLoading] = useState(false);
     const [fileSelected, setFileSelected] = useState(null);
     const [fileSelectedError, setFileSelectedError] = useState('');
-    //const [validated, setValidated] = useState(false);
+    const [validated, setValidated] = useState(false);
     const handleChange = (e) => {
         const { name, value } = e.target;
         setInputFields({ ...inputFields, [name]: value });
@@ -69,12 +69,12 @@ const Profile = ({ user }) => {
 
     const handleSubmit = (e) => {
         const form = e.currentTarget;
-        e.stopPropagation();
         e.preventDefault();
         if (!form.checkValidity() || inputFields?.roles?.length === 0) {
+            e.stopPropagation();
+            setValidated(true);
             return;
         }
-        // setValidated(true);
 
         const handleUpdateUser = async () => {
             const roleIdsChosen = inputFields?.roles?.map((r) => {
@@ -186,7 +186,7 @@ const Profile = ({ user }) => {
                             className="bg-white p-5 rounded-5"
                             style={{ boxShadow: 'rgb(90 114 123 / 11%) 0px 7px 30px 0px' }}
                         >
-                            <Form onSubmit={handleSubmit}>
+                            <Form validated={validated} noValidate onSubmit={handleSubmit}>
                                 <Form.Group className="mb-3" controlId="validationFirstName">
                                     <Form.Label>First Name</Form.Label>
                                     <Form.Control
@@ -331,7 +331,7 @@ const Profile = ({ user }) => {
                                     </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="validationAvatar">
-                                    <div className="text-center">
+                                    <div className="text-center" style={{ width: '30%', margin: 'auto' }}>
                                         <FileUploader
                                             imgUrl={selectedUser?.avatar}
                                             setFileSelected={setFileSelected}

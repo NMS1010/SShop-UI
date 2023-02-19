@@ -13,7 +13,9 @@ const FileUploader = ({
     accept = 'image/*',
     imgUrl = '',
 }) => {
-    const [imageURL, setImageURL] = useState(imgUrl && `${process.env.REACT_APP_HOST}${imgUrl}`);
+    const [imageURL, setImageURL] = useState(
+        imgUrl && !imgUrl.includes('blob') ? `${process.env.REACT_APP_HOST}${imgUrl}` : '',
+    );
     const handleSelectFile = (e) => {
         const file = e.target.files[0];
         if (!file) setFileSelectedError('File is required');
@@ -21,18 +23,27 @@ const FileUploader = ({
             if (file.size > fileSize) {
                 setFileSelectedError(`File size cannot exceed more than ${fileSize}`);
             } else {
+                setImageURL(URL.createObjectURL(file));
                 setFileSelected(file);
-                setImageURL(URL.createObjectURL(e.target.files[0]));
             }
         }
     };
+    const id = Math.random();
     return (
         <div className={cx('container')}>
-            <label htmlFor={cx('file-input')}>
-                <FontAwesomeIcon fontSize={'1.8rem'} icon={faPenToSquare} />
-            </label>
-            <input accept={accept} type="file" id={cx('file-input')} onChange={(e) => handleSelectFile(e)} />
-            <img id={cx('img-preview')} src={imageURL || preImage} />
+            <input
+                className="input-upload"
+                accept={accept}
+                id={`${id}`}
+                type="file"
+                onChange={(e) => handleSelectFile(e)}
+            />
+            <div className={'d-inline-block'}>
+                <label htmlFor={`${id}`}>
+                    <FontAwesomeIcon fontSize={'1.8rem'} icon={faPenToSquare} />
+                </label>
+                <img id={cx('img-preview')} src={imageURL || preImage} />
+            </div>
         </div>
     );
 };

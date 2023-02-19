@@ -1,25 +1,23 @@
 .container {
-    position: relative;
     text-align: center;
-    #file-input {
+    position: relative;
+    input {
         display: none;
     }
-
     img {
-        width: 30%;
-        object-fit: cover;
-        margin-left: 3rem;
+        width: 100%;
+        object-fit: contain;
+        // margin-left: 3rem;
     }
 
     label {
         font-weight: 600;
         cursor: pointer;
-        color: #fff;
+        color: #333;
         border-radius: 0.8rem;
         padding: 1rem;
-        background-color: rgb(101, 101, 255);
         position: absolute;
-        top: 5%;
-        right: 35%;
+        top: -15%;
+        right: -10%;
     }
 }

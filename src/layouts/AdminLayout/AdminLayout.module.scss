@@ -1,12 +1,12 @@
 .container {
     background-color: var(--admin-background-color);
     overflow: auto;
+    display: flex;
 }
 .page {
-    max-width: 1200px;
+    min-width: 1200px;
     margin: 0 auto;
     height: 100vh;
-    padding-left: 8rem;
 }
 .content {
     margin-top: var(--admin-header-height);
