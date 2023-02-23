@@ -1,72 +1,36 @@
-import axios from 'axios';
-import { authHeader } from '../utils';
-
-export const axiosClient = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
-    headers: { Authorization: authHeader() },
-});
-export const addTokenHeader = () => {
-    axiosClient.interceptors.request.use((config) => {
-        config.headers['Authorization'] = authHeader();
-        return config;
-    });
-    axios.interceptors.response.use(
-        (response) => {
-            return response;
-        },
-        function (error) {
-            return Promise.reject(error.response);
-        },
-    );
-};
+import axiosClient from './axiosInterceptor';
 export const getData = async (url, params = {}) => {
-    addTokenHeader();
     try {
-        const response = await axiosClient.get(url, { params });
+        const response = await axiosClient().get(url, { params });
         return response.data;
     } catch (error) {
-        if (!error.response || error.response.status === 401) {
-            localStorage.removeItem('token');
-            return 401;
-        }
-        return false;
+        return error?.response;
     }
 };
 
 export const deleteData = async (url) => {
-    addTokenHeader();
     try {
-        const response = await axiosClient.delete(url);
+        const response = await axiosClient().delete(url);
         return response.data;
     } catch (error) {
-        if (!error.response || error.response.status === 401) {
-            localStorage.removeItem('token');
-            return 401;
-        }
-        return false;
+        return error?.response;
     }
 };
 export const createFormData = async (url, formData) => {
-    axiosClient.addTokenHeader();
     try {
-        let response = await axiosClient.axiosClient.postForm(url, formData, {
+        let response = await axiosClient().postForm(url, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
         });
         return response.data;
     } catch (error) {
-        if (!error.response || error.response.status === 401) {
-            localStorage.removeItem('token');
-            return 401;
-        }
-        return false;
+        return error?.response;
     }
 };
 export const createData = async (url, obj) => {
-    addTokenHeader();
     try {
-        let response = await axiosClient.postForm(
+        let response = await axiosClient().postForm(
             url,
             { ...obj },
             {
@@ -77,34 +41,24 @@ export const createData = async (url, obj) => {
         );
         return response.data;
     } catch (error) {
-        if (!error.response || error.response.status === 401) {
-            localStorage.removeItem('token');
-            return 401;
-        }
-        return false;
+        return error?.response;
     }
 };
 export const updateFormData = async (url, formData) => {
-    addTokenHeader();
     try {
-        let response = await axiosClient.putForm(url, formData, {
+        let response = await axiosClient().putForm(url, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
         });
         return response.data;
     } catch (error) {
-        if (!error.response || error.response.status === 401) {
-            localStorage.removeItem('token');
-            return 401;
-        }
-        return false;
+        return error?.response;
     }
 };
 export const updateData = async (url, obj) => {
-    addTokenHeader();
     try {
-        let response = await axiosClient.putForm(
+        let response = await axiosClient().putForm(
             url,
             { ...obj },
             {
@@ -115,10 +69,6 @@ export const updateData = async (url, obj) => {
         );
         return response.data;
     } catch (error) {
-        if (!error.response || error.response.status === 401) {
-            localStorage.removeItem('token');
-            return 401;
-        }
-        return false;
+        return error?.response;
     }
 };

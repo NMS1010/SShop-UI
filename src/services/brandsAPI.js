@@ -1,17 +1,17 @@
-import * as axiosClient from './baseAPI';
+import * as baseAPI from './baseAPI';
 
 export const getAllBrands = async (params = {}) => {
-    return await axiosClient.getData('brands/all', params);
+    return await baseAPI.getData('brands/all', params);
 };
 export const getBrandById = async (id) => {
-    return await axiosClient.getData(`brands/${id}`);
+    return await baseAPI.getData(`brands/${id}`);
 };
 export const createBrand = async (brand) => {
-    return await axiosClient.createData('brands/add', brand);
+    return await baseAPI.createData('brands/add', brand);
 };
 export const updateBrand = async (brand) => {
-    return await axiosClient.updateData('brands/update', brand);
+    return await baseAPI.updateData('brands/update', brand);
 };
 export const deleteBrand = async (id) => {
-    return await axiosClient.deleteData(`brands/delete/${id}`);
+    return await baseAPI.deleteData(`brands/delete/${id}`);
 };

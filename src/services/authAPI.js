@@ -1,13 +1,16 @@
-import { axiosClient } from './baseAPI';
+import * as baseAPI from './baseAPI';
 
 export const login = async (username, password) => {
-    try {
-        const response = await axiosClient.postForm('users/login', { username, password });
-        return response.data;
-    } catch (err) {
-        console.log(err);
-        return false;
-    }
+    return await baseAPI.createData('users/login', { username, password });
 };
 
+export const refreshToken = async (accessToken, refreshToken) => {
+    let formData = new FormData();
+    formData.append('accessToken', accessToken);
+    formData.append('refreshToken', refreshToken);
+    return await baseAPI.createFormData('users/refresh-token', formData);
+};
+export const revokeToken = async (userId) => {
+    return await baseAPI.createData(`users/revoke-token/${userId}`, {});
+};
 export const register = () => {};

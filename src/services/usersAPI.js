@@ -1,17 +1,17 @@
-import * as axiosClient from './baseAPI';
+import * as baseAPI from './baseAPI';
 
 export const getAllUsers = async (params = {}) => {
-    return await axiosClient.getData('users/all', params);
+    return await baseAPI.getData('users/all', params);
 };
 export const getUserById = async (id) => {
-    return await axiosClient.getData(`users/${id}`);
+    return await baseAPI.getData(`users/${id}`);
 };
 export const createUser = async (user) => {
-    return await axiosClient.createData('users/add', user);
+    return await baseAPI.createData('users/add', user);
 };
 export const updateUser = async (user) => {
-    return await axiosClient.updateData('users/update', user);
+    return await baseAPI.updateData('users/update', user);
 };
 export const deleteUser = async (id) => {
-    return await axiosClient.deleteData(`users/delete/${id}`);
+    return await baseAPI.deleteData(`users/delete/${id}`);
 };

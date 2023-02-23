@@ -1,17 +1,17 @@
-import * as axiosClient from './baseAPI';
+import * as baseAPI from './baseAPI';
 
 export const getAllCategories = async (params = {}) => {
-    return await axiosClient.getData('categories/all', params);
+    return await baseAPI.getData('categories/all', params);
 };
 export const getCategoryById = async (id) => {
-    return await axiosClient.getData(`categories/${id}`);
+    return await baseAPI.getData(`categories/${id}`);
 };
 export const createCategory = async (category) => {
-    return await axiosClient.createData('categories/add', category);
+    return await baseAPI.createData('categories/add', category);
 };
 export const updateCategory = async (category) => {
-    return await axiosClient.updateData('categories/update', category);
+    return await baseAPI.updateData('categories/update', category);
 };
 export const deleteCategory = async (id) => {
-    return await axiosClient.deleteData(`categories/delete/${id}`);
+    return await baseAPI.deleteData(`categories/delete/${id}`);
 };
