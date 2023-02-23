@@ -8,9 +8,12 @@ import OutsideAlerter from '../../../components/OutsideAlerter';
 import ModalWrapper from '../../../components/ModalWrapper';
 import { useDispatch } from 'react-redux';
 import * as messageAction from '../../../redux/actions/messageAction';
-
+import * as authAction from '../../../redux/actions/authAction';
+import { useNavigate } from 'react-router-dom';
+import logoutHandler from '../../../utils/logoutHandler';
 const Category = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const hiddenColumns = ['parentCategoryId', 'parentCategoryName'];
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -67,6 +70,9 @@ const Category = () => {
         setButtonLoading(false);
         setIsOutClick(true);
         if (!response || !response?.isSuccess) {
+            if (response.status === 401) {
+                await logoutHandler(dispatch, navigate, messageAction, authAction);
+            }
             dispatch(
                 messageAction.setMessage({
                     id: Math.random(),

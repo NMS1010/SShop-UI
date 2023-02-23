@@ -7,7 +7,9 @@ import OutsideAlerter from '../../../components/OutsideAlerter';
 import ModalWrapper from '../../../components/ModalWrapper';
 import { useDispatch } from 'react-redux';
 import * as messageAction from '../../../redux/actions/messageAction';
+import * as authAction from '../../../redux/actions/authAction';
 import { useNavigate } from 'react-router-dom';
+import logoutHandler from '../../../utils/logoutHandler';
 
 const User = () => {
     const dispatch = useDispatch();
@@ -40,6 +42,9 @@ const User = () => {
         setLoading(true);
         let response = await usersAPI.getAllUsers();
         if (!response || !response?.isSuccess) {
+            if (response.status === 401) {
+                await logoutHandler(dispatch, navigate, messageAction, authAction);
+            }
             setLoading(true);
             setusers([]);
             dispatch(
@@ -51,18 +56,6 @@ const User = () => {
                     icon: '',
                 }),
             );
-            if (response === 401) {
-                dispatch(
-                    messageAction.setMessage({
-                        id: Math.random(),
-                        title: 'Login',
-                        message: 'Token has expired, please login to continue',
-                        backgroundColor: '#d9534f',
-                        icon: '',
-                    }),
-                );
-                navigate('/admin/login');
-            }
         } else {
             setLoading(false);
             setusers(response?.data?.items);

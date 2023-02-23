@@ -8,14 +8,13 @@ import styles from '../../CommonCSSForm/CommonCSSForm.module.scss';
 import FileUploader from '../../../../components/FileUploader';
 import Button from '../../../../components/Button';
 
-import * as brandsAPI from '../../../../services/brandsAPI';
+import * as productsAPI from '../../../../services/productsAPI';
 import * as messageAction from '../../../../redux/actions/messageAction';
-import * as authAction from '../../../../redux/actions/authAction';
-import logoutHandler from '../../../../utils/logoutHandler';
+import logoutHandler from '../../../../../utils/logoutHandler';
 
 const cx = classNames.bind(styles);
 
-const BrandForm = ({ setAction = () => {}, brand = null, brands = [], getAllBrands = () => {} }) => {
+const ProductImagesForm = ({ setAction = () => {}, brand = null, brands = [], getAllProductImages = () => {} }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
@@ -33,7 +32,7 @@ const BrandForm = ({ setAction = () => {}, brand = null, brands = [], getAllBran
 
     const validation = useCallback(() => {
         let errors = { ...validationMessage };
-        inputFields.brandName?.trim() ? (errors.brandName = '') : (errors.brandName = 'Brand name is required');
+        inputFields.brandName?.trim() ? (errors.brandName = '') : (errors.brandName = 'ProductImages name is required');
         inputFields.origin?.trim() ? (errors.origin = '') : (errors.origin = 'Origin is required');
         !fileSelected && !brand?.image ? (errors.image = 'Image is required') : (errors.image = '');
         setValidationMessage(errors);
@@ -57,10 +56,12 @@ const BrandForm = ({ setAction = () => {}, brand = null, brands = [], getAllBran
             origin: inputFields?.origin,
             image: fileSelected,
         };
-        const handleBrand = async () => {
+        const handleProductImages = async () => {
             setLoading(true);
             let response =
-                brand !== null ? await brandsAPI.updateBrand(brandObj) : await brandsAPI.createBrand(brandObj);
+                brand !== null
+                    ? await brandsAPI.updateProductImages(brandObj)
+                    : await brandsAPI.createProductImages(brandObj);
 
             if (!response || !response.isSuccess) {
                 if (response.status === 401) {
@@ -69,7 +70,7 @@ const BrandForm = ({ setAction = () => {}, brand = null, brands = [], getAllBran
                 dispatch(
                     messageAction.setMessage({
                         id: Math.random(),
-                        title: 'Brand',
+                        title: 'ProductImages',
                         message: response?.errors || 'Error while handling this brand',
                         backgroundColor: '#d9534f',
                         icon: '',
@@ -79,22 +80,22 @@ const BrandForm = ({ setAction = () => {}, brand = null, brands = [], getAllBran
                 dispatch(
                     messageAction.setMessage({
                         id: Math.random(),
-                        title: 'Brand',
+                        title: 'ProductImages',
                         message: 'Handling this brand successfully',
                         backgroundColor: '#5cb85c',
                         icon: '',
                     }),
                 );
                 setAction({ add: false, edit: false, delete: false });
-                await getAllBrands();
+                await getAllProductImages();
             }
             setLoading(false);
         };
-        handleBrand();
+        handleProductImages();
     };
     return (
         <div className={cx('container')}>
-            <h1 className={cx('title')}>Brand</h1>
+            <h1 className={cx('title')}>ProductImages</h1>
             <form className={cx('form')} onSubmit={handleSubmit}>
                 <div className={cx('form-group')}>
                     <label htmlFor="brandName">Name</label>
@@ -125,4 +126,4 @@ const BrandForm = ({ setAction = () => {}, brand = null, brands = [], getAllBran
         </div>
     );
 };
-export default BrandForm;
+export default ProductImagesForm;

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
@@ -6,14 +6,17 @@ import classNames from 'classnames/bind';
 import styles from './ProductForm.module.scss';
 
 import FileUploader from '../../../../components/FileUploader';
-
 import Loading from '../../../../components/Loading';
+
 import * as productsAPI from '../../../../services/productsAPI';
 import * as brandsAPI from '../../../../services/brandsAPI';
 import * as categoriesAPI from '../../../../services/categoriesAPI';
 import * as messageAction from '../../../../redux/actions/messageAction';
+import * as authAction from '../../../../redux/actions/authAction';
+
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import NumericInput from 'react-numeric-input';
+import logoutHandler from '../../../../utils/logoutHandler';
 
 const cx = classNames.bind(styles);
 
@@ -134,17 +137,8 @@ const ProductForm = ({ setAction = () => {}, product = null, products = [], getA
                 product !== null
                     ? await productsAPI.updateProduct(formData)
                     : await productsAPI.createProduct(formData);
-            if (response === 401) {
-                dispatch(
-                    messageAction.setMessage({
-                        id: Math.random(),
-                        title: 'Login',
-                        message: 'Token has expired, please login to continue',
-                        backgroundColor: '#d9534f',
-                        icon: '',
-                    }),
-                );
-                navigate('/admin/login');
+            if (response.status === 401) {
+                await logoutHandler(dispatch, navigate, messageAction, authAction);
             }
             if (!response || !response.isSuccess) {
                 dispatch(
@@ -337,7 +331,16 @@ const ProductForm = ({ setAction = () => {}, product = null, products = [], getA
                                     </Row>
                                 ) : (
                                     <Row className="mt-3">
-                                        <p className="mb-3">Sub Image </p>
+                                        <div className="d-flex align-items-center">
+                                            <p className="mb-3">Sub Image </p>
+                                            <Button
+                                                onClick={() => {}}
+                                                variant="success"
+                                                className="fs-4 rounded-4 ms-3"
+                                            >
+                                                Edit Image
+                                            </Button>
+                                        </div>
                                         <div className="d-inline-flex flex-wrap mt-3">
                                             {product.subImages.items.map((item) => {
                                                 return (
@@ -359,6 +362,7 @@ const ProductForm = ({ setAction = () => {}, product = null, products = [], getA
                                 )}
                             </Col>
                             <Col md="4">
+                                <p className="mb-3 text-center">Image </p>
                                 <FileUploader
                                     setFileSelected={setMainImage}
                                     setFileSelectedError={setFileSelectedError}

@@ -10,6 +10,8 @@ import Button from '../../../../components/Button';
 
 import * as categoriesAPI from '../../../../services/categoriesAPI';
 import * as messageAction from '../../../../redux/actions/messageAction';
+import * as authAction from '../../../../redux/actions/authAction';
+import logoutHandler from '../../../../utils/logoutHandler';
 
 const cx = classNames.bind(styles);
 
@@ -67,19 +69,10 @@ const CategoryForm = ({ setAction = () => {}, category = null, categories = [], 
                     ? await categoriesAPI.updateCategory(categoryObj)
                     : await categoriesAPI.createCategory(categoryObj);
 
-            if (response === 401) {
-                dispatch(
-                    messageAction.setMessage({
-                        id: Math.random(),
-                        title: 'Login',
-                        message: 'Token has expired, please login to continue',
-                        backgroundColor: '#d9534f',
-                        icon: '',
-                    }),
-                );
-                navigate('/admin/login');
-            }
             if (!response || !response.isSuccess) {
+                if (response.status === 401) {
+                    await logoutHandler(dispatch, navigate, messageAction, authAction);
+                }
                 dispatch(
                     messageAction.setMessage({
                         id: Math.random(),

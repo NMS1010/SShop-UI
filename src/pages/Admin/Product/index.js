@@ -8,9 +8,12 @@ import OutsideAlerter from '../../../components/OutsideAlerter';
 import ModalWrapper from '../../../components/ModalWrapper';
 import { useDispatch } from 'react-redux';
 import * as messageAction from '../../../redux/actions/messageAction';
-
+import logoutHandler from '../../../utils/logoutHandler';
+import * as authAction from '../../../redux/actions/authAction';
+import { useNavigate } from 'react-router-dom';
 const Product = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const hiddenColumns = [
         'dateCreated',
         'categoryId',
@@ -75,6 +78,9 @@ const Product = () => {
         setButtonLoading(false);
         setIsOutClick(true);
         if (!response || !response?.isSuccess) {
+            if (response.status === 401) {
+                await logoutHandler(dispatch, navigate, messageAction, authAction);
+            }
             dispatch(
                 messageAction.setMessage({
                     id: Math.random(),

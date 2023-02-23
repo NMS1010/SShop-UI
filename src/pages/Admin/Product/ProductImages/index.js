@@ -1,25 +1,23 @@
 import { useCallback, useEffect, useState } from 'react';
 import Loading from '../../../components/Loading';
 import Table from '../../../components/Table';
-import * as brandsAPI from '../../../services/brandsAPI';
-import BrandForm from './BrandForm';
+import * as productsAPI from '../../../../services/productsAPI';
+import ProductImagesForm from './ProductImagesForm';
 import Alert from '../../../components/Alert';
 import OutsideAlerter from '../../../components/OutsideAlerter';
 import ModalWrapper from '../../../components/ModalWrapper';
-import * as messageAction from '../../../redux/actions/messageAction';
 import { useDispatch } from 'react-redux';
-import logoutHandler from '../../../utils/logoutHandler';
-import * as authAction from '../../../redux/actions/authAction';
-import { useNavigate } from 'react-router-dom';
-const Brand = () => {
-    const hiddenColumns = [];
+import * as messageAction from '../../../redux/actions/messageAction';
+import logoutHandler from '../../../../utils/logoutHandler';
+
+const ProductImages = ({ productId }) => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const [brands, setbrands] = useState([]);
+    const hiddenColumns = ['productId'];
+    const [productImages, setProductImages] = useState([]);
     const [loading, setLoading] = useState(true);
     const [buttonLoading, setButtonLoading] = useState(false);
     const [isOutClick, setIsOutClick] = useState(false);
-    const [selectedBrand, setSelectedBrand] = useState(null);
+    const [selectedProductImage, setSelectedProductImage] = useState(null);
     const [action, setAction] = useState({
         add: false,
         edit: false,
@@ -27,46 +25,48 @@ const Brand = () => {
     });
     const fetchAPI = useCallback(async () => {
         setLoading(true);
-        let response = await brandsAPI.getAllBrands();
+        let response = await productsAPI.getAllProductImages(productId);
         if (!response || !response?.isSuccess) {
             setLoading(true);
-            setbrands([]);
+            setProductImages([]);
             dispatch(
                 messageAction.setMessage({
                     id: Math.random(),
-                    title: 'Brand',
-                    message: response?.errors || 'Error while retrieving brands',
+                    title: 'ProductImages',
+                    message: response?.errors || 'Error while retrieving image for this product',
                     backgroundColor: '#d9534f',
                     icon: '',
                 }),
             );
         } else {
             setLoading(false);
-            setbrands(response?.data?.items);
+            setProductImages(response?.data?.items);
         }
     });
     useEffect(() => {
         fetchAPI();
     }, []);
-    const handleAddBrand = () => {
+    const handleAddProductImages = () => {
         setAction({ add: true, edit: false, delete: false });
         setIsOutClick(false);
     };
-    const handleUpdateBrand = (brandId) => {
-        const brand = brands.find((val) => val.brandId === brandId);
+    const handleUpdateProductImages = (productImageId) => {
+        const productImage = productImages.find((val) => val.id === productImageId);
+        if (productImage.isDefault) return;
         setAction({ add: false, edit: true, delete: false });
-        setSelectedBrand(brand);
+        setSelectedProductImage(productImage);
         setIsOutClick(false);
     };
-    const handleDeleteBrand = (brandId) => {
-        const brand = brands.find((val) => val.brandId === brandId);
+    const handleDeleteProductImages = (productImageId) => {
+        const productImage = productImages.find((val) => val.id === productImageId);
+        if (productImage.isDefault) return;
         setAction({ add: false, edit: false, delete: true });
-        setSelectedBrand(brand);
+        setSelectedProductImage(productImage);
         setIsOutClick(false);
     };
-    const deleteBrand = async () => {
+    const deleteProductImages = async () => {
         setButtonLoading(true);
-        const response = await brandsAPI.deleteBrand(selectedBrand.brandId);
+        const response = await productsAPI.deleteProductImage(selectedProductImage.id);
         setButtonLoading(false);
         setIsOutClick(true);
         if (!response || !response?.isSuccess) {
@@ -76,8 +76,8 @@ const Brand = () => {
             dispatch(
                 messageAction.setMessage({
                     id: Math.random(),
-                    title: 'Brand',
-                    message: response?.errors || 'Error while deleting this Brand',
+                    title: 'ProductImages',
+                    message: response?.errors || 'Error while deleting this product image',
                     backgroundColor: '#d9534f',
                     icon: '',
                 }),
@@ -86,8 +86,8 @@ const Brand = () => {
             dispatch(
                 messageAction.setMessage({
                     id: Math.random(),
-                    title: 'Brand',
-                    message: 'Succeed in deleting this Brand',
+                    title: 'ProductImages',
+                    message: 'Succeed in deleting this product image',
                     backgroundColor: '#5cb85c',
                     icon: '',
                 }),
@@ -102,28 +102,32 @@ const Brand = () => {
             ) : (
                 <>
                     <Table
-                        data={brands}
+                        data={productImages}
                         hiddenColumns={hiddenColumns}
-                        uniqueField={'brandId'}
+                        uniqueField={'id'}
                         isAddNew={true}
-                        handleAddNew={handleAddBrand}
-                        handleUpdateItem={handleUpdateBrand}
-                        handleDeleteItem={handleDeleteBrand}
+                        handleAddNew={handleAddProductImages}
+                        handleUpdateItem={handleUpdateProductImages}
+                        handleDeleteItem={handleDeleteProductImages}
                     />
                     {action.add && !isOutClick && (
                         <ModalWrapper>
                             <OutsideAlerter setIsOut={setIsOutClick}>
-                                <BrandForm setAction={setAction} brands={brands} getAllBrands={fetchAPI} />
+                                <ProductImagesForm
+                                    setAction={setAction}
+                                    productImages={productImages}
+                                    getAllProductImages={fetchAPI}
+                                />
                             </OutsideAlerter>
                         </ModalWrapper>
                     )}
                     {action.edit && !isOutClick && (
                         <ModalWrapper>
                             <OutsideAlerter setIsOut={setIsOutClick}>
-                                <BrandForm
-                                    brands={brands}
-                                    brand={selectedBrand}
-                                    getAllBrands={fetchAPI}
+                                <ProductImagesForm
+                                    productImages={productImages}
+                                    product={selectedProductImage}
+                                    getAllProductImages={fetchAPI}
                                     setAction={setAction}
                                 />
                             </OutsideAlerter>
@@ -134,9 +138,9 @@ const Brand = () => {
                             <OutsideAlerter setIsOut={setIsOutClick}>
                                 <Alert
                                     title={'Delete Confirmation'}
-                                    content={'Do you want to remove this brand ?'}
+                                    content={'Do you want to remove this product ?'}
                                     cancelClick={() => setIsOutClick(true)}
-                                    confirmClick={() => deleteBrand()}
+                                    confirmClick={() => deleteProductImages()}
                                     loading={buttonLoading}
                                 />
                             </OutsideAlerter>
@@ -147,5 +151,4 @@ const Brand = () => {
         </div>
     );
 };
-
-export default Brand;
+export default ProductImages;

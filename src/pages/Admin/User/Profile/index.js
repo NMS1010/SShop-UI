@@ -12,10 +12,13 @@ import * as rolesAPI from '../../../../services/rolesAPI';
 import * as usersAPI from '../../../../services/usersAPI';
 import * as messageAction from '../../../../redux/actions/messageAction';
 import * as authAction from '../../../../redux/actions/authAction';
+import { useNavigate } from 'react-router-dom';
+import logoutHandler from '../../../../utils/logoutHandler';
 
 const animatedComponents = makeAnimated();
 const cx = classNames.bind(styles);
 const Profile = ({ user }) => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { currentUser } = useSelector((state) => state?.authReducer);
     const selectedUser = user || currentUser;
@@ -52,6 +55,10 @@ const Profile = ({ user }) => {
         let response = await rolesAPI.getAllRoles();
         if (!response || !response.isSuccess) {
         } else {
+            if (response.status === 401) {
+                dispatch(await authAction.logout());
+                navigate('/admin/login');
+            }
             setAllRoles(
                 response?.data?.items.map((val) => {
                     return {
@@ -87,7 +94,11 @@ const Profile = ({ user }) => {
             };
             setLoading(true);
             const response = await usersAPI.updateUser(userObj);
+
             if (!response || !response.isSuccess) {
+                if (response.status === 401) {
+                    await logoutHandler(dispatch, navigate, messageAction, authAction);
+                }
                 dispatch(
                     messageAction.setMessage({
                         id: Math.random(),
