@@ -1,16 +1,21 @@
 import { useCallback, useEffect, useState } from 'react';
-import Loading from '../../../components/Loading';
-import Table from '../../../components/Table';
+import { useNavigate } from 'react-router-dom';
+import Loading from '../../../../components/Loading';
+import Table from '../../../../components/Table';
 import * as productsAPI from '../../../../services/productsAPI';
 import ProductImagesForm from './ProductImagesForm';
-import Alert from '../../../components/Alert';
-import OutsideAlerter from '../../../components/OutsideAlerter';
-import ModalWrapper from '../../../components/ModalWrapper';
+import Alert from '../../../../components/Alert';
+import OutsideAlerter from '../../../../components/OutsideAlerter';
+import ModalWrapper from '../../../../components/ModalWrapper';
 import { useDispatch } from 'react-redux';
-import * as messageAction from '../../../redux/actions/messageAction';
+import * as messageAction from '../../../../redux/actions/messageAction';
 import logoutHandler from '../../../../utils/logoutHandler';
+import * as authAction from '../../../../redux/actions/authAction';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 
-const ProductImages = ({ productId }) => {
+const ProductImages = ({ productId, setEditImage }) => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const hiddenColumns = ['productId'];
     const [productImages, setProductImages] = useState([]);
@@ -100,7 +105,13 @@ const ProductImages = ({ productId }) => {
             {loading ? (
                 <Loading />
             ) : (
-                <>
+                <div>
+                    <FontAwesomeIcon
+                        className="position-absolute fs-1"
+                        style={{ top: '6%', left: '50%', transform: 'translate(-50%, -50%)', cursor: 'pointer' }}
+                        onClick={() => setEditImage(false)}
+                        icon={faCircleXmark}
+                    />
                     <Table
                         data={productImages}
                         hiddenColumns={hiddenColumns}
@@ -114,8 +125,9 @@ const ProductImages = ({ productId }) => {
                         <ModalWrapper>
                             <OutsideAlerter setIsOut={setIsOutClick}>
                                 <ProductImagesForm
+                                    productId={productId}
                                     setAction={setAction}
-                                    productImages={productImages}
+                                    productImage={selectedProductImage}
                                     getAllProductImages={fetchAPI}
                                 />
                             </OutsideAlerter>
@@ -125,8 +137,8 @@ const ProductImages = ({ productId }) => {
                         <ModalWrapper>
                             <OutsideAlerter setIsOut={setIsOutClick}>
                                 <ProductImagesForm
-                                    productImages={productImages}
-                                    product={selectedProductImage}
+                                    productId={productId}
+                                    productImage={selectedProductImage}
                                     getAllProductImages={fetchAPI}
                                     setAction={setAction}
                                 />
@@ -146,7 +158,7 @@ const ProductImages = ({ productId }) => {
                             </OutsideAlerter>
                         </ModalWrapper>
                     )}
-                </>
+                </div>
             )}
         </div>
     );

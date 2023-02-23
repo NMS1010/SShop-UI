@@ -144,6 +144,9 @@ const Table = ({
                                 {row.cells.map((cell) => {
                                     if (Array.isArray(cell.value))
                                         return <td {...cell.getCellProps()}>{cell.value.length}</td>;
+                                    if (typeof cell.value == 'boolean') {
+                                        return <td {...cell.getCellProps()}>{cell.value ? 'true' : 'false'}</td>;
+                                    }
                                     return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
                                 })}
                                 <td className={cx('action')}>

@@ -3,65 +3,57 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import classNames from 'classnames/bind';
-import styles from '../../CommonCSSForm/CommonCSSForm.module.scss';
+import styles from '../../../CommonCSSForm/CommonCSSForm.module.scss';
 
-import FileUploader from '../../../../components/FileUploader';
-import Button from '../../../../components/Button';
+import FileUploader from '../../../../../components/FileUploader';
+import Button from '../../../../../components/Button';
 
-import * as productsAPI from '../../../../services/productsAPI';
-import * as messageAction from '../../../../redux/actions/messageAction';
+import * as productsAPI from '../../../../../services/productsAPI';
+import * as messageAction from '../../../../../redux/actions/messageAction';
 import logoutHandler from '../../../../../utils/logoutHandler';
+import * as authAction from '../../../../../redux/actions/authAction';
 
 const cx = classNames.bind(styles);
 
-const ProductImagesForm = ({ setAction = () => {}, brand = null, brands = [], getAllProductImages = () => {} }) => {
+const ProductImagesForm = ({
+    setAction = () => {},
+    productImage = null,
+    productId,
+    getAllProductImages = () => {},
+}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
-    const [inputFields, setInputFields] = useState({
-        brandName: brand?.brandName,
-        origin: brand?.origin,
-    });
+
     const [fileSelected, setFileSelected] = useState(null);
     const [fileSelectedError, setFileSelectedError] = useState('');
-    const [validationMessage, setValidationMessage] = useState({
-        brandName: '',
-        origin: '',
-        image: null,
-    });
+    const [validationMessage, setValidationMessage] = useState({});
 
     const validation = useCallback(() => {
-        let errors = { ...validationMessage };
-        inputFields.brandName?.trim() ? (errors.brandName = '') : (errors.brandName = 'ProductImages name is required');
-        inputFields.origin?.trim() ? (errors.origin = '') : (errors.origin = 'Origin is required');
-        !fileSelected && !brand?.image ? (errors.image = 'Image is required') : (errors.image = '');
+        let errors = {};
+        !fileSelected && !productImage?.image ? (errors.image = 'Image is required') : (errors.image = '');
         setValidationMessage(errors);
     });
     useEffect(() => {
         validation();
-    }, [inputFields, fileSelected]);
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setInputFields({ ...inputFields, [name]: value });
-    };
+    }, [fileSelected]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         let isValidateErrors = Object.keys(validationMessage).some((err) => {
             return validationMessage[err] !== '';
         });
         if (isValidateErrors) return;
-        const brandObj = {
-            brandId: brand?.brandId,
-            brandName: inputFields?.brandName,
-            origin: inputFields?.origin,
-            image: fileSelected,
-        };
+        const productImageObj = new FormData();
+        productImageObj.append('productImageId', productImage?.id);
+        productImageObj.append('productId', productId);
+        productImageObj.append('image', fileSelected);
         const handleProductImages = async () => {
             setLoading(true);
             let response =
-                brand !== null
-                    ? await brandsAPI.updateProductImages(brandObj)
-                    : await brandsAPI.createProductImages(brandObj);
+                productImage !== null
+                    ? await productsAPI.updateProductImage(productImageObj)
+                    : await productsAPI.createProductImage(productImageObj);
 
             if (!response || !response.isSuccess) {
                 if (response.status === 401) {
@@ -71,7 +63,7 @@ const ProductImagesForm = ({ setAction = () => {}, brand = null, brands = [], ge
                     messageAction.setMessage({
                         id: Math.random(),
                         title: 'ProductImages',
-                        message: response?.errors || 'Error while handling this brand',
+                        message: response?.errors || 'Error while handling this productImage',
                         backgroundColor: '#d9534f',
                         icon: '',
                     }),
@@ -81,7 +73,7 @@ const ProductImagesForm = ({ setAction = () => {}, brand = null, brands = [], ge
                     messageAction.setMessage({
                         id: Math.random(),
                         title: 'ProductImages',
-                        message: 'Handling this brand successfully',
+                        message: 'Handling this productImage successfully',
                         backgroundColor: '#5cb85c',
                         icon: '',
                     }),
@@ -95,31 +87,21 @@ const ProductImagesForm = ({ setAction = () => {}, brand = null, brands = [], ge
     };
     return (
         <div className={cx('container')}>
-            <h1 className={cx('title')}>ProductImages</h1>
+            <h1 className={cx('title')}>Product Images</h1>
             <form className={cx('form')} onSubmit={handleSubmit}>
-                <div className={cx('form-group')}>
-                    <label htmlFor="brandName">Name</label>
-                    <input name="brandName" value={inputFields.brandName} type={'text'} onChange={handleChange} />
-                    <small>{validationMessage.brandName}</small>
-                </div>
-                <div className={cx('form-group')}>
-                    <label htmlFor="origin">Origin</label>
-                    <textarea name="origin" onChange={handleChange} value={inputFields.origin}></textarea>
-                    <small>{validationMessage.origin}</small>
-                </div>
                 <div className={cx('form-group')}>
                     <FileUploader
                         accept={'image/*'}
                         setFileSelected={setFileSelected}
                         setFileSelectedError={setFileSelectedError}
-                        imgUrl={brand?.image}
+                        imgUrl={productImage?.image}
                     />
                     <small>{fileSelectedError}</small>
                     <small>{validationMessage.image}</small>
                 </div>
                 <div className={cx('action-btn')}>
                     <Button className={cx('submit-btn')} type="submit" loading={loading}>
-                        {brand ? 'Update' : 'Create'}
+                        {productImage ? 'Update' : 'Create'}
                     </Button>
                 </div>
             </form>

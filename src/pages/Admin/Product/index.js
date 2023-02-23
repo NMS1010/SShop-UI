@@ -55,7 +55,7 @@ const Product = () => {
     });
     useEffect(() => {
         fetchAPI();
-    }, []);
+    }, [isOutClick]);
     const handleAddProduct = () => {
         setAction({ add: true, edit: false, delete: false });
         setIsOutClick(false);

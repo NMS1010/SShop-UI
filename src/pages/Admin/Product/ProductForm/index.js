@@ -17,6 +17,7 @@ import * as authAction from '../../../../redux/actions/authAction';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import NumericInput from 'react-numeric-input';
 import logoutHandler from '../../../../utils/logoutHandler';
+import ProductImages from '../ProductImages';
 
 const cx = classNames.bind(styles);
 
@@ -41,7 +42,7 @@ const ProductForm = ({ setAction = () => {}, product = null, products = [], getA
     const [brands, setBrands] = useState([]);
     const [fileSelectedError, setFileSelectedError] = useState('');
     const [validated, setValidated] = useState(false);
-    useEffect(() => {}, [numberSubImage]);
+    const [editImage, setEditImage] = useState(false);
     useEffect(() => {
         setLoading(true);
         const fetchBrands = async () => {
@@ -171,7 +172,7 @@ const ProductForm = ({ setAction = () => {}, product = null, products = [], getA
         <>
             {loading ? (
                 <Loading />
-            ) : (
+            ) : !editImage ? (
                 <div className={cx('container')}>
                     <h1 className="text-center fs-1 mb-4">Product</h1>
                     <Form validated={validated} noValidate onSubmit={handleSubmit}>
@@ -334,7 +335,9 @@ const ProductForm = ({ setAction = () => {}, product = null, products = [], getA
                                         <div className="d-flex align-items-center">
                                             <p className="mb-3">Sub Image </p>
                                             <Button
-                                                onClick={() => {}}
+                                                onClick={() => {
+                                                    setEditImage(true);
+                                                }}
                                                 variant="success"
                                                 className="fs-4 rounded-4 ms-3"
                                             >
@@ -381,6 +384,13 @@ const ProductForm = ({ setAction = () => {}, product = null, products = [], getA
                             </Button>
                         </div>
                     </Form>
+                </div>
+            ) : (
+                <div
+                    className="w-50 position-absolute"
+                    style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
+                >
+                    <ProductImages productId={product.productId} setEditImage={setEditImage} />
                 </div>
             )}
         </>
