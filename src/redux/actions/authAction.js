@@ -7,33 +7,24 @@ export const login = async (username, password) => {
     const response = await authAPI.login(username, password);
     return async (dispatch) => {
         if (!response || !response?.isSuccess) {
-            localStorage.removeItem('token');
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
             dispatch({
                 type: types.LOGIN_FAIL,
             });
-            if (!response) {
-                dispatch(
-                    messageAction.setMessage({
-                        id: Math.random(),
-                        title: 'Login',
-                        message: 'Cannot connect to server',
-                        backgroundColor: '#d9534f',
-                        icon: '',
-                    }),
-                );
-            } else
-                dispatch(
-                    messageAction.setMessage({
-                        id: Math.random(),
-                        title: 'Login',
-                        message: response?.errors,
-                        backgroundColor: '#d9534f',
-                        icon: '',
-                    }),
-                );
+            dispatch(
+                messageAction.setMessage({
+                    id: Math.random(),
+                    title: 'Login',
+                    message: response?.errors || 'Cannot connect to server',
+                    backgroundColor: '#d9534f',
+                    icon: '',
+                }),
+            );
         } else {
-            let token = response.data;
-            localStorage.setItem('token', token);
+            let { accessToken, refreshToken } = response.data;
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', refreshToken);
             let success = await dispatch(await getCurrentUser());
             if (success) {
                 dispatch(
@@ -59,17 +50,25 @@ export const login = async (username, password) => {
         }
     };
 };
-export const logout = () => {
-    localStorage.removeItem('token');
+export const logout = async () => {
+    let token = localStorage.getItem('accessToken');
+    if (token) {
+        let jwtDecodeObj = jwtDecode(token);
+        let nameIdentifier = Object.keys(jwtDecodeObj).find((val) => val.includes('nameidentifier'));
+        let userId = jwtDecodeObj[nameIdentifier];
+        await authAPI.revokeToken(userId);
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+    }
     return {
         type: types.LOGOUT,
     };
 };
 
 export const getCurrentUser = async () => {
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem('accessToken');
     let id = null;
-    if (token && token.length > 100) {
+    if (token) {
         let jwtDecodeObj = jwtDecode(token);
         let nameIdentifier = Object.keys(jwtDecodeObj).find((val) => val.includes('nameidentifier'));
         id = jwtDecodeObj[nameIdentifier];
@@ -77,7 +76,8 @@ export const getCurrentUser = async () => {
     const response = await usersAPI.getUserById(id);
     return async (dispatch) => {
         if (!response || !response?.isSuccess) {
-            localStorage.removeItem('token');
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
             dispatch({
                 type: types.LOGIN_FAIL,
             });
@@ -85,7 +85,7 @@ export const getCurrentUser = async () => {
                 messageAction.setMessage({
                     id: Math.random(),
                     title: 'Login',
-                    message: response?.errors || 'Error while retrieving user detail',
+                    message: response?.errors || 'Error while getting user profile',
                     backgroundColor: '#d9534f',
                     icon: '',
                 }),
