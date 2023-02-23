@@ -39,10 +39,10 @@ const FileUploader = ({
                 onChange={(e) => handleSelectFile(e)}
             />
             <div className={'d-inline-block'}>
+                <img id={cx('img-preview')} src={imageURL || preImage} />
                 <label htmlFor={`${id}`}>
                     <FontAwesomeIcon fontSize={'1.8rem'} icon={faPenToSquare} />
                 </label>
-                <img id={cx('img-preview')} src={imageURL || preImage} />
             </div>
         </div>
     );

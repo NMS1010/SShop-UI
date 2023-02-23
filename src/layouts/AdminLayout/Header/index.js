@@ -27,8 +27,8 @@ const Header = ({ title }) => {
         setIsShowNotify(false);
         setIsShowUserOption(!isShowUserOption);
     };
-    const logOut = () => {
-        dispatch(authAction.logout());
+    const logOut = async () => {
+        dispatch(await authAction.logout());
         dispatch(
             messageAction.setMessage({
                 id: Math.random(),
