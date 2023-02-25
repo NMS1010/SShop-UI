@@ -13,7 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 const cx = classNames.bind(styles);
 
-const Header = ({ title }) => {
+const Header = ({ title, setIsHideContent, isHideContent }) => {
     const dispatch = useDispatch();
     const { currentUser, isLogin } = useSelector((state) => state?.authReducer);
 
@@ -24,7 +24,6 @@ const Header = ({ title }) => {
         setIsShowUserOption(false);
     };
     const handleShowUserOption = () => {
-        setIsShowNotify(false);
         setIsShowUserOption(!isShowUserOption);
     };
     const logOut = async () => {
@@ -42,18 +41,17 @@ const Header = ({ title }) => {
     return (
         <header className={cx('container')}>
             <div className={cx('info')}>
-                <div className={cx('bar')}>
+                <div
+                    className={cx('bar')}
+                    onClick={() => setIsHideContent(!isHideContent)}
+                    style={{ cursor: 'pointer' }}
+                >
                     <FontAwesomeIcon icon={faBars} />
                 </div>
                 <p className={cx('title')}>{title}</p>
             </div>
             <div className={cx('action')}>
                 <div className={cx('notify')}>
-                    {/* {isShowNotify && (
-                        <NotifyBoard title={'Notifications'}>
-                            <p>content</p>
-                        </NotifyBoard>
-                    )} */}
                     <FontAwesomeIcon icon={faBell} onClick={() => handleShowNotify()} />
                 </div>
                 <div className={cx('user-detail')}>

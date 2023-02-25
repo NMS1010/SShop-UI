@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 const cx = classNames.bind(styles);
 
-const SidebarItem = ({ icon, path, content, setTitle }) => {
+const SidebarItem = ({ icon, path, content, setTitle, isHideContent = false }) => {
     return (
         <NavLink
             to={path}
@@ -12,7 +12,7 @@ const SidebarItem = ({ icon, path, content, setTitle }) => {
             className={({ isActive }) => cx('container') + ' ' + (isActive ? cx('active') : undefined)}
         >
             <img src={icon} alt="image" className={cx('icon')} />
-            <div className={cx('content')}>{content}</div>
+            {!isHideContent && <div className={cx('content')}>{content}</div>}
         </NavLink>
     );
 };

@@ -86,7 +86,7 @@ const ProductImagesForm = ({
         handleProductImages();
     };
     return (
-        <div className={cx('container')}>
+        <div className={cx('container')} style={{ textAlign: 'center' }}>
             <h1 className={cx('title')}>Product Images</h1>
             <form className={cx('form')} onSubmit={handleSubmit}>
                 <div className={cx('form-group')}>

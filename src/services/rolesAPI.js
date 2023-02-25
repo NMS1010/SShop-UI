@@ -7,10 +7,10 @@ export const getRoleById = async (id) => {
     return await baseAPI.getData(`roles/${id}`);
 };
 export const createRole = async (role) => {
-    return await baseAPI.createData('roles/add', role);
+    return await baseAPI.createFormData('roles/add', role);
 };
 export const updateRole = async (role) => {
-    return await baseAPI.updateData('roles/update', role);
+    return await baseAPI.updateFormData('roles/update', role);
 };
 export const deleteRole = async (id) => {
     return await baseAPI.deleteData(`roles/delete/${id}`);

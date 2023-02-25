@@ -9,11 +9,12 @@ const cx = classNames.bind(styles);
 
 const AdminLayout = ({ children }) => {
     const [title, setTitle] = useState('Dashboard');
+    const [isHideContent, setIsHideContent] = useState(false);
     return (
         <div className={cx('container')}>
-            <Sidebar setTitle={setTitle} />
+            <Sidebar isHideContent={isHideContent} setTitle={setTitle} />
             <div className={cx('page')}>
-                <Header title={title} />
+                <Header setIsHideContent={setIsHideContent} isHideContent={isHideContent} title={title} />
                 <div className={cx('content')}>{children}</div>
             </div>
         </div>

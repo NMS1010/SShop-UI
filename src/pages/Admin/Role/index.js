@@ -1,93 +1,83 @@
 import { useCallback, useEffect, useState } from 'react';
 import Loading from '../../../components/Loading';
 import Table from '../../../components/Table';
-import * as usersAPI from '../../../services/usersAPI';
+import * as rolesAPI from '../../../services/rolesAPI';
+import RoleForm from './RoleForm';
 import Alert from '../../../components/Alert';
 import OutsideAlerter from '../../../components/OutsideAlerter';
 import ModalWrapper from '../../../components/ModalWrapper';
-import { useDispatch } from 'react-redux';
 import * as messageAction from '../../../redux/actions/messageAction';
+import { useDispatch } from 'react-redux';
+import logoutHandler from '../../../utils/logoutHandler';
 import * as authAction from '../../../redux/actions/authAction';
 import { useNavigate } from 'react-router-dom';
-import logoutHandler from '../../../utils/logoutHandler';
-
-const User = () => {
+const Role = () => {
+    const hiddenColumns = [];
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const hiddenColumns = [
-        'dateUpdated',
-        'password',
-        'address',
-        'email',
-        'status',
-        'totalBought',
-        'totalWishItem',
-        'totalCartItem',
-        'totalOrders',
-        'totalCost',
-        'roleIds',
-        'orders',
-        'userId',
-    ];
-    const [users, setusers] = useState([]);
+    const [roles, setRoles] = useState([]);
     const [loading, setLoading] = useState(true);
     const [buttonLoading, setButtonLoading] = useState(false);
     const [isOutClick, setIsOutClick] = useState(false);
-    const [selectedUser, setSelectedUser] = useState(null);
+    const [selectedRole, setSelectedRole] = useState(null);
     const [action, setAction] = useState({
+        add: false,
         edit: false,
         delete: false,
     });
     const fetchAPI = useCallback(async () => {
         setLoading(true);
-        let response = await usersAPI.getAllUsers();
+        let response = await rolesAPI.getAllRoles();
         if (!response || !response?.isSuccess) {
-            if (response?.status === 401) {
-                await logoutHandler(dispatch, navigate, messageAction, authAction);
-            }
             setLoading(true);
-            setusers([]);
+            setRoles([]);
             dispatch(
                 messageAction.setMessage({
                     id: Math.random(),
-                    title: 'User',
-                    message: response?.errors || 'Error while retrieving users',
+                    title: 'Role',
+                    message: response?.errors || 'Error while retrieving roles',
                     backgroundColor: '#d9534f',
                     icon: '',
                 }),
             );
         } else {
             setLoading(false);
-            setusers(response?.data?.items);
+            setRoles(response?.data?.items);
         }
     });
     useEffect(() => {
         fetchAPI();
     }, []);
-
-    const handleUpdateUser = (userId) => {
-        const user = users.find((val) => val.userId === userId);
-        setAction({ edit: true, delete: false });
-        setSelectedUser(user);
+    const handleAddRole = () => {
+        setAction({ add: true, edit: false, delete: false });
         setIsOutClick(false);
     };
-    const handleDeleteUser = (userId) => {
-        const user = users.find((val) => val.userId === userId);
-        setAction({ edit: false, delete: true });
-        setSelectedUser(user);
+    const handleUpdateRole = (roleId) => {
+        const role = roles.find((val) => val.roleId === roleId);
+        setAction({ add: false, edit: true, delete: false });
+        setSelectedRole(role);
         setIsOutClick(false);
     };
-    const deleteUser = async () => {
+    const handleDeleteRole = (roleId) => {
+        const role = roles.find((val) => val.roleId === roleId);
+        setAction({ add: false, edit: false, delete: true });
+        setSelectedRole(role);
+        setIsOutClick(false);
+    };
+    const deleteRole = async () => {
         setButtonLoading(true);
-        const response = await usersAPI.deleteUser(selectedUser.userId);
+        const response = await rolesAPI.deleteRole(selectedRole.roleId);
         setButtonLoading(false);
         setIsOutClick(true);
         if (!response || !response?.isSuccess) {
+            if (response.status === 401) {
+                await logoutHandler(dispatch, navigate, messageAction, authAction);
+            }
             dispatch(
                 messageAction.setMessage({
                     id: Math.random(),
-                    title: 'User',
-                    message: response?.errors || 'Error while deleting this User',
+                    title: 'Role',
+                    message: response?.errors || 'Error while deleting this role',
                     backgroundColor: '#d9534f',
                     icon: '',
                 }),
@@ -96,8 +86,8 @@ const User = () => {
             dispatch(
                 messageAction.setMessage({
                     id: Math.random(),
-                    title: 'User',
-                    message: 'Succeed in deleting this User',
+                    title: 'Role',
+                    message: 'Succeed in deleting this role',
                     backgroundColor: '#5cb85c',
                     icon: '',
                 }),
@@ -112,32 +102,41 @@ const User = () => {
             ) : (
                 <>
                     <Table
-                        data={users}
-                        uniqueField={'userId'}
-                        handleUpdateItem={handleUpdateUser}
-                        handleDeleteItem={handleDeleteUser}
+                        data={roles}
                         hiddenColumns={hiddenColumns}
+                        uniqueField={'roleId'}
+                        isAddNew={true}
+                        handleAddNew={handleAddRole}
+                        handleUpdateItem={handleUpdateRole}
+                        handleDeleteItem={handleDeleteRole}
                     />
-                    {/* {action.edit && !isOutClick && (
+                    {action.add && !isOutClick && (
                         <ModalWrapper>
                             <OutsideAlerter setIsOut={setIsOutClick}>
-                                <UserForm
-                                    users={users}
-                                    user={selectedUser}
-                                    getAllUsers={fetchAPI}
+                                <RoleForm setAction={setAction} roles={roles} getAllRoles={fetchAPI} />
+                            </OutsideAlerter>
+                        </ModalWrapper>
+                    )}
+                    {action.edit && !isOutClick && (
+                        <ModalWrapper>
+                            <OutsideAlerter setIsOut={setIsOutClick}>
+                                <RoleForm
+                                    roles={roles}
+                                    role={selectedRole}
+                                    getAllRoles={fetchAPI}
                                     setAction={setAction}
                                 />
                             </OutsideAlerter>
                         </ModalWrapper>
-                    )} */}
+                    )}
                     {action.delete && !isOutClick && (
                         <ModalWrapper>
                             <OutsideAlerter setIsOut={setIsOutClick}>
                                 <Alert
                                     title={'Delete Confirmation'}
-                                    content={'Do you want to change this user`s status ?'}
+                                    content={'Do you want to remove this role ?'}
                                     cancelClick={() => setIsOutClick(true)}
-                                    confirmClick={() => deleteUser()}
+                                    confirmClick={() => deleteRole()}
                                     loading={buttonLoading}
                                 />
                             </OutsideAlerter>
@@ -148,4 +147,5 @@ const User = () => {
         </div>
     );
 };
-export default User;
+
+export default Role;

@@ -6,11 +6,14 @@
     height: 100vh;
     background-color: rgb(255, 255, 255);
     box-shadow: rgb(0 0 0 / 7%) 0px 0px 21px 1px;
+    transition: all 1s;
     .icon {
         padding: 1rem 3rem;
         text-align: center;
+        height: 10rem;
+        border-bottom: 1px solid #ccc;
         img {
-            width: 3.1rem;
+            width: 5rem;
             &:hover {
                 cursor: pointer;
             }

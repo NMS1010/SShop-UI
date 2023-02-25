@@ -9,7 +9,7 @@ import config from '../../../configs';
 import sideBarItemList from './itemList';
 const cx = classNames.bind(styles);
 
-const Sidebar = ({ setTitle }) => {
+const Sidebar = ({ setTitle, isHideContent = false }) => {
     return (
         <div className={cx('container')}>
             <div className={cx('icon')}>
@@ -25,6 +25,7 @@ const Sidebar = ({ setTitle }) => {
                         setTitle={setTitle}
                         content={item.content}
                         icon={item.icon}
+                        isHideContent={isHideContent}
                     />
                 ))}
             </div>

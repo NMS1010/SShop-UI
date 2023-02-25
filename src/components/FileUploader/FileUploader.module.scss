@@ -5,7 +5,8 @@
         display: none;
     }
     img {
-        width: 100%;
+        width: 100% !important;
+        height: 100%;
         object-fit: contain;
         // margin-left: 3rem;
     }
