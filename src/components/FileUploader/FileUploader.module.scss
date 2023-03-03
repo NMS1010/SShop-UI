@@ -5,10 +5,10 @@
         display: none;
     }
     img {
-        width: 100% !important;
+        width: 100%;
+        margin: auto;
         height: 100%;
         object-fit: contain;
-        // margin-left: 3rem;
     }
 
     label {
@@ -17,8 +17,5 @@
         color: #333;
         border-radius: 0.8rem;
         padding: 1rem;
-        // position: absolute;
-        // top: -15%;
-        // right: -10%;
     }
 }

@@ -1,6 +1,8 @@
 import Header from './Header';
 import Sidebar from './Sidebar';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap';
 import classNames from 'classnames/bind';
 import styles from './AdminLayout.module.scss';
 import { useState } from 'react';

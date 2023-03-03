@@ -85,7 +85,7 @@ const RoleForm = ({ setAction = () => {}, role = null, roles = [], getAllRoles =
         handleRole();
     };
     return (
-        <div className={cx('container')}>
+        <div className={cx('container')} style={{ height: '30vh' }}>
             <h1 className={cx('title')}>Role</h1>
             <form className={cx('form')} onSubmit={handleSubmit}>
                 <div className={cx('form-group')}>

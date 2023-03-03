@@ -4,6 +4,7 @@
     top: 50%;
     left: 50%;
     width: 50%;
+    height: 70vh;
     transform: translate(-50%, -50%);
     background-color: rgb(255, 255, 255);
     color: rgba(0, 0, 0, 0.87);
@@ -38,7 +39,7 @@
                 padding: 0.9rem 1.4rem;
                 padding-left: 0.5rem;
                 font-size: 1.6rem;
-                outline: none;
+                border: 1px solid #ccc;
                 &:hover {
                     border-color: #212121;
                 }
@@ -47,6 +48,7 @@
                 padding: 0.9rem 1.4rem;
                 padding-left: 0.5rem;
                 font-size: 1.6rem;
+                border: 1px solid #ccc;
                 &:hover {
                     cursor: pointer;
                     border-color: #212121;
@@ -56,6 +58,7 @@
                 height: 9.2rem;
                 font-size: 1.6rem;
                 padding-left: 0.5rem;
+                border: 1px solid #ccc;
                 resize: none;
                 &:hover {
                     border-color: #212121;

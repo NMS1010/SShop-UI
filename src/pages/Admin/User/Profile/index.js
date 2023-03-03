@@ -141,7 +141,7 @@ const Profile = ({ user }) => {
                             <div className="text-center mb-5 border-bottom">
                                 <img
                                     className="img-fluid rounded-5"
-                                    style={{ width: '10rem' }}
+                                    style={{ width: '10rem', margin: 'auto' }}
                                     src={`${process.env.REACT_APP_HOST}/${selectedUser?.avatar}`}
                                     alt={'user avatar'}
                                 />

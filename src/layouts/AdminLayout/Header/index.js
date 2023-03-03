@@ -85,7 +85,7 @@ const Header = ({ title, setIsHideContent, isHideContent }) => {
                             </Link>
                         </NotifyBoard>
                     )}
-                    <div onClick={() => handleShowUserOption()}>
+                    <div className="flex mt-2.5" onClick={() => handleShowUserOption()}>
                         <img
                             src={isLogin && `${process.env.REACT_APP_HOST}${currentUser.avatar}`}
                             alt={'user avatar'}

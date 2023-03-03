@@ -15,7 +15,7 @@ const Brand = () => {
     const hiddenColumns = [];
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [brands, setbrands] = useState([]);
+    const [brands, setBrands] = useState([]);
     const [loading, setLoading] = useState(true);
     const [buttonLoading, setButtonLoading] = useState(false);
     const [isOutClick, setIsOutClick] = useState(false);
@@ -30,7 +30,7 @@ const Brand = () => {
         let response = await brandsAPI.getAllBrands();
         if (!response || !response?.isSuccess) {
             setLoading(true);
-            setbrands([]);
+            setBrands([]);
             dispatch(
                 messageAction.setMessage({
                     id: Math.random(),
@@ -42,7 +42,7 @@ const Brand = () => {
             );
         } else {
             setLoading(false);
-            setbrands(response?.data?.items);
+            setBrands(response?.data?.items);
         }
     });
     useEffect(() => {
