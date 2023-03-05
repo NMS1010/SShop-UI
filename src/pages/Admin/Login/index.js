@@ -1,10 +1,11 @@
-import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
-import styles from './Login.module.scss';
-import { useDispatch } from 'react-redux';
-import * as authAction from '../../../redux/actions/authAction';
-import Button from '../../../components/Button';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
+import classNames from 'classnames/bind';
+import styles from './Login.module.scss';
+import * as authAction from '../../../redux/features/auth/authSlice';
+import Button from '../../../components/Button';
 const cx = classNames.bind(styles);
 
 const Login = () => {
@@ -40,7 +41,7 @@ const Login = () => {
         });
         if (isValidateErrors) return;
         setLoading(true);
-        dispatch(await authAction.login(inputFields.username, inputFields.password));
+        await dispatch(authAction.login({ username: inputFields.username, password: inputFields.password }));
         setLoading(false);
         navigate('/admin/');
     };

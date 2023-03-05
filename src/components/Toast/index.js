@@ -2,12 +2,14 @@ import classNames from 'classnames/bind';
 import { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './Toast.module.scss';
-import * as messageAction from '../../redux/actions/messageAction';
+import { clearMessage } from '../../redux/features/message/messageSlice';
 
 const cx = classNames.bind(styles);
 
 const Toast = ({ children, position, autoDelete, autoDeleteTime = 3000 }) => {
-    const message = useSelector((state) => state?.messageReducer);
+    const message = useSelector((state) => {
+        return state?.message;
+    });
     const dispatch = useDispatch();
     const [list, setList] = useState(message);
     useEffect(() => {
@@ -24,7 +26,7 @@ const Toast = ({ children, position, autoDelete, autoDeleteTime = 3000 }) => {
     }, [message, autoDelete, autoDeleteTime, list]);
     const deleteToast = (id) => {
         setList(list.filter((toast) => toast.id !== id));
-        dispatch(messageAction.clearMessage(id));
+        dispatch(clearMessage(id));
     };
     return (
         <Fragment>

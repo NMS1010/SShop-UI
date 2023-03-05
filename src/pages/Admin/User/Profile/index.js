@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import classNames from 'classnames/bind';
@@ -10,9 +12,8 @@ import FileUploader from '../../../../components/FileUploader';
 import Loading from '../../../../components/Loading';
 import * as rolesAPI from '../../../../services/rolesAPI';
 import * as usersAPI from '../../../../services/usersAPI';
-import * as messageAction from '../../../../redux/actions/messageAction';
-import * as authAction from '../../../../redux/actions/authAction';
-import { useNavigate } from 'react-router-dom';
+import * as messageAction from '../../../../redux/features/message/messageSlice';
+import * as authAction from '../../../../redux/features/auth/authSlice';
 import logoutHandler from '../../../../utils/logoutHandler';
 
 const animatedComponents = makeAnimated();
@@ -20,7 +21,7 @@ const cx = classNames.bind(styles);
 const Profile = ({ user }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { currentUser } = useSelector((state) => state?.authReducer);
+    const { currentUser } = useSelector((state) => state?.auth);
     const selectedUser = user || currentUser;
     const userRoles = selectedUser?.roles?.map((val) => {
         return {

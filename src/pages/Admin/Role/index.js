@@ -1,16 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Loading from '../../../components/Loading';
 import Table from '../../../components/Table';
-import * as rolesAPI from '../../../services/rolesAPI';
 import RoleForm from './RoleForm';
 import Alert from '../../../components/Alert';
 import OutsideAlerter from '../../../components/OutsideAlerter';
 import ModalWrapper from '../../../components/ModalWrapper';
-import * as messageAction from '../../../redux/actions/messageAction';
-import { useDispatch } from 'react-redux';
 import logoutHandler from '../../../utils/logoutHandler';
-import * as authAction from '../../../redux/actions/authAction';
-import { useNavigate } from 'react-router-dom';
+import * as authAction from '../../../redux/features/auth/authSlice';
+import * as rolesAPI from '../../../services/rolesAPI';
+import * as messageAction from '../../../redux/features/message/messageSlice';
 const Role = () => {
     const hiddenColumns = [];
     const dispatch = useDispatch();

@@ -1,8 +1,12 @@
-import { legacy_createStore as createStore, applyMiddleware } from 'redux';
-import thunkMiddleware from 'redux-thunk';
-import rootReducer from './reducers';
+import { configureStore } from '@reduxjs/toolkit';
+import authReducer from './features/auth/authSlice';
+import messageReducer from './features/message/messageSlice';
 
-const middleware = [thunkMiddleware];
-const middlewareEnhancer = applyMiddleware(...middleware);
-const store = createStore(rootReducer, middlewareEnhancer);
+const store = configureStore({
+    reducer: {
+        auth: authReducer,
+        message: messageReducer,
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+});
 export default store;

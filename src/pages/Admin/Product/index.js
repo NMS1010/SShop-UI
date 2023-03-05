@@ -1,16 +1,18 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Loading from '../../../components/Loading';
 import Table from '../../../components/Table';
-import * as productsAPI from '../../../services/productsAPI';
 import ProductForm from './ProductForm';
 import Alert from '../../../components/Alert';
 import OutsideAlerter from '../../../components/OutsideAlerter';
 import ModalWrapper from '../../../components/ModalWrapper';
-import { useDispatch } from 'react-redux';
-import * as messageAction from '../../../redux/actions/messageAction';
+
+import * as messageAction from '../../../redux/features/message/messageSlice';
+import * as authAction from '../../../redux/features/auth/authSlice';
+import * as productsAPI from '../../../services/productsAPI';
 import logoutHandler from '../../../utils/logoutHandler';
-import * as authAction from '../../../redux/actions/authAction';
-import { useNavigate } from 'react-router-dom';
+
 const Product = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();

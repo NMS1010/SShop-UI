@@ -5,12 +5,11 @@ import { useDispatch } from 'react-redux';
 import classNames from 'classnames/bind';
 import styles from '../../CommonCSSForm/CommonCSSForm.module.scss';
 
-import FileUploader from '../../../../components/FileUploader';
 import Button from '../../../../components/Button';
 
 import * as rolesAPI from '../../../../services/rolesAPI';
-import * as messageAction from '../../../../redux/actions/messageAction';
-import * as authAction from '../../../../redux/actions/authAction';
+import * as messageAction from '../../../../redux/features/message/messageSlice';
+import * as authAction from '../../../../redux/features/auth/authSlice';
 import logoutHandler from '../../../../utils/logoutHandler';
 
 const cx = classNames.bind(styles);

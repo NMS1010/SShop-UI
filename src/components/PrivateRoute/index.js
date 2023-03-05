@@ -1,14 +1,14 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCurrentUser } from '../../redux/actions/authAction';
+import { getCurrentUser } from '../../redux/features/auth/authSlice';
 
 const PrivateRoute = ({ children, roles, loginComponent }) => {
     const dispatch = useDispatch();
-    let currentUser = useSelector((state) => state?.authReducer?.currentUser);
+    let { currentUser } = useSelector((state) => state?.auth);
     useEffect(() => {
         if (!currentUser) {
             (async () => {
-                dispatch(await getCurrentUser());
+                await dispatch(getCurrentUser());
             })();
         }
     }, []);

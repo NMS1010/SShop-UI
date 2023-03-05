@@ -11,8 +11,8 @@ import Loading from '../../../../components/Loading';
 import * as productsAPI from '../../../../services/productsAPI';
 import * as brandsAPI from '../../../../services/brandsAPI';
 import * as categoriesAPI from '../../../../services/categoriesAPI';
-import * as messageAction from '../../../../redux/actions/messageAction';
-import * as authAction from '../../../../redux/actions/authAction';
+import * as messageAction from '../../../../redux/features/message/messageSlice';
+import * as authAction from '../../../../redux/features/auth/authSlice';
 
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import NumericInput from 'react-numeric-input';

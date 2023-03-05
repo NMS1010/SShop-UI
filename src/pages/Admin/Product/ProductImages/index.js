@@ -1,18 +1,19 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch } from 'react-redux';
+
 import Loading from '../../../../components/Loading';
 import Table from '../../../../components/Table';
-import * as productsAPI from '../../../../services/productsAPI';
 import ProductImagesForm from './ProductImagesForm';
 import Alert from '../../../../components/Alert';
 import OutsideAlerter from '../../../../components/OutsideAlerter';
 import ModalWrapper from '../../../../components/ModalWrapper';
-import { useDispatch } from 'react-redux';
-import * as messageAction from '../../../../redux/actions/messageAction';
+import * as messageAction from '../../../../redux/features/message/messageSlice';
+import * as productsAPI from '../../../../services/productsAPI';
+import * as authAction from '../../../../redux/features/auth/authSlice';
 import logoutHandler from '../../../../utils/logoutHandler';
-import * as authAction from '../../../../redux/actions/authAction';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 
 const ProductImages = ({ productId, setEditImage }) => {
     const navigate = useNavigate();

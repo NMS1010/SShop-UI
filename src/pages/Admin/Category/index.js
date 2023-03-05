@@ -1,16 +1,18 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
 import Loading from '../../../components/Loading';
 import Table from '../../../components/Table';
-import * as categoriesAPI from '../../../services/categoriesAPI';
 import CategoryForm from './CategoryForm';
 import Alert from '../../../components/Alert';
 import OutsideAlerter from '../../../components/OutsideAlerter';
 import ModalWrapper from '../../../components/ModalWrapper';
-import { useDispatch } from 'react-redux';
-import * as messageAction from '../../../redux/actions/messageAction';
-import * as authAction from '../../../redux/actions/authAction';
-import { useNavigate } from 'react-router-dom';
+import * as messageAction from '../../../redux/features/message/messageSlice';
+import * as authAction from '../../../redux/features/auth/authSlice';
+import * as categoriesAPI from '../../../services/categoriesAPI';
 import logoutHandler from '../../../utils/logoutHandler';
+
 const Category = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();

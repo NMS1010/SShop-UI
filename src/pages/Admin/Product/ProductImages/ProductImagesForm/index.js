@@ -9,9 +9,9 @@ import FileUploader from '../../../../../components/FileUploader';
 import Button from '../../../../../components/Button';
 
 import * as productsAPI from '../../../../../services/productsAPI';
-import * as messageAction from '../../../../../redux/actions/messageAction';
+import * as messageAction from '../../../../../redux/features/message/messageSlice';
 import logoutHandler from '../../../../../utils/logoutHandler';
-import * as authAction from '../../../../../redux/actions/authAction';
+import * as authAction from '../../../../../redux/features/auth/authSlice';
 
 const cx = classNames.bind(styles);
 

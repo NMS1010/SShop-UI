@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import Loading from '../../../components/Loading';
 import Table from '../../../components/Table';
-import * as usersAPI from '../../../services/usersAPI';
 import Alert from '../../../components/Alert';
 import OutsideAlerter from '../../../components/OutsideAlerter';
 import ModalWrapper from '../../../components/ModalWrapper';
-import { useDispatch } from 'react-redux';
-import * as messageAction from '../../../redux/actions/messageAction';
-import * as authAction from '../../../redux/actions/authAction';
-import { useNavigate } from 'react-router-dom';
+import * as messageAction from '../../../redux/features/message/messageSlice';
+import * as authAction from '../../../redux/features/auth/authSlice';
+import * as usersAPI from '../../../services/usersAPI';
 import logoutHandler from '../../../utils/logoutHandler';
 
 const User = () => {

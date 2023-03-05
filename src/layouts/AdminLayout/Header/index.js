@@ -7,15 +7,17 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import NotifyBoard from '../../../components/NotifyBoard';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import * as authAction from '../../../redux/actions/authAction';
-import * as messageAction from '../../../redux/actions/messageAction';
+import * as authAction from '../../../redux/features/auth/authSlice';
+import * as messageAction from '../../../redux/features/message/messageSlice';
 import { useSelector, useDispatch } from 'react-redux';
+import logoutHandler from '../../../utils/logoutHandler';
 
 const cx = classNames.bind(styles);
 
 const Header = ({ title, setIsHideContent, isHideContent }) => {
     const dispatch = useDispatch();
-    const { currentUser, isLogin } = useSelector((state) => state?.authReducer);
+    const navigate = useNavigate();
+    const { currentUser, isLogin } = useSelector((state) => state?.auth);
 
     const [isShowNotify, setIsShowNotify] = useState(false);
     const [isShowUserOption, setIsShowUserOption] = useState(false);
@@ -25,18 +27,6 @@ const Header = ({ title, setIsHideContent, isHideContent }) => {
     };
     const handleShowUserOption = () => {
         setIsShowUserOption(!isShowUserOption);
-    };
-    const logOut = async () => {
-        dispatch(await authAction.logout());
-        dispatch(
-            messageAction.setMessage({
-                id: Math.random(),
-                title: 'Logout',
-                message: 'Logout successfully',
-                backgroundColor: '#5cb85c',
-                icon: '',
-            }),
-        );
     };
     return (
         <header className={cx('container')}>
@@ -80,7 +70,10 @@ const Header = ({ title, setIsHideContent, isHideContent }) => {
                                 <p className="mb-0 fs-5">Account settings</p>
                             </Link>
 
-                            <Link to={'/admin/login'} onClick={() => logOut()}>
+                            <Link
+                                to={'/admin/login'}
+                                onClick={async () => await logoutHandler(dispatch, navigate, messageAction, authAction)}
+                            >
                                 Logout
                             </Link>
                         </NotifyBoard>

@@ -8,7 +8,7 @@ const logoutHandler = async (dispatch, navigate, messageAction, authAction) => {
             icon: '',
         }),
     );
-    dispatch(await authAction.logout());
+    dispatch(authAction.logout());
     navigate('/admin/login');
 };
 export default logoutHandler;

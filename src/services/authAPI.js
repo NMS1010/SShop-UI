@@ -1,7 +1,10 @@
 import * as baseAPI from './baseAPI';
 
 export const login = async (username, password) => {
-    return await baseAPI.createData('users/login', { username, password });
+    let formData = new FormData();
+    formData.append('username', username);
+    formData.append('password', password);
+    return await baseAPI.createFormData('users/login', formData);
 };
 
 export const refreshToken = async (accessToken, refreshToken) => {
