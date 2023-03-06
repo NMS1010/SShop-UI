@@ -93,8 +93,12 @@ const Profile = ({ user }) => {
                 roles: JSON.stringify(roleIdsChosen),
                 avatar: fileSelected,
             };
+            var form_data = new FormData();
+            for (var key of Object.keys(userObj)) {
+                form_data.append(key, userObj[key]);
+            }
             setLoading(true);
-            const response = await usersAPI.updateUser(userObj);
+            const response = await usersAPI.updateUser(form_data);
 
             if (!response || !response.isSuccess) {
                 if (response.status === 401) {

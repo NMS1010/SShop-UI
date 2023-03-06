@@ -51,12 +51,18 @@ const BrandForm = ({ setAction = () => {}, brand = null, brands = [], getAllBran
             return validationMessage[err] !== '';
         });
         if (isValidateErrors) return;
-        const brandObj = {
-            brandId: brand?.brandId,
-            brandName: inputFields?.brandName,
-            origin: inputFields?.origin,
-            image: fileSelected,
-        };
+        // const brandObj = {
+        //     brandId: brand?.brandId,
+        //     brandName: inputFields?.brandName,
+        //     origin: inputFields?.origin,
+        //     image: fileSelected,
+        // };
+        const brandObj = new FormData();
+        brandObj.append('brandId', brand?.brandId);
+        brandObj.append('brandName', inputFields?.brandName);
+        brandObj.append('origin', inputFields?.origin);
+        brandObj.append('image', fileSelected);
+
         const handleBrand = async () => {
             setLoading(true);
             let response =

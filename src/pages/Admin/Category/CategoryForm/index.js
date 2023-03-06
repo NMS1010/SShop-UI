@@ -53,14 +53,13 @@ const CategoryForm = ({ setAction = () => {}, category = null, categories = [], 
             return validationMessage[err] !== '';
         });
         if (isValidateErrors) return;
-        const categoryObj = {
-            categoryId: category?.categoryId,
-            name: inputFields?.name,
-            content: inputFields?.content,
-            image: fileSelected,
-        };
-        if (inputFields.parentCategory !== '0') {
-            categoryObj['parentCategoryId'] = inputFields.parentCategory;
+        const categoryObj = new FormData();
+        categoryObj.append('categoryId', category?.categoryId);
+        categoryObj.append('name', inputFields?.name);
+        categoryObj.append('content', inputFields?.content);
+        categoryObj.append('image', fileSelected);
+        if (inputFields.parentCategory && inputFields.parentCategory !== '0') {
+            categoryObj.append('parentCategoryId', inputFields.parentCategory);
         }
         const handleCategory = async () => {
             setLoading(true);

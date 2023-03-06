@@ -7,10 +7,10 @@ export const getCategoryById = async (id) => {
     return await baseAPI.getData(`categories/${id}`);
 };
 export const createCategory = async (category) => {
-    return await baseAPI.createData('categories/add', category);
+    return await baseAPI.createFormData('categories/add', category);
 };
 export const updateCategory = async (category) => {
-    return await baseAPI.updateData('categories/update', category);
+    return await baseAPI.updateFormData('categories/update', category);
 };
 export const deleteCategory = async (id) => {
     return await baseAPI.deleteData(`categories/delete/${id}`);

@@ -7,10 +7,10 @@ export const getUserById = async (id) => {
     return await baseAPI.getData(`users/${id}`);
 };
 export const createUser = async (user) => {
-    return await baseAPI.createData('users/add', user);
+    return await baseAPI.createFormData('users/add', user);
 };
 export const updateUser = async (user) => {
-    return await baseAPI.updateData('users/update', user);
+    return await baseAPI.updateFormData('users/update', user);
 };
 export const deleteUser = async (id) => {
     return await baseAPI.deleteData(`users/delete/${id}`);
