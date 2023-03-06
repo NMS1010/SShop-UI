@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import ProductCard from '../../../components/ProductCard';
 import * as productsAPI from '../../../services/productsAPI';
 import Loading from '../../../components/Loading';
+import ProductLoading from '../../../components/ProductLoading';
 const Home = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -19,7 +20,13 @@ const Home = () => {
     useEffect(() => {
         fetchProducts();
     }, []);
-    return <>{loading ? <Loading /> : products.map((product) => <ProductCard product={product} />)}</>;
+    return (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 max-w-screen-xl m-auto p-20 border-solid border-2 border-indigo-600 rounded-lg">
+            {loading
+                ? Array.from(Array(8)).map((val) => <ProductLoading />)
+                : products.map((product) => <ProductCard key={product.productId} product={product} />)}
+        </div>
+    );
 };
 
 export default Home;

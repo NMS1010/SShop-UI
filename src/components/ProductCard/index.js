@@ -30,7 +30,7 @@ const ProductCard = ({ product }) => {
                 </div>
 
                 <img
-                    className="m-auto rounded-t-lg w-full cursor-pointer"
+                    className="m-auto h-80 rounded-t-lg w-fit cursor-pointer"
                     src={`${process.env.REACT_APP_HOST}${product?.imagePath}`}
                 />
                 {product?.quantity === 0 && (
