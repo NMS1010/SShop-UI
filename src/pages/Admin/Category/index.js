@@ -12,6 +12,7 @@ import * as messageAction from '../../../redux/features/message/messageSlice';
 import * as authAction from '../../../redux/features/auth/authSlice';
 import * as categoriesAPI from '../../../services/categoriesAPI';
 import logoutHandler from '../../../utils/logoutHandler';
+import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../constants';
 
 const Category = () => {
     const dispatch = useDispatch();
@@ -38,7 +39,7 @@ const Category = () => {
                     id: Math.random(),
                     title: 'Category',
                     message: response?.errors || 'Error while retrieving categories',
-                    backgroundColor: '#d9534f',
+                    backgroundColor: BACKGROUND_COLOR_FAILED,
                     icon: '',
                 }),
             );
@@ -80,7 +81,7 @@ const Category = () => {
                     id: Math.random(),
                     title: 'Category',
                     message: response?.errors || 'Error while deleting this category',
-                    backgroundColor: '#d9534f',
+                    backgroundColor: BACKGROUND_COLOR_FAILED,
                     icon: '',
                 }),
             );
@@ -90,7 +91,7 @@ const Category = () => {
                     id: Math.random(),
                     title: 'Category',
                     message: 'Succeed in deleting this category',
-                    backgroundColor: '#5cb85c',
+                    backgroundColor: BACKGROUND_COLOR_SUCCESS,
                     icon: '',
                 }),
             );

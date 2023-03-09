@@ -12,6 +12,7 @@ import * as categoriesAPI from '../../../../services/categoriesAPI';
 import * as messageAction from '../../../../redux/features/message/messageSlice';
 import * as authAction from '../../../../redux/features/auth/authSlice';
 import logoutHandler from '../../../../utils/logoutHandler';
+import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../../constants';
 
 const cx = classNames.bind(styles);
 
@@ -77,7 +78,7 @@ const CategoryForm = ({ setAction = () => {}, category = null, categories = [], 
                         id: Math.random(),
                         title: 'Category',
                         message: response?.errors || 'Error while handling this category',
-                        backgroundColor: '#d9534f',
+                        backgroundColor: BACKGROUND_COLOR_FAILED,
                         icon: '',
                     }),
                 );
@@ -87,7 +88,7 @@ const CategoryForm = ({ setAction = () => {}, category = null, categories = [], 
                         id: Math.random(),
                         title: 'Category',
                         message: 'Handling this category successfully',
-                        backgroundColor: '#5cb85c',
+                        backgroundColor: BACKGROUND_COLOR_SUCCESS,
                         icon: '',
                     }),
                 );

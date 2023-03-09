@@ -11,6 +11,7 @@ import * as rolesAPI from '../../../../services/rolesAPI';
 import * as messageAction from '../../../../redux/features/message/messageSlice';
 import * as authAction from '../../../../redux/features/auth/authSlice';
 import logoutHandler from '../../../../utils/logoutHandler';
+import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../../constants';
 
 const cx = classNames.bind(styles);
 
@@ -62,7 +63,7 @@ const RoleForm = ({ setAction = () => {}, role = null, roles = [], getAllRoles =
                         id: Math.random(),
                         title: 'Role',
                         message: response?.errors || 'Error while handling this role',
-                        backgroundColor: '#d9534f',
+                        backgroundColor: BACKGROUND_COLOR_FAILED,
                         icon: '',
                     }),
                 );
@@ -72,7 +73,7 @@ const RoleForm = ({ setAction = () => {}, role = null, roles = [], getAllRoles =
                         id: Math.random(),
                         title: 'Role',
                         message: 'Handling this role successfully',
-                        backgroundColor: '#5cb85c',
+                        backgroundColor: BACKGROUND_COLOR_SUCCESS,
                         icon: '',
                     }),
                 );

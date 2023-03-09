@@ -10,6 +10,7 @@ import * as messageAction from '../../../redux/features/message/messageSlice';
 import * as authAction from '../../../redux/features/auth/authSlice';
 import * as usersAPI from '../../../services/usersAPI';
 import logoutHandler from '../../../utils/logoutHandler';
+import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../constants';
 
 const User = () => {
     const dispatch = useDispatch();
@@ -52,7 +53,7 @@ const User = () => {
                     id: Math.random(),
                     title: 'User',
                     message: response?.errors || 'Error while retrieving users',
-                    backgroundColor: '#d9534f',
+                    backgroundColor: BACKGROUND_COLOR_FAILED,
                     icon: '',
                 }),
             );
@@ -88,7 +89,7 @@ const User = () => {
                     id: Math.random(),
                     title: 'User',
                     message: response?.errors || 'Error while deleting this User',
-                    backgroundColor: '#d9534f',
+                    backgroundColor: BACKGROUND_COLOR_FAILED,
                     icon: '',
                 }),
             );
@@ -97,8 +98,8 @@ const User = () => {
                 messageAction.setMessage({
                     id: Math.random(),
                     title: 'User',
-                    message: 'Succeed in deleting this User',
-                    backgroundColor: '#5cb85c',
+                    message: 'Succeed in disabling this user',
+                    backgroundColor: BACKGROUND_COLOR_SUCCESS,
                     icon: '',
                 }),
             );

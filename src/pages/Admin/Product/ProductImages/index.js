@@ -14,6 +14,7 @@ import * as messageAction from '../../../../redux/features/message/messageSlice'
 import * as productsAPI from '../../../../services/productsAPI';
 import * as authAction from '../../../../redux/features/auth/authSlice';
 import logoutHandler from '../../../../utils/logoutHandler';
+import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../../constants';
 
 const ProductImages = ({ productId, setEditImage }) => {
     const navigate = useNavigate();
@@ -40,7 +41,7 @@ const ProductImages = ({ productId, setEditImage }) => {
                     id: Math.random(),
                     title: 'ProductImages',
                     message: response?.errors || 'Error while retrieving image for this product',
-                    backgroundColor: '#d9534f',
+                    backgroundColor: BACKGROUND_COLOR_FAILED,
                     icon: '',
                 }),
             );
@@ -84,7 +85,7 @@ const ProductImages = ({ productId, setEditImage }) => {
                     id: Math.random(),
                     title: 'ProductImages',
                     message: response?.errors || 'Error while deleting this product image',
-                    backgroundColor: '#d9534f',
+                    backgroundColor: BACKGROUND_COLOR_FAILED,
                     icon: '',
                 }),
             );
@@ -94,7 +95,7 @@ const ProductImages = ({ productId, setEditImage }) => {
                     id: Math.random(),
                     title: 'ProductImages',
                     message: 'Succeed in deleting this product image',
-                    backgroundColor: '#5cb85c',
+                    backgroundColor: BACKGROUND_COLOR_SUCCESS,
                     icon: '',
                 }),
             );

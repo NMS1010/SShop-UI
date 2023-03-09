@@ -18,6 +18,7 @@ import { Button, Col, Form, Row } from 'react-bootstrap';
 import NumericInput from 'react-numeric-input';
 import logoutHandler from '../../../../utils/logoutHandler';
 import ProductImages from '../ProductImages';
+import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../../constants';
 
 const cx = classNames.bind(styles);
 
@@ -53,7 +54,7 @@ const ProductForm = ({ setAction = () => {}, product = null, products = [], getA
                         id: Math.random(),
                         title: 'Brand',
                         message: response?.errors || 'Error while retrieving brands',
-                        backgroundColor: '#d9534f',
+                        backgroundColor: BACKGROUND_COLOR_FAILED,
                         icon: '',
                     }),
                 );
@@ -70,7 +71,7 @@ const ProductForm = ({ setAction = () => {}, product = null, products = [], getA
                         id: Math.random(),
                         title: 'Category',
                         message: response?.errors || 'Error while retrieving categories',
-                        backgroundColor: '#d9534f',
+                        backgroundColor: BACKGROUND_COLOR_FAILED,
                         icon: '',
                     }),
                 );
@@ -147,7 +148,7 @@ const ProductForm = ({ setAction = () => {}, product = null, products = [], getA
                         id: Math.random(),
                         title: 'Product',
                         message: response?.errors || 'Error while handling this product',
-                        backgroundColor: '#d9534f',
+                        backgroundColor: BACKGROUND_COLOR_FAILED,
                         icon: '',
                     }),
                 );
@@ -157,7 +158,7 @@ const ProductForm = ({ setAction = () => {}, product = null, products = [], getA
                         id: Math.random(),
                         title: 'Product',
                         message: 'Handling this product successfully',
-                        backgroundColor: '#5cb85c',
+                        backgroundColor: BACKGROUND_COLOR_SUCCESS,
                         icon: '',
                     }),
                 );

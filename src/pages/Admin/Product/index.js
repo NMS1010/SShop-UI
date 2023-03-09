@@ -12,6 +12,7 @@ import * as messageAction from '../../../redux/features/message/messageSlice';
 import * as authAction from '../../../redux/features/auth/authSlice';
 import * as productsAPI from '../../../services/productsAPI';
 import logoutHandler from '../../../utils/logoutHandler';
+import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../constants';
 
 const Product = () => {
     const dispatch = useDispatch();
@@ -46,7 +47,7 @@ const Product = () => {
                     id: Math.random(),
                     title: 'Product',
                     message: response?.errors || 'Error while retrieving products',
-                    backgroundColor: '#d9534f',
+                    backgroundColor: BACKGROUND_COLOR_FAILED,
                     icon: '',
                 }),
             );
@@ -88,7 +89,7 @@ const Product = () => {
                     id: Math.random(),
                     title: 'Product',
                     message: response?.errors || 'Error while deleting this product',
-                    backgroundColor: '#d9534f',
+                    backgroundColor: BACKGROUND_COLOR_FAILED,
                     icon: '',
                 }),
             );
@@ -98,7 +99,7 @@ const Product = () => {
                     id: Math.random(),
                     title: 'Product',
                     message: 'Succeed in deleting this product',
-                    backgroundColor: '#5cb85c',
+                    backgroundColor: BACKGROUND_COLOR_SUCCESS,
                     icon: '',
                 }),
             );

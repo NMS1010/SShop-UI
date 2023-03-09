@@ -1,14 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import ProductCard from '../../../components/ProductCard';
 import * as productsAPI from '../../../services/productsAPI';
-import Loading from '../../../components/Loading';
 import ProductLoading from '../../../components/ProductLoading';
 const Home = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const fetchProducts = useCallback(async () => {
         setLoading(true);
-        const response = await productsAPI.getAllProducts();
+        const response = await productsAPI.getAllProducts({ pageSize: 8 });
         if (!response || !response?.isSuccess) {
             setLoading(true);
             setProducts([]);

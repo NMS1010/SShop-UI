@@ -12,6 +12,7 @@ import * as brandsAPI from '../../../../services/brandsAPI';
 import * as messageAction from '../../../../redux/features/message/messageSlice';
 import * as authAction from '../../../../redux/features/auth/authSlice';
 import logoutHandler from '../../../../utils/logoutHandler';
+import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../../constants';
 
 const cx = classNames.bind(styles);
 
@@ -77,7 +78,7 @@ const BrandForm = ({ setAction = () => {}, brand = null, brands = [], getAllBran
                         id: Math.random(),
                         title: 'Brand',
                         message: response?.errors || 'Error while handling this brand',
-                        backgroundColor: '#d9534f',
+                        backgroundColor: BACKGROUND_COLOR_FAILED,
                         icon: '',
                     }),
                 );
@@ -87,7 +88,7 @@ const BrandForm = ({ setAction = () => {}, brand = null, brands = [], getAllBran
                         id: Math.random(),
                         title: 'Brand',
                         message: 'Handling this brand successfully',
-                        backgroundColor: '#5cb85c',
+                        backgroundColor: BACKGROUND_COLOR_SUCCESS,
                         icon: '',
                     }),
                 );

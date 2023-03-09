@@ -11,6 +11,7 @@ import logoutHandler from '../../../utils/logoutHandler';
 import * as authAction from '../../../redux/features/auth/authSlice';
 import * as rolesAPI from '../../../services/rolesAPI';
 import * as messageAction from '../../../redux/features/message/messageSlice';
+import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../constants';
 const Role = () => {
     const hiddenColumns = [];
     const dispatch = useDispatch();
@@ -36,7 +37,7 @@ const Role = () => {
                     id: Math.random(),
                     title: 'Role',
                     message: response?.errors || 'Error while retrieving roles',
-                    backgroundColor: '#d9534f',
+                    backgroundColor: BACKGROUND_COLOR_FAILED,
                     icon: '',
                 }),
             );
@@ -78,7 +79,7 @@ const Role = () => {
                     id: Math.random(),
                     title: 'Role',
                     message: response?.errors || 'Error while deleting this role',
-                    backgroundColor: '#d9534f',
+                    backgroundColor: BACKGROUND_COLOR_FAILED,
                     icon: '',
                 }),
             );
@@ -88,7 +89,7 @@ const Role = () => {
                     id: Math.random(),
                     title: 'Role',
                     message: 'Succeed in deleting this role',
-                    backgroundColor: '#5cb85c',
+                    backgroundColor: BACKGROUND_COLOR_SUCCESS,
                     icon: '',
                 }),
             );

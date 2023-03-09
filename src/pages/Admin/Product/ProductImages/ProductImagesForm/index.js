@@ -12,6 +12,7 @@ import * as productsAPI from '../../../../../services/productsAPI';
 import * as messageAction from '../../../../../redux/features/message/messageSlice';
 import logoutHandler from '../../../../../utils/logoutHandler';
 import * as authAction from '../../../../../redux/features/auth/authSlice';
+import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../../../constants';
 
 const cx = classNames.bind(styles);
 
@@ -64,7 +65,7 @@ const ProductImagesForm = ({
                         id: Math.random(),
                         title: 'ProductImages',
                         message: response?.errors || 'Error while handling this productImage',
-                        backgroundColor: '#d9534f',
+                        backgroundColor: BACKGROUND_COLOR_FAILED,
                         icon: '',
                     }),
                 );
@@ -74,7 +75,7 @@ const ProductImagesForm = ({
                         id: Math.random(),
                         title: 'ProductImages',
                         message: 'Handling this productImage successfully',
-                        backgroundColor: '#5cb85c',
+                        backgroundColor: BACKGROUND_COLOR_SUCCESS,
                         icon: '',
                     }),
                 );

@@ -12,6 +12,7 @@ import logoutHandler from '../../../utils/logoutHandler';
 import * as authAction from '../../../redux/features/auth/authSlice';
 import * as messageAction from '../../../redux/features/message/messageSlice';
 import * as brandsAPI from '../../../services/brandsAPI';
+import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../constants';
 
 const Brand = () => {
     const hiddenColumns = [];
@@ -38,7 +39,7 @@ const Brand = () => {
                     id: Math.random(),
                     title: 'Brand',
                     message: response?.errors || 'Error while retrieving brands',
-                    backgroundColor: '#d9534f',
+                    backgroundColor: BACKGROUND_COLOR_FAILED,
                     icon: '',
                 }),
             );
@@ -80,7 +81,7 @@ const Brand = () => {
                     id: Math.random(),
                     title: 'Brand',
                     message: response?.errors || 'Error while deleting this Brand',
-                    backgroundColor: '#d9534f',
+                    backgroundColor: BACKGROUND_COLOR_FAILED,
                     icon: '',
                 }),
             );
@@ -90,7 +91,7 @@ const Brand = () => {
                     id: Math.random(),
                     title: 'Brand',
                     message: 'Succeed in deleting this Brand',
-                    backgroundColor: '#5cb85c',
+                    backgroundColor: BACKGROUND_COLOR_SUCCESS,
                     icon: '',
                 }),
             );
