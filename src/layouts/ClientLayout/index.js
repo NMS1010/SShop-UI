@@ -4,7 +4,7 @@ import Sidebar from './Sidebar';
 
 const ClientLayout = ({ children }) => {
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col mt-48">
             <Header />
             <div>
                 {/* <Sidebar /> */}

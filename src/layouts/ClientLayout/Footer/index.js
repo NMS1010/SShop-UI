@@ -1,8 +1,8 @@
 const Footer = () => {
     return (
         <footer className=" border-t-2 mt-36">
-            <div className="mx-auto container py-16 xl:px-20 lg:px-12 sm:px-6 px-4 text-3xl">
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 md:gap-8 gap-4">
+            <div className="mx-auto max-w-screen-xl py-16 xl:px-20 lg:px-12 sm:px-6 px-4 text-3xl">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 md:gap-8 gap-4">
                     <div className="flex flex-col flex-shrink-0">
                         <div className="dark:text-white">
                             <img
@@ -54,19 +54,19 @@ const Footer = () => {
                         </p>
                     </div>
                 </div>
-                <div className="mt-10 lg:block text-center ">
+                <div className="mt-10 lg:block text-center">
                     <label className="mt-5 text-3xl font-medium leading-5 text-gray-800 dark:text-white">
                         Get updates
                     </label>
-                    <div className="cursor-pointer flex items-center justify-between border border-gray-800 dark:border-white mt-4">
+                    <div className="w-1/2 m-auto cursor-pointer flex items-center justify-between  border-gray-800 dark:border-white mt-4">
                         <input
                             type="text"
-                            className="leading-4 p-4 w-full focus:outline-none text-gray-800 dark:text-white dark:placeholder-white dark:bg-gray-900 dark:border-white placeholder-gray-800"
+                            className="text-3xl focus:ring-0 leading-4 p-4 w-full focus:outline-none text-gray-800 dark:text-white dark:placeholder-white dark:bg-gray-900 dark:border-white placeholder-gray-800"
                             placeholder="Enter your email"
                         />
                         <button
                             aria-label="send"
-                            className="mr-4 fill-current text-gray-800 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800"
+                            className="p-4 ml-1 focus:ring-0 fill-current text-gray-800 hover:text-gray-500 focus:outline-none focus:ring-offset-2 focus:ring-gray-800"
                         >
                             <svg
                                 className="dark:text-white dark:hover:text-gray-200"

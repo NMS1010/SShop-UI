@@ -20,10 +20,13 @@ const Home = () => {
         fetchProducts();
     }, []);
     return (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 max-w-screen-xl m-auto p-20 border-solid border-2 border-indigo-600 rounded-lg">
-            {loading
-                ? Array.from(Array(8)).map((val) => <ProductLoading />)
-                : products.map((product) => <ProductCard key={product.productId} product={product} />)}
+        <div className=" max-w-screen-xl m-auto border-solid border-2 border-indigo-600 rounded-lg">
+            <h2 className="capitalize p-8 text-center text-4xl">Watches for you</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-20">
+                {loading
+                    ? Array.from(Array(8)).map((val) => <ProductLoading />)
+                    : products.map((product) => <ProductCard key={product.productId} product={product} />)}
+            </div>
         </div>
     );
 };

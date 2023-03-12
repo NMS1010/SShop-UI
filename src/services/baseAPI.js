@@ -1,7 +1,10 @@
 import axiosClient from './axiosInterceptor';
+
 export const getData = async (url, params = {}) => {
     try {
-        const response = await axiosClient().get(url, { params });
+        const response = await axiosClient().get(url, {
+            params,
+        });
         return response.data;
     } catch (error) {
         return error?.response;
