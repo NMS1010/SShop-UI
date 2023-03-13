@@ -15,6 +15,7 @@ import * as productsAPI from '../../../../services/productsAPI';
 import * as authAction from '../../../../redux/features/auth/authSlice';
 import logoutHandler from '../../../../utils/logoutHandler';
 import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../../constants';
+import messages from '../../../../configs/messages';
 
 const ProductImages = ({ productId, setEditImage }) => {
     const navigate = useNavigate();
@@ -40,7 +41,7 @@ const ProductImages = ({ productId, setEditImage }) => {
                 messageAction.setMessage({
                     id: Math.random(),
                     title: 'ProductImages',
-                    message: response?.errors || 'Error while retrieving image for this product',
+                    message: response?.errors || messages.admin.product_images.retrieve_err,
                     backgroundColor: BACKGROUND_COLOR_FAILED,
                     icon: '',
                 }),
@@ -84,7 +85,7 @@ const ProductImages = ({ productId, setEditImage }) => {
                 messageAction.setMessage({
                     id: Math.random(),
                     title: 'ProductImages',
-                    message: response?.errors || 'Error while deleting this product image',
+                    message: response?.errors || messages.admin.product_images.delete_err,
                     backgroundColor: BACKGROUND_COLOR_FAILED,
                     icon: '',
                 }),
@@ -94,7 +95,7 @@ const ProductImages = ({ productId, setEditImage }) => {
                 messageAction.setMessage({
                     id: Math.random(),
                     title: 'ProductImages',
-                    message: 'Succeed in deleting this product image',
+                    message: messages.admin.product_images.delete_suc,
                     backgroundColor: BACKGROUND_COLOR_SUCCESS,
                     icon: '',
                 }),

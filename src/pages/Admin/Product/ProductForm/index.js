@@ -19,6 +19,7 @@ import NumericInput from 'react-numeric-input';
 import logoutHandler from '../../../../utils/logoutHandler';
 import ProductImages from '../ProductImages';
 import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../../constants';
+import messages from '../../../../configs/messages';
 
 const cx = classNames.bind(styles);
 
@@ -147,7 +148,7 @@ const ProductForm = ({ setAction = () => {}, product = null, products = [], getA
                     messageAction.setMessage({
                         id: Math.random(),
                         title: 'Product',
-                        message: response?.errors || 'Error while handling this product',
+                        message: response?.errors || messages.admin.product.handling_err,
                         backgroundColor: BACKGROUND_COLOR_FAILED,
                         icon: '',
                     }),
@@ -157,7 +158,7 @@ const ProductForm = ({ setAction = () => {}, product = null, products = [], getA
                     messageAction.setMessage({
                         id: Math.random(),
                         title: 'Product',
-                        message: 'Handling this product successfully',
+                        message: messages.admin.product.handling_suc,
                         backgroundColor: BACKGROUND_COLOR_SUCCESS,
                         icon: '',
                     }),

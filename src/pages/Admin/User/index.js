@@ -11,6 +11,7 @@ import * as authAction from '../../../redux/features/auth/authSlice';
 import * as usersAPI from '../../../services/usersAPI';
 import logoutHandler from '../../../utils/logoutHandler';
 import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../constants';
+import messages from '../../../configs/messages';
 
 const User = () => {
     const dispatch = useDispatch();
@@ -52,7 +53,7 @@ const User = () => {
                 messageAction.setMessage({
                     id: Math.random(),
                     title: 'User',
-                    message: response?.errors || 'Error while retrieving users',
+                    message: response?.errors || messages.admin.user.retrieve_err,
                     backgroundColor: BACKGROUND_COLOR_FAILED,
                     icon: '',
                 }),
@@ -72,40 +73,40 @@ const User = () => {
         setSelectedUser(user);
         setIsOutClick(false);
     };
-    const handleDeleteUser = (userId) => {
-        const user = users.find((val) => val.userId === userId);
-        setAction({ edit: false, delete: true });
-        setSelectedUser(user);
-        setIsOutClick(false);
-    };
-    const deleteUser = async () => {
-        setButtonLoading(true);
-        const response = await usersAPI.deleteUser(selectedUser.userId);
-        setButtonLoading(false);
-        setIsOutClick(true);
-        if (!response || !response?.isSuccess) {
-            dispatch(
-                messageAction.setMessage({
-                    id: Math.random(),
-                    title: 'User',
-                    message: response?.errors || 'Error while deleting this User',
-                    backgroundColor: BACKGROUND_COLOR_FAILED,
-                    icon: '',
-                }),
-            );
-        } else {
-            dispatch(
-                messageAction.setMessage({
-                    id: Math.random(),
-                    title: 'User',
-                    message: 'Succeed in disabling this user',
-                    backgroundColor: BACKGROUND_COLOR_SUCCESS,
-                    icon: '',
-                }),
-            );
-            await fetchAPI();
-        }
-    };
+    // const handleDeleteUser = (userId) => {
+    //     const user = users.find((val) => val.userId === userId);
+    //     setAction({ edit: false, delete: true });
+    //     setSelectedUser(user);
+    //     setIsOutClick(false);
+    // };
+    // const deleteUser = async () => {
+    //     setButtonLoading(true);
+    //     const response = await usersAPI.deleteUser(selectedUser.userId);
+    //     setButtonLoading(false);
+    //     setIsOutClick(true);
+    //     if (!response || !response?.isSuccess) {
+    //         dispatch(
+    //             messageAction.setMessage({
+    //                 id: Math.random(),
+    //                 title: 'User',
+    //                 message: response?.errors || 'Error while deleting this User',
+    //                 backgroundColor: BACKGROUND_COLOR_FAILED,
+    //                 icon: '',
+    //             }),
+    //         );
+    //     } else {
+    //         dispatch(
+    //             messageAction.setMessage({
+    //                 id: Math.random(),
+    //                 title: 'User',
+    //                 message: 'Succeed in disabling this user',
+    //                 backgroundColor: BACKGROUND_COLOR_SUCCESS,
+    //                 icon: '',
+    //             }),
+    //         );
+    //         await fetchAPI();
+    //     }
+    // };
     return (
         <div>
             {loading ? (
@@ -116,7 +117,7 @@ const User = () => {
                         data={users}
                         uniqueField={'userId'}
                         handleUpdateItem={handleUpdateUser}
-                        handleDeleteItem={handleDeleteUser}
+                        // handleDeleteItem={handleDeleteUser}
                         hiddenColumns={hiddenColumns}
                     />
                     {/* {action.edit && !isOutClick && (
@@ -131,7 +132,7 @@ const User = () => {
                             </OutsideAlerter>
                         </ModalWrapper>
                     )} */}
-                    {action.delete && !isOutClick && (
+                    {/* {action.delete && !isOutClick && (
                         <ModalWrapper>
                             <OutsideAlerter setIsOut={setIsOutClick}>
                                 <Alert
@@ -143,7 +144,7 @@ const User = () => {
                                 />
                             </OutsideAlerter>
                         </ModalWrapper>
-                    )}
+                    )} */}
                 </>
             )}
         </div>

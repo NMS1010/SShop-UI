@@ -12,6 +12,7 @@ import * as messageAction from '../../../../redux/features/message/messageSlice'
 import * as authAction from '../../../../redux/features/auth/authSlice';
 import logoutHandler from '../../../../utils/logoutHandler';
 import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../../constants';
+import messages from '../../../../configs/messages';
 
 const cx = classNames.bind(styles);
 
@@ -62,7 +63,7 @@ const RoleForm = ({ setAction = () => {}, role = null, roles = [], getAllRoles =
                     messageAction.setMessage({
                         id: Math.random(),
                         title: 'Role',
-                        message: response?.errors || 'Error while handling this role',
+                        message: response?.errors || messages.admin.role.handling_err,
                         backgroundColor: BACKGROUND_COLOR_FAILED,
                         icon: '',
                     }),
@@ -72,7 +73,7 @@ const RoleForm = ({ setAction = () => {}, role = null, roles = [], getAllRoles =
                     messageAction.setMessage({
                         id: Math.random(),
                         title: 'Role',
-                        message: 'Handling this role successfully',
+                        message: messages.admin.role.handling_suc,
                         backgroundColor: BACKGROUND_COLOR_SUCCESS,
                         icon: '',
                     }),

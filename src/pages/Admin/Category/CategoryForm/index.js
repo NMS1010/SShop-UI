@@ -13,6 +13,7 @@ import * as messageAction from '../../../../redux/features/message/messageSlice'
 import * as authAction from '../../../../redux/features/auth/authSlice';
 import logoutHandler from '../../../../utils/logoutHandler';
 import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../../constants';
+import messages from '../../../../configs/messages';
 
 const cx = classNames.bind(styles);
 
@@ -77,7 +78,7 @@ const CategoryForm = ({ setAction = () => {}, category = null, categories = [], 
                     messageAction.setMessage({
                         id: Math.random(),
                         title: 'Category',
-                        message: response?.errors || 'Error while handling this category',
+                        message: response?.errors || messages.admin.category.handling_err,
                         backgroundColor: BACKGROUND_COLOR_FAILED,
                         icon: '',
                     }),
@@ -87,7 +88,7 @@ const CategoryForm = ({ setAction = () => {}, category = null, categories = [], 
                     messageAction.setMessage({
                         id: Math.random(),
                         title: 'Category',
-                        message: 'Handling this category successfully',
+                        message: messages.admin.category.handling_suc,
                         backgroundColor: BACKGROUND_COLOR_SUCCESS,
                         icon: '',
                     }),

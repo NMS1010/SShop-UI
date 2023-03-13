@@ -92,7 +92,7 @@ const Shop = () => {
                     <div>
                         <h2 className="text-yellow-600 capitalize p-8 text-2xl border-t-2 mt-5">Price</h2>
                         <MultiRangeSlider
-                            step={2}
+                            step={100000}
                             min={0}
                             max={100000000}
                             onChange={({ min, max }) => {

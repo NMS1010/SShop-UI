@@ -13,6 +13,7 @@ import * as authAction from '../../../redux/features/auth/authSlice';
 import * as messageAction from '../../../redux/features/message/messageSlice';
 import * as brandsAPI from '../../../services/brandsAPI';
 import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../constants';
+import messages from '../../../configs/messages';
 
 const Brand = () => {
     const hiddenColumns = [];
@@ -38,7 +39,7 @@ const Brand = () => {
                 messageAction.setMessage({
                     id: Math.random(),
                     title: 'Brand',
-                    message: response?.errors || 'Error while retrieving brands',
+                    message: response?.errors || messages.admin.brand.retrieve_err,
                     backgroundColor: BACKGROUND_COLOR_FAILED,
                     icon: '',
                 }),
@@ -80,7 +81,7 @@ const Brand = () => {
                 messageAction.setMessage({
                     id: Math.random(),
                     title: 'Brand',
-                    message: response?.errors || 'Error while deleting this Brand',
+                    message: response?.errors || messages.admin.brand.delete_err,
                     backgroundColor: BACKGROUND_COLOR_FAILED,
                     icon: '',
                 }),
@@ -90,7 +91,7 @@ const Brand = () => {
                 messageAction.setMessage({
                     id: Math.random(),
                     title: 'Brand',
-                    message: 'Succeed in deleting this Brand',
+                    message: messages.admin.brand.delete_suc,
                     backgroundColor: BACKGROUND_COLOR_SUCCESS,
                     icon: '',
                 }),

@@ -13,6 +13,7 @@ import * as authAction from '../../../redux/features/auth/authSlice';
 import * as productsAPI from '../../../services/productsAPI';
 import logoutHandler from '../../../utils/logoutHandler';
 import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../constants';
+import messages from '../../../configs/messages';
 
 const Product = () => {
     const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const Product = () => {
         'productReview',
         'status',
         'statusClass',
+        'description',
     ];
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -46,7 +48,7 @@ const Product = () => {
                 messageAction.setMessage({
                     id: Math.random(),
                     title: 'Product',
-                    message: response?.errors || 'Error while retrieving products',
+                    message: response?.errors || messages.admin.product.retrieve_err,
                     backgroundColor: BACKGROUND_COLOR_FAILED,
                     icon: '',
                 }),
@@ -88,7 +90,7 @@ const Product = () => {
                 messageAction.setMessage({
                     id: Math.random(),
                     title: 'Product',
-                    message: response?.errors || 'Error while deleting this product',
+                    message: response?.errors || messages.admin.product.delete_err,
                     backgroundColor: BACKGROUND_COLOR_FAILED,
                     icon: '',
                 }),
@@ -98,7 +100,7 @@ const Product = () => {
                 messageAction.setMessage({
                     id: Math.random(),
                     title: 'Product',
-                    message: 'Succeed in deleting this product',
+                    message: messages.admin.product.delete_suc,
                     backgroundColor: BACKGROUND_COLOR_SUCCESS,
                     icon: '',
                 }),

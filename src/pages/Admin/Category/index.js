@@ -13,6 +13,7 @@ import * as authAction from '../../../redux/features/auth/authSlice';
 import * as categoriesAPI from '../../../services/categoriesAPI';
 import logoutHandler from '../../../utils/logoutHandler';
 import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../constants';
+import messages from '../../../configs/messages';
 
 const Category = () => {
     const dispatch = useDispatch();
@@ -38,7 +39,7 @@ const Category = () => {
                 messageAction.setMessage({
                     id: Math.random(),
                     title: 'Category',
-                    message: response?.errors || 'Error while retrieving categories',
+                    message: response?.errors || messages.admin.category.retrieve_err,
                     backgroundColor: BACKGROUND_COLOR_FAILED,
                     icon: '',
                 }),
@@ -80,7 +81,7 @@ const Category = () => {
                 messageAction.setMessage({
                     id: Math.random(),
                     title: 'Category',
-                    message: response?.errors || 'Error while deleting this category',
+                    message: response?.errors || messages.admin.category.delete_err,
                     backgroundColor: BACKGROUND_COLOR_FAILED,
                     icon: '',
                 }),
@@ -90,7 +91,7 @@ const Category = () => {
                 messageAction.setMessage({
                     id: Math.random(),
                     title: 'Category',
-                    message: 'Succeed in deleting this category',
+                    message: messages.admin.category.delete_suc,
                     backgroundColor: BACKGROUND_COLOR_SUCCESS,
                     icon: '',
                 }),

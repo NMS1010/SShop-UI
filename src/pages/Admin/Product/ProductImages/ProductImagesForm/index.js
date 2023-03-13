@@ -13,6 +13,7 @@ import * as messageAction from '../../../../../redux/features/message/messageSli
 import logoutHandler from '../../../../../utils/logoutHandler';
 import * as authAction from '../../../../../redux/features/auth/authSlice';
 import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../../../constants';
+import messages from '../../../../../configs/messages';
 
 const cx = classNames.bind(styles);
 
@@ -64,7 +65,7 @@ const ProductImagesForm = ({
                     messageAction.setMessage({
                         id: Math.random(),
                         title: 'ProductImages',
-                        message: response?.errors || 'Error while handling this productImage',
+                        message: response?.errors || messages.admin.product_images.handling_err,
                         backgroundColor: BACKGROUND_COLOR_FAILED,
                         icon: '',
                     }),
@@ -74,7 +75,7 @@ const ProductImagesForm = ({
                     messageAction.setMessage({
                         id: Math.random(),
                         title: 'ProductImages',
-                        message: 'Handling this productImage successfully',
+                        message: messages.admin.product_images.handling_suc,
                         backgroundColor: BACKGROUND_COLOR_SUCCESS,
                         icon: '',
                     }),

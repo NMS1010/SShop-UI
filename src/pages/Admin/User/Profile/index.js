@@ -16,6 +16,7 @@ import * as messageAction from '../../../../redux/features/message/messageSlice'
 import * as authAction from '../../../../redux/features/auth/authSlice';
 import logoutHandler from '../../../../utils/logoutHandler';
 import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../../constants';
+import messages from '../../../../configs/messages';
 
 const animatedComponents = makeAnimated();
 const cx = classNames.bind(styles);
@@ -109,7 +110,7 @@ const Profile = ({ user }) => {
                     messageAction.setMessage({
                         id: Math.random(),
                         title: 'Update',
-                        message: 'Failed to update your profile',
+                        message: messages.admin.user.update_profile_err,
                         backgroundColor: BACKGROUND_COLOR_FAILED,
                         icon: '',
                     }),
@@ -119,7 +120,7 @@ const Profile = ({ user }) => {
                     messageAction.setMessage({
                         id: Math.random(),
                         title: 'Update',
-                        message: 'Update your profile successfull',
+                        message: messages.admin.user.update_profile_suc,
                         backgroundColor: BACKGROUND_COLOR_SUCCESS,
                         icon: '',
                     }),

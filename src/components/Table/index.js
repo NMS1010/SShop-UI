@@ -16,8 +16,8 @@ const Table = ({
     isSearch = true,
     isAddNew = false,
     handleAddNew = () => {},
-    handleUpdateItem = () => {},
-    handleDeleteItem = () => {},
+    handleUpdateItem = (id) => {},
+    handleDeleteItem = (id) => {},
 }) => {
     const [filterData, setFilterData] = useState({ keyword: '', items: data });
     const columns = useMemo(
