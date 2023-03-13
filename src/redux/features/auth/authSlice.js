@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { login, logout, getCurrentUser } from './authActionThunk';
 const authSlice = createSlice({
-    name: 'authReducer',
+    name: 'auth',
     initialState: {
         currentUser: null,
         isLogin: false,
