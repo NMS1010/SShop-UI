@@ -17,7 +17,7 @@ import * as authAction from '../../../../redux/features/auth/authSlice';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import NumericInput from 'react-numeric-input';
 import logoutHandler from '../../../../utils/logoutHandler';
-import ProductImages from '../ProductImages';
+import ProductImages from '../../Product/ProductImages';
 import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../../constants';
 import messages from '../../../../configs/messages';
 

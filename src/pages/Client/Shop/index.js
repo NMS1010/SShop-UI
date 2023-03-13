@@ -1,11 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
-import {} from 'multi-range-slider-react';
-import MultiRangeSlider from '../../../components/MultiRangeSlider';
+import MultiRangeSlider from '../components/MultiRangeSlider';
 import * as brandsAPI from '../../../services/brandsAPI';
 import * as categoriesAPI from '../../../services/categoriesAPI';
 import * as productsAPI from '../../../services/productsAPI';
-import ProductLoading from '../../../components/ProductLoading';
-import ProductCard from '../../../components/ProductCard';
+import ProductLoading from '../components/ProductLoading';
+import ProductCard from '../components/ProductCard';
 import { InputGroup } from 'react-bootstrap';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -14,6 +13,7 @@ import { PAGE_SIZE, SORT_PRODUCTS } from '../../../constants';
 import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import useNavigateSearch from '../../../hooks/useNavigateSearch';
+import CheckBox from '../../../components/CheckBox';
 const DEFAULT_PAGE_SIZE = 2;
 const Shop = () => {
     const [searchVal, setSearchVal] = useState('');
@@ -121,31 +121,26 @@ const Shop = () => {
                         <div>
                             {categories.map((category) => {
                                 return (
-                                    <div className="ml-8" key={category.categoryId}>
-                                        <input
-                                            type="checkbox"
-                                            name="checkbox-one"
-                                            id="checkbox-one"
-                                            class="bg-amber-200 checked:hover:bg-green-500 hover:bg-amber-400 focus-within:ring-0 cursor-pointer w-7 h-7 border-3 border-rose-500 rounded-lg checked:bg-green-500 mb-1"
-                                            onClick={(e) => {
-                                                let categoryIds;
-                                                if (e.target.checked) {
-                                                    categoryIds = [...filters.categoryIds, category.categoryId];
-                                                } else {
-                                                    categoryIds = filters.categoryIds.filter(
-                                                        (id) => id !== category.categoryId,
-                                                    );
-                                                }
-                                                setFilters({
-                                                    ...filters,
-                                                    categoryIds: [...categoryIds],
-                                                });
-                                            }}
-                                        />
-                                        <label for="checkbox-one" class="ml-3 text-2xl">
-                                            {`${category.name} (${category.totalProduct})`}
-                                        </label>
-                                    </div>
+                                    <CheckBox
+                                        className={
+                                            'bg-amber-200 hover:bg-amber-400 focus-within:ring-0 cursor-pointer w-7 h-7 border-3 border-rose-500 rounded-lg checked:bg-green-500 mb-1'
+                                        }
+                                        label={`${category.name} (${category.totalProduct})`}
+                                        onClick={(e) => {
+                                            let categoryIds;
+                                            if (e.target.checked) {
+                                                categoryIds = [...filters.categoryIds, category.categoryId];
+                                            } else {
+                                                categoryIds = filters.categoryIds.filter(
+                                                    (id) => id !== category.categoryId,
+                                                );
+                                            }
+                                            setFilters({
+                                                ...filters,
+                                                categoryIds: [...categoryIds],
+                                            });
+                                        }}
+                                    />
                                 );
                             })}
                         </div>
@@ -155,29 +150,24 @@ const Shop = () => {
                         <div>
                             {brands.map((brand) => {
                                 return (
-                                    <div className="ml-8" key={brand.brandId}>
-                                        <input
-                                            type="checkbox"
-                                            name="checkbox-two"
-                                            id="checkbox-two"
-                                            class="bg-amber-200 hover:bg-amber-400 focus-within:ring-0 cursor-pointer w-7 h-7 border-3 border-rose-500 rounded-lg checked:bg-green-500 mb-1"
-                                            onClick={(e) => {
-                                                let brandIds;
-                                                if (e.target.checked) {
-                                                    brandIds = [...filters.brandIds, brand.brandId];
-                                                } else {
-                                                    brandIds = filters.brandIds.filter((id) => id !== brand.brandId);
-                                                }
-                                                setFilters({
-                                                    ...filters,
-                                                    brandIds: [...brandIds],
-                                                });
-                                            }}
-                                        />
-                                        <label for="checkbox-two" class="ml-3 text-2xl">
-                                            {`${brand.brandName} (${brand.totalProduct})`}
-                                        </label>
-                                    </div>
+                                    <CheckBox
+                                        className={
+                                            'bg-amber-200 hover:bg-amber-400 focus-within:ring-0 cursor-pointer w-7 h-7 border-3 border-rose-500 rounded-lg checked:bg-green-500 mb-1'
+                                        }
+                                        label={`${brand.brandName} (${brand.totalProduct})`}
+                                        onClick={(e) => {
+                                            let brandIds;
+                                            if (e.target.checked) {
+                                                brandIds = [...filters.brandIds, brand.brandId];
+                                            } else {
+                                                brandIds = filters.brandIds.filter((id) => id !== brand.brandId);
+                                            }
+                                            setFilters({
+                                                ...filters,
+                                                brandIds: [...brandIds],
+                                            });
+                                        }}
+                                    />
                                 );
                             })}
                         </div>

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
-import ProductCard from '../../../components/ProductCard';
+import ProductCard from '../components/ProductCard';
 import * as productsAPI from '../../../services/productsAPI';
-import ProductLoading from '../../../components/ProductLoading';
+import ProductLoading from '../components/ProductLoading';
 const Home = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);

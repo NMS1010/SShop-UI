@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../../components/Loading';
 import Table from '../../../components/Table';
-import RoleForm from './RoleForm';
+import RoleForm from '../components/RoleForm';
 import Alert from '../../../components/Alert';
 import OutsideAlerter from '../../../components/OutsideAlerter';
 import ModalWrapper from '../../../components/ModalWrapper';

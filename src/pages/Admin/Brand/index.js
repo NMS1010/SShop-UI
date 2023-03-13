@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import Loading from '../../../components/Loading';
 import Table from '../../../components/Table';
-import BrandForm from './BrandForm';
+import BrandForm from '../components/BrandForm';
 import Alert from '../../../components/Alert';
 import OutsideAlerter from '../../../components/OutsideAlerter';
 import ModalWrapper from '../../../components/ModalWrapper';

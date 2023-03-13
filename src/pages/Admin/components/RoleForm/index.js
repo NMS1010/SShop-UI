@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import classNames from 'classnames/bind';
-import styles from '../../CommonCSSForm/CommonCSSForm.module.scss';
+import styles from '../CommonCSSForm.module.scss';
 
 import Button from '../../../../components/Button';
 

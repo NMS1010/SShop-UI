@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import classNames from 'classnames/bind';
-import styles from '../../CommonCSSForm/CommonCSSForm.module.scss';
+import styles from '../CommonCSSForm.module.scss';
 
 import FileUploader from '../../../../components/FileUploader';
 import Button from '../../../../components/Button';
 
-import * as categoriesAPI from '../../../../services/categoriesAPI';
+import * as brandsAPI from '../../../../services/brandsAPI';
 import * as messageAction from '../../../../redux/features/message/messageSlice';
 import * as authAction from '../../../../redux/features/auth/authSlice';
 import logoutHandler from '../../../../utils/logoutHandler';
@@ -17,29 +17,27 @@ import messages from '../../../../configs/messages';
 
 const cx = classNames.bind(styles);
 
-const CategoryForm = ({ setAction = () => {}, category = null, categories = [], getAllCategories = () => {} }) => {
-    const dispatch = useDispatch();
+const BrandForm = ({ setAction = () => {}, brand = null, brands = [], getAllBrands = () => {} }) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const [inputFields, setInputFields] = useState({
-        name: category?.name,
-        content: category?.content,
-        parentCategory: category?.parentCategory,
+        brandName: brand?.brandName,
+        origin: brand?.origin,
     });
     const [fileSelected, setFileSelected] = useState(null);
     const [fileSelectedError, setFileSelectedError] = useState('');
     const [validationMessage, setValidationMessage] = useState({
-        name: '',
-        content: '',
-        parentCategory: '',
+        brandName: '',
+        origin: '',
         image: null,
     });
 
     const validation = useCallback(() => {
         let errors = { ...validationMessage };
-        inputFields.name?.trim() ? (errors.name = '') : (errors.name = 'Name is required');
-        inputFields.content?.trim() ? (errors.content = '') : (errors.content = 'Content is required');
-        !fileSelected && !category?.image ? (errors.image = 'Image is required') : (errors.image = '');
+        inputFields.brandName?.trim() ? (errors.brandName = '') : (errors.brandName = 'Brand name is required');
+        inputFields.origin?.trim() ? (errors.origin = '') : (errors.origin = 'Origin is required');
+        !fileSelected && !brand?.image ? (errors.image = 'Image is required') : (errors.image = '');
         setValidationMessage(errors);
     });
     useEffect(() => {
@@ -55,20 +53,22 @@ const CategoryForm = ({ setAction = () => {}, category = null, categories = [], 
             return validationMessage[err] !== '';
         });
         if (isValidateErrors) return;
-        const categoryObj = new FormData();
-        categoryObj.append('categoryId', category?.categoryId);
-        categoryObj.append('name', inputFields?.name);
-        categoryObj.append('content', inputFields?.content);
-        categoryObj.append('image', fileSelected);
-        if (inputFields.parentCategory && inputFields.parentCategory !== '0') {
-            categoryObj.append('parentCategoryId', inputFields.parentCategory);
-        }
-        const handleCategory = async () => {
+        // const brandObj = {
+        //     brandId: brand?.brandId,
+        //     brandName: inputFields?.brandName,
+        //     origin: inputFields?.origin,
+        //     image: fileSelected,
+        // };
+        const brandObj = new FormData();
+        brandObj.append('brandId', brand?.brandId);
+        brandObj.append('brandName', inputFields?.brandName);
+        brandObj.append('origin', inputFields?.origin);
+        brandObj.append('image', fileSelected);
+
+        const handleBrand = async () => {
             setLoading(true);
             let response =
-                category !== null
-                    ? await categoriesAPI.updateCategory(categoryObj)
-                    : await categoriesAPI.createCategory(categoryObj);
+                brand !== null ? await brandsAPI.updateBrand(brandObj) : await brandsAPI.createBrand(brandObj);
 
             if (!response || !response.isSuccess) {
                 if (response.status === 401) {
@@ -77,8 +77,8 @@ const CategoryForm = ({ setAction = () => {}, category = null, categories = [], 
                 dispatch(
                     messageAction.setMessage({
                         id: Math.random(),
-                        title: 'Category',
-                        message: response?.errors || messages.admin.category.handling_err,
+                        title: 'Brand',
+                        message: response?.errors || messages.admin.brand.handling_err,
                         backgroundColor: BACKGROUND_COLOR_FAILED,
                         icon: '',
                     }),
@@ -87,72 +87,50 @@ const CategoryForm = ({ setAction = () => {}, category = null, categories = [], 
                 dispatch(
                     messageAction.setMessage({
                         id: Math.random(),
-                        title: 'Category',
-                        message: messages.admin.category.handling_suc,
+                        title: 'Brand',
+                        message: messages.admin.brand.handling_suc,
                         backgroundColor: BACKGROUND_COLOR_SUCCESS,
                         icon: '',
                     }),
                 );
                 setAction({ add: false, edit: false, delete: false });
-                await getAllCategories();
+                await getAllBrands();
             }
             setLoading(false);
         };
-        handleCategory();
+        handleBrand();
     };
     return (
         <div className={cx('container')}>
-            <h1 className={cx('title')}>Catogory</h1>
+            <h1 className={cx('title')}>Brand</h1>
             <form className={cx('form')} onSubmit={handleSubmit}>
                 <div className={cx('form-group')}>
-                    <label htmlFor="name">Name</label>
-                    <input name="name" value={inputFields.name} type={'text'} onChange={handleChange} />
-                    <small>{validationMessage.name}</small>
+                    <label htmlFor="brandName">Name</label>
+                    <input name="brandName" value={inputFields.brandName} type={'text'} onChange={handleChange} />
+                    <small>{validationMessage.brandName}</small>
                 </div>
                 <div className={cx('form-group')}>
-                    <label htmlFor="content">Content</label>
-                    <textarea name="content" onChange={handleChange} value={inputFields.content}></textarea>
-                    <small>{validationMessage.content}</small>
-                </div>
-                <div className={cx('form-group')}>
-                    <label htmlFor="parentCategory">Parent Category</label>
-                    <select name="parentCategory" onChange={handleChange}>
-                        <option selected={true} value={0}>
-                            No parent Category
-                        </option>
-                        {categories.map((cate) => {
-                            if (cate?.categoryId === category?.categoryId) {
-                                return;
-                            }
-                            return (
-                                <option
-                                    selected={cate?.categoryId === category?.parentCategoryId}
-                                    value={cate?.categoryId}
-                                    key={cate?.categoryId}
-                                >
-                                    {cate.name}
-                                </option>
-                            );
-                        })}
-                    </select>
+                    <label htmlFor="origin">Origin</label>
+                    <textarea name="origin" onChange={handleChange} value={inputFields.origin}></textarea>
+                    <small>{validationMessage.origin}</small>
                 </div>
                 <div className={cx('form-group')}>
                     <FileUploader
                         accept={'image/*'}
                         setFileSelected={setFileSelected}
                         setFileSelectedError={setFileSelectedError}
-                        imgUrl={category?.image}
+                        imgUrl={brand?.image}
                     />
                     <small>{fileSelectedError}</small>
                     <small>{validationMessage.image}</small>
                 </div>
                 <div className={cx('action-btn')}>
                     <Button className={cx('submit-btn')} type="submit" loading={loading}>
-                        {category ? 'Update' : 'Create'}
+                        {brand ? 'Update' : 'Create'}
                     </Button>
                 </div>
             </form>
         </div>
     );
 };
-export default CategoryForm;
+export default BrandForm;

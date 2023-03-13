@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Loading from '../../../components/Loading';
 import Table from '../../../components/Table';
-import CategoryForm from './CategoryForm';
+import CategoryForm from '../components/CategoryForm';
 import Alert from '../../../components/Alert';
 import OutsideAlerter from '../../../components/OutsideAlerter';
 import ModalWrapper from '../../../components/ModalWrapper';

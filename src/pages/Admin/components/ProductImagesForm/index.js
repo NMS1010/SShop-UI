@@ -3,17 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import classNames from 'classnames/bind';
-import styles from '../../../CommonCSSForm/CommonCSSForm.module.scss';
+import styles from '../CommonCSSForm.module.scss';
 
-import FileUploader from '../../../../../components/FileUploader';
-import Button from '../../../../../components/Button';
+import FileUploader from '../../../../components/FileUploader';
+import Button from '../../../../components/Button';
 
-import * as productsAPI from '../../../../../services/productsAPI';
-import * as messageAction from '../../../../../redux/features/message/messageSlice';
-import logoutHandler from '../../../../../utils/logoutHandler';
-import * as authAction from '../../../../../redux/features/auth/authSlice';
-import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../../../constants';
-import messages from '../../../../../configs/messages';
+import * as productsAPI from '../../../../services/productsAPI';
+import * as messageAction from '../../../../redux/features/message/messageSlice';
+import logoutHandler from '../../../../utils/logoutHandler';
+import * as authAction from '../../../../redux/features/auth/authSlice';
+import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../../constants';
+import messages from '../../../../configs/messages';
 
 const cx = classNames.bind(styles);
 
