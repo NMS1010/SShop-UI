@@ -1,4 +1,5 @@
 import { Link, NavLink } from 'react-router-dom';
+import config from '../../../configs';
 const Header = () => {
     let active =
         'text-3xl block py-2 pr-6 pl-3 border-b-2 border-cyan-500 text-cyan-700 rounded bg-cyan-700 lg:bg-transparent lg:p-0 dark:text-white';
@@ -19,10 +20,16 @@ const Header = () => {
                         </span>
                     </a>
                     <div className="flex items-center lg:order-2">
-                        <Link className="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-2xl px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">
+                        <Link
+                            className="text-gray-800 dark:text-white hover:bg-gray-50 font-medium rounded-lg text-2xl px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
+                            to={config.routes.auth}
+                        >
                             Log in
                         </Link>
-                        <Link className="text-gray-800 hover:text-white bg-cyan-400 hover:bg-cyan-800 focus:ring-4 focus:ring-cyan-300 font-medium rounded-lg text-2xl px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-cyan-600 dark:hover:bg-cyan-700 focus:outline-none dark:focus:ring-cyan-800">
+                        <Link
+                            className="text-gray-800 hover:text-white bg-cyan-400 hover:bg-cyan-800  font-medium rounded-lg text-2xl px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-cyan-600 dark:hover:bg-cyan-700 focus:outline-none dark:focus:ring-cyan-800"
+                            to={config.routes.signup}
+                        >
                             Sign Up
                         </Link>
                     </div>

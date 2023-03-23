@@ -11,6 +11,7 @@ import * as messageAction from '../../../redux/features/message/messageSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import logoutHandler from '../../../utils/logoutHandler';
 import OptionBoard from '../../../components/OptionBoard';
+import config from '../../../configs';
 
 const cx = classNames.bind(styles);
 
@@ -75,13 +76,12 @@ const Header = ({ title, setIsHideContent, isHideContent }) => {
                         </div>
                         <Link
                             className="p-4 border-t-3 border-indigo-500 mt-4 rounded-lg text-3xl block hover:bg-slate-300"
-                            to={'/admin/profile'}
+                            to={config.routes.admin_profile}
                         >
                             <span>Profile</span>
                         </Link>
                         <Link
                             className="block border bg-cyan-600 text-2xl p-4 mt-4 rounded-lg text-white"
-                            to={'/admin/login'}
                             onClick={async () => await logoutHandler(dispatch, navigate, messageAction, authAction)}
                         >
                             Logout

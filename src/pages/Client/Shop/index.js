@@ -9,13 +9,20 @@ import { InputGroup } from 'react-bootstrap';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useDebounce from '../../../hooks/useDebounce';
-import { PAGE_SIZE, SORT_PRODUCTS } from '../../../constants';
+import {
+    PAGE_SIZE,
+    SORT_PRODUCTS,
+    DEFAULT_PAGE_SIZE,
+    MAX_FILTER_PRICE,
+    MIN_FILTER_PRICE,
+    STEP_FILTER_PRICE,
+} from '../../../constants';
 import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import useNavigateSearch from '../../../hooks/useNavigateSearch';
-import CheckBox from '../../../components/CheckBox';
 import OptionBoard from '../../../components/OptionBoard';
-const DEFAULT_PAGE_SIZE = 2;
+import { Checkbox, FormControlLabel } from '@mui/material';
+
 const Shop = () => {
     const [searchVal, setSearchVal] = useState('');
     const [sortVal, setSortVal] = useState({ key: 0, value: 'Name A-Z', param: 'name_a_z' });
@@ -32,8 +39,8 @@ const Shop = () => {
     const [filters, setFilters] = useState({
         categoryIds: [],
         brandIds: [],
-        minPrice: 0,
-        maxPrice: 100000000,
+        minPrice: MIN_FILTER_PRICE,
+        maxPrice: MAX_FILTER_PRICE,
     });
     const fetchAll = useCallback((getFunc, setFunc) => {
         return (async () => {
@@ -93,9 +100,9 @@ const Shop = () => {
                     <div>
                         <h2 className="text-yellow-600 capitalize p-8 text-2xl border-t-2 mt-5">Price</h2>
                         <MultiRangeSlider
-                            step={100000}
-                            min={0}
-                            max={100000000}
+                            step={STEP_FILTER_PRICE}
+                            min={MIN_FILTER_PRICE}
+                            max={MAX_FILTER_PRICE}
                             onChange={({ min, max }) => {
                                 setFilters({ ...filters, maxPrice: max, minPrice: min });
                             }}
@@ -119,28 +126,37 @@ const Shop = () => {
                     </div>
                     <div>
                         <h2 className="text-yellow-600 capitalize p-8 text-2xl border-t-2 mt-5">Categories</h2>
-                        <div>
+                        <div className="flex flex-col ml-8">
                             {categories.map((category) => {
                                 return (
-                                    <CheckBox
-                                        className={
-                                            'bg-amber-200 hover:bg-amber-400 focus-within:ring-0 cursor-pointer w-7 h-7 border-3 border-rose-500 rounded-lg checked:bg-green-500 mb-1'
+                                    <FormControlLabel
+                                        value="end"
+                                        sx={{
+                                            '& .MuiSvgIcon-root': { fontSize: 20 },
+                                            '& .MuiTypography-root': { fontSize: 14 },
+                                        }}
+                                        control={
+                                            <Checkbox
+                                                className="text-3xl"
+                                                color="warning"
+                                                onClick={(e) => {
+                                                    let categoryIds;
+                                                    if (e.target.checked) {
+                                                        categoryIds = [...filters.categoryIds, category.categoryId];
+                                                    } else {
+                                                        categoryIds = filters.categoryIds.filter(
+                                                            (id) => id !== category.categoryId,
+                                                        );
+                                                    }
+                                                    setFilters({
+                                                        ...filters,
+                                                        categoryIds: [...categoryIds],
+                                                    });
+                                                }}
+                                            />
                                         }
                                         label={`${category.name} (${category.totalProduct})`}
-                                        onClick={(e) => {
-                                            let categoryIds;
-                                            if (e.target.checked) {
-                                                categoryIds = [...filters.categoryIds, category.categoryId];
-                                            } else {
-                                                categoryIds = filters.categoryIds.filter(
-                                                    (id) => id !== category.categoryId,
-                                                );
-                                            }
-                                            setFilters({
-                                                ...filters,
-                                                categoryIds: [...categoryIds],
-                                            });
-                                        }}
+                                        labelPlacement="end"
                                     />
                                 );
                             })}
@@ -148,26 +164,37 @@ const Shop = () => {
                     </div>
                     <div>
                         <h2 className="text-yellow-600 capitalize p-8 text-2xl border-t-2 mt-5">Brands</h2>
-                        <div>
+                        <div className="text-center">
                             {brands.map((brand) => {
                                 return (
-                                    <CheckBox
-                                        className={
-                                            'bg-amber-200 hover:bg-amber-400 focus-within:ring-0 cursor-pointer w-7 h-7 border-3 border-rose-500 rounded-lg checked:bg-green-500 mb-1'
+                                    <FormControlLabel
+                                        value="end"
+                                        sx={{
+                                            '& .MuiSvgIcon-root': { fontSize: 20 },
+                                            '& .MuiTypography-root': { fontSize: 14 },
+                                        }}
+                                        control={
+                                            <Checkbox
+                                                className="text-3xl"
+                                                color="warning"
+                                                onClick={(e) => {
+                                                    let brandIds;
+                                                    if (e.target.checked) {
+                                                        brandIds = [...filters.brandIds, brand.brandId];
+                                                    } else {
+                                                        brandIds = filters.brandIds.filter(
+                                                            (id) => id !== brand.brandId,
+                                                        );
+                                                    }
+                                                    setFilters({
+                                                        ...filters,
+                                                        brandIds: [...brandIds],
+                                                    });
+                                                }}
+                                            />
                                         }
                                         label={`${brand.brandName} (${brand.totalProduct})`}
-                                        onClick={(e) => {
-                                            let brandIds;
-                                            if (e.target.checked) {
-                                                brandIds = [...filters.brandIds, brand.brandId];
-                                            } else {
-                                                brandIds = filters.brandIds.filter((id) => id !== brand.brandId);
-                                            }
-                                            setFilters({
-                                                ...filters,
-                                                brandIds: [...brandIds],
-                                            });
-                                        }}
+                                        labelPlacement="end"
                                     />
                                 );
                             })}

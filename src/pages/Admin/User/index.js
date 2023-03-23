@@ -9,7 +9,6 @@ import * as usersAPI from '../../../services/usersAPI';
 import logoutHandler from '../../../utils/logoutHandler';
 import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../constants';
 import messages from '../../../configs/messages';
-
 const User = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();

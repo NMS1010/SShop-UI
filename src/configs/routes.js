@@ -1,6 +1,8 @@
 const client = {
     home: '/',
     shop: '/shop',
+    auth: '/auth',
+    signup: '/signup',
 };
 const admin = {
     admin_home: '/admin/',

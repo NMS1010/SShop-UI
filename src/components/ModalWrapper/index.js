@@ -1,9 +1,6 @@
-import classNames from 'classnames/bind';
-import styles from './ModalWrapper.module.scss';
-const cx = classNames.bind(styles);
 const ModalWrapper = ({ children, color = 'rgba(0, 0, 0, 0.5)' }) => {
     return (
-        <div style={{ backgroundColor: color }} className={cx('wrapper')}>
+        <div style={{ backgroundColor: color, zIndex: 1000 }} className="fixed bottom-0 top-0 left-0 right-0">
             {children}
         </div>
     );
