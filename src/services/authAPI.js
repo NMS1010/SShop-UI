@@ -16,4 +16,6 @@ export const refreshToken = async (accessToken, refreshToken) => {
 export const revokeToken = async (userId) => {
     return await baseAPI.createData(`users/revoke-token/${userId}`, {});
 };
-export const register = () => {};
+export const register = async (formData) => {
+    return await baseAPI.createFormData('users/register', formData);
+};

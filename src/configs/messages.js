@@ -20,6 +20,11 @@ const messages = {
             update_profile_err: 'Failed to update your profile',
         },
     },
+    client: {
+        register: {
+            register_succ: 'Register successfully, please login to continue',
+        },
+    },
 };
 
 export default messages;

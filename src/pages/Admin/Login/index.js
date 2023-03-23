@@ -6,9 +6,12 @@ import classNames from 'classnames/bind';
 import styles from './Login.module.scss';
 import * as authAction from '../../../redux/features/auth/authSlice';
 import Button from '../../../components/Button';
+import * as messageAction from '../../../redux/features/message/messageSlice';
+import { BACKGROUND_COLOR_FAILED } from '../../../constants';
 const cx = classNames.bind(styles);
 
 const Login = () => {
+    let { currentUser } = useSelector((state) => state?.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [inputFields, setInputFields] = useState({
@@ -43,6 +46,20 @@ const Login = () => {
         setLoading(true);
         await dispatch(authAction.login({ username: inputFields.username, password: inputFields.password }));
         setLoading(false);
+        if (currentUser && currentUser.roles) {
+            const res = currentUser.roles.some((role) => role?.roleName === 'Admin');
+            if (!res) {
+                dispatch(
+                    messageAction.setMessage({
+                        id: Math.random(),
+                        title: 'Login',
+                        message: "You wasn't permited to access this page",
+                        backgroundColor: BACKGROUND_COLOR_FAILED,
+                        icon: '',
+                    }),
+                );
+            }
+        }
         navigate('/admin/');
     };
     return (

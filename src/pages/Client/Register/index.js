@@ -8,9 +8,15 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Account from './Account';
 import Info from './Info';
 import * as usersAPI from '../../../services/usersAPI';
+import * as authAPI from '../../../services/authAPI';
+import * as messageAction from '../../../redux/features/message/messageSlice';
 import { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../constants';
+import messages from '../../../configs/messages';
 
 const Register = () => {
+    const dispatch = useDispatch();
     const [nextFields, setNextFields] = useState(false);
     const [validated, setValidated] = useState(false);
     const [isPasswordMatch, setIsPasswordMatch] = useState(true);
@@ -95,7 +101,25 @@ const Register = () => {
         setIsContainRegisterValue({ ...isContainRegisterValue, email: containEmail, phone: containPhone });
 
         if (containEmail || containPhone) return;
-        console.log(registerFormInput);
+        const registerFormData = new FormData();
+        const keys = Object.keys(registerFormInput);
+        for (let key of keys) {
+            registerFormData.append(key, registerFormInput[key]);
+        }
+        registerFormData.append('avatar', avatar);
+        const response = await authAPI.register(registerFormData);
+        let message = {
+            id: Math.random(),
+            title: 'Register',
+            message: response?.errors,
+            backgroundColor: BACKGROUND_COLOR_FAILED,
+            icon: '',
+        };
+        if (response && response.isSuccess) {
+            message.backgroundColor = BACKGROUND_COLOR_SUCCESS;
+            message.message = messages.client.register.register_succ;
+        }
+        dispatch(messageAction.setMessage(message));
     };
     return (
         <div className="mx-auto max-w-screen-xl text-center">
