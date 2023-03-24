@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import routes from './routes';
-import Login from './pages/Admin/Login/';
 function App() {
     return (
         <Router>
@@ -17,10 +16,7 @@ function App() {
                                 element={
                                     page.layout ? (
                                         loginRequire ? (
-                                            <PrivateRoute
-                                                loginComponent={roles.includes('admin') && <Login />}
-                                                roles={roles}
-                                            >
+                                            <PrivateRoute roles={roles}>
                                                 <page.layout>
                                                     <page.component />
                                                 </page.layout>

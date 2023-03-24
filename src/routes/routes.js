@@ -1,14 +1,14 @@
-import { Home, Shop, Auth, Register } from '../pages/Client';
-import { Dashboard, User, Login, Brand, Category, Product, Profile, Role } from '../pages/Admin';
+import { Home, Shop, Login, Register } from '../pages/Client';
+import { Dashboard, User, Brand, Category, Product, Profile, Role, Forbidden } from '../pages/Admin';
 import { AdminLayout, ClientLayout } from '../layouts';
 import config from '../configs/index';
 //not login
 const publicRoutes = [
     { path: config.routes.home, component: Home, layout: ClientLayout, private: false, roles: [] },
     { path: config.routes.shop, component: Shop, layout: ClientLayout, private: false, roles: [] },
-    { path: config.routes.admin_login, component: Login, layout: null, private: false, roles: [] },
-    { path: config.routes.auth, component: Auth, layout: ClientLayout, private: false, roles: [] },
+    { path: config.routes.auth, component: Login, layout: ClientLayout, private: false, roles: [] },
     { path: config.routes.signup, component: Register, layout: ClientLayout, private: false, roles: [] },
+    { path: config.routes.forbidden, component: Forbidden, layout: null, private: false, roles: [] },
 ];
 
 //must login

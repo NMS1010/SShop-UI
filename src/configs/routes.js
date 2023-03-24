@@ -3,6 +3,7 @@ const client = {
     shop: '/shop',
     auth: '/auth',
     signup: '/signup',
+    forbidden: '/forbidden',
 };
 const admin = {
     admin_home: '/admin/',
@@ -10,7 +11,6 @@ const admin = {
     admin_roles: '/admin/roles',
     admin_categories: '/admin/categories',
     admin_brands: '/admin/brands',
-    admin_login: '/admin/login',
     admin_profile: '/admin/profile',
     admin_products: '/admin/products',
 };
