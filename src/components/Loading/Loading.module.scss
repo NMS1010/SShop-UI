@@ -1,7 +1,6 @@
 .container {
     background-color: #fff;
     position: fixed;
-    position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
@@ -9,21 +8,5 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    .loading {
-        border: 1.6rem solid #ccc;
-        border-radius: 50%;
-        width: 15rem;
-        height: 15rem;
-        border-top: 1.6rem solid #fff;
-        border-bottom: 1.6rem solid #fff;
-        animation: spinoff 2s linear infinite;
-    }
-}
-@keyframes spinoff {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+    font-size: 56px;
 }

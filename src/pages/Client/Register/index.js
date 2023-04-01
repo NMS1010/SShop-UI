@@ -37,7 +37,6 @@ const Register = () => {
         phoneNumber: '',
         email: '',
         gender: 'Nam',
-        address: '',
         dob: new Date().toLocaleDateString(),
         confirmPassword: '',
     });

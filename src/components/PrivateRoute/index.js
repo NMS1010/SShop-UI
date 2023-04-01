@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentUser } from '../../redux/features/auth/authSlice';
 import config from '../../configs';
 import { Navigate } from 'react-router-dom';
+import * as authUtils from '../../utils/authUtils';
 const PrivateRoute = ({ children, roles }) => {
     const dispatch = useDispatch();
     let { currentUser } = useSelector((state) => state?.auth);
 
-    if (!localStorage.getItem('accessToken') || !localStorage.getItem('refreshToken')) {
+    if (!authUtils.isTokenStoraged()) {
         return <Navigate to={config.routes.auth} replace />;
     }
     if (!currentUser) {

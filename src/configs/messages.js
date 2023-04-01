@@ -22,7 +22,12 @@ const messages = {
     },
     client: {
         register: {
-            register_succ: 'Register successfully, please login to continue',
+            register_succ: 'Register successfully, please confirm account by your email',
+        },
+        cart: {
+            retrieve_err: 'Cannot get your cart, please try again',
+            add_success: 'Product has been added to your cart',
+            remove_success: 'Product has been removed from your cart',
         },
     },
 };

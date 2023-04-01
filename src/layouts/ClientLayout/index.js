@@ -4,10 +4,9 @@ import Sidebar from './Sidebar';
 
 const ClientLayout = ({ children }) => {
     return (
-        <div className="flex flex-col mt-48">
+        <div className="flex flex-col pt-48" style={{ backgroundColor: '#f5f5f5' }}>
             <Header />
-            <div>
-                {/* <Sidebar /> */}
+            <div className="pb-36 relative" style={{ minHeight: '70vh' }}>
                 {children}
             </div>
             <Footer />

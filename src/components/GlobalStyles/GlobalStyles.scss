@@ -2,7 +2,7 @@
 @import 'normalize.css';
 @import '~bootstrap/scss/bootstrap';
 //import font
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Roboto:ital,wght@0,300;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
 
 :root {
     --admin-primary-color: #2499ef;
@@ -27,7 +27,7 @@ html {
 }
 
 body {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 1.6rem;
     text-rendering: optimizeSpeed;
 }

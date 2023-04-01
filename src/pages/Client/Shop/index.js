@@ -20,7 +20,6 @@ import {
 import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import useNavigateSearch from '../../../hooks/useNavigateSearch';
-import OptionBoard from '../../../components/OptionBoard';
 import { Checkbox, FormControlLabel } from '@mui/material';
 
 const Shop = () => {
@@ -90,7 +89,7 @@ const Shop = () => {
         setSearchVal(e.target.value);
     };
     return (
-        <div className=" max-w-screen-xl m-auto border-solid border-2 border-indigo-600 rounded-lg">
+        <div className=" max-w-screen-xl m-auto bg-white rounded-lg">
             <div className="row p-5">
                 <div className="col-3">
                     <div className="flex items-center justify-between">
@@ -216,53 +215,73 @@ const Shop = () => {
                             />
                         </InputGroup>
                         <div className="flex">
-                            <OptionBoard
-                                value={sortVal.value}
-                                boardClassName="p-0 absolute hidden text-gray-700 pt-1 group-hover:block z-10 text-center w-full"
-                            >
-                                {SORT_PRODUCTS.map((data) => {
-                                    return (
-                                        <li key={data.key} className="">
-                                            <Link
-                                                className={`text-yellow-500 bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap ${
-                                                    data.key === sortVal.key && 'bg-amber-500 text-white'
+                            <div className="group inline-block relative w-max">
+                                <button className="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center">
+                                    <span className="mr-1">{sortVal.value}</span>
+
+                                    <svg
+                                        className="fill-current h-4 w-4"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 20 20"
+                                    >
+                                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                    </svg>
+                                </button>
+                                <ul className="p-0 absolute hidden text-gray-700 pt-1 group-hover:block z-10 text-center w-full">
+                                    {SORT_PRODUCTS.map((data) => {
+                                        return (
+                                            <li key={data.key} className="">
+                                                <Link
+                                                    className={`text-yellow-500 bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap ${
+                                                        data.key === sortVal.key && 'bg-amber-500 text-white'
+                                                    }`}
+                                                    onClick={() => {
+                                                        setSortVal({
+                                                            key: data.key,
+                                                            value: data.value,
+                                                            param: data.param,
+                                                        });
+                                                        setPaging({ ...paging, pageIndex: 1 });
+                                                    }}
+                                                >
+                                                    {data.value}
+                                                </Link>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            </div>
+                            <div className="ml-3 mr-3"></div>
+                            <div className="group inline-block relative">
+                                <button className="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center w-max">
+                                    <span className="mr-1">{`Show ${paging.pageSize}`}</span>
+
+                                    <svg
+                                        className="fill-current h-4 w-4"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 20 20"
+                                    >
+                                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                    </svg>
+                                </button>
+                                <ul className="p-0 absolute hidden text-gray-700 pt-1 group-hover:block z-10 text-center w-full">
+                                    {PAGE_SIZE.map((val) => {
+                                        return (
+                                            <li
+                                                key={val}
+                                                className={`cursor-pointer text-yellow-500 bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap ${
+                                                    val === paging.pageSize && 'bg-amber-500 text-white'
                                                 }`}
                                                 onClick={() => {
-                                                    setSortVal({
-                                                        key: data.key,
-                                                        value: data.value,
-                                                        param: data.param,
-                                                    });
-                                                    setPaging({ ...paging, pageIndex: 1 });
+                                                    setPaging({ ...paging, pageSize: val });
                                                 }}
                                             >
-                                                {data.value}
-                                            </Link>
-                                        </li>
-                                    );
-                                })}
-                            </OptionBoard>
-                            <div className="ml-3 mr-3"></div>
-                            <OptionBoard
-                                value={`Show ${paging.pageSize}`}
-                                boardClassName="p-0 absolute hidden text-gray-700 pt-1 group-hover:block z-10 text-center w-full"
-                            >
-                                {PAGE_SIZE.map((val) => {
-                                    return (
-                                        <li
-                                            key={val}
-                                            className={`cursor-pointer text-yellow-500 bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap ${
-                                                val === paging.pageSize && 'bg-amber-500 text-white'
-                                            }`}
-                                            onClick={() => {
-                                                setPaging({ ...paging, pageSize: val });
-                                            }}
-                                        >
-                                            {val}
-                                        </li>
-                                    );
-                                })}
-                            </OptionBoard>
+                                                {val}
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div className="row">

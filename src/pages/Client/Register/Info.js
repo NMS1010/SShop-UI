@@ -118,20 +118,6 @@ const Info = ({
                     )}
                 </Form.Group>
             </Row>
-
-            <Form.Group className="mb-5" controlId="validationCustom08">
-                <Form.Label>Address</Form.Label>
-                <Form.Control
-                    name="address"
-                    style={{ fontSize: '1.6rem' }}
-                    size="lg"
-                    as="textarea"
-                    required
-                    onChange={handleChange}
-                    value={registerFormInput.address}
-                />
-                <Form.Control.Feedback type="invalid">Please enter your address.</Form.Control.Feedback>
-            </Form.Group>
         </div>
     );
 };

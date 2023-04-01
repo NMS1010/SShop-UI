@@ -20,7 +20,7 @@ const Home = () => {
         fetchProducts();
     }, []);
     return (
-        <div className=" max-w-screen-xl m-auto border-solid border-2 border-indigo-600 rounded-lg">
+        <div className=" max-w-screen-xl m-auto rounded-lg bg-white">
             <h2 className="capitalize p-8 text-center text-4xl">Watches for you</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-20">
                 {loading

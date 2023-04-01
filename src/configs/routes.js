@@ -13,6 +13,7 @@ const admin = {
     admin_brands: '/admin/brands',
     admin_profile: '/admin/profile',
     admin_products: '/admin/products',
+    cart: '/cart',
 };
 const routes = {
     ...client,

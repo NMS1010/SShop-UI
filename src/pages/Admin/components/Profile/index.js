@@ -42,7 +42,6 @@ const Profile = ({ user }) => {
         roles: userRoles,
         userName: selectedUser?.userName,
         status: selectedUser?.status,
-        address: selectedUser?.address,
     });
     const [allRoles, setAllRoles] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -178,12 +177,6 @@ const Profile = ({ user }) => {
                                 <p className="fs-3" style={{ fontWeight: 'bold' }}>
                                     Thông tin liên hệ
                                 </p>
-                                <div>
-                                    <p className="fs-4" style={{ fontWeight: 'bold' }}>
-                                        Address
-                                    </p>
-                                    <p className="fs-4">{selectedUser?.address}</p>
-                                </div>
                                 <div>
                                     <p className="fs-4" style={{ fontWeight: 'bold' }}>
                                         Email
@@ -334,20 +327,7 @@ const Profile = ({ user }) => {
                                         <option value={1}>Active</option>
                                     </Form.Select>
                                 </Form.Group>
-                                <Form.Group className="mb-3" controlId="validationAddress">
-                                    <Form.Label>Address</Form.Label>
-                                    <Form.Control
-                                        required
-                                        as="textarea"
-                                        name="address"
-                                        placeholder="Address"
-                                        value={inputFields?.address}
-                                        onChange={(e) => handleChange(e)}
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        Please enter your address
-                                    </Form.Control.Feedback>
-                                </Form.Group>
+
                                 <Form.Group className="mb-3" controlId="validationAvatar">
                                     <div className="text-center" style={{ width: '30%', margin: 'auto' }}>
                                         <FileUploader
