@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as authUtils from '../../../utils/authUtils';
 import * as authAction from '../../../redux/features/auth/authSlice';
 import * as cartAction from '../../../redux/features/cart/cartSlice';
+import * as wishAction from '../../../redux/features/wish/wishSlice';
 import * as messageAction from '../../../redux/features/message/messageSlice';
 import logoutHandler from '../../../utils/logoutHandler';
 import { Badge, Dropdown, Space } from 'antd';
@@ -16,6 +17,7 @@ import { useEffect } from 'react';
 const Header = () => {
     const { currentUser, isLogin } = useSelector((state) => state?.auth);
     const { currentCartAmount } = useSelector((state) => state?.cart);
+    const { currentWishAmount } = useSelector((state) => state?.wish);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const items = useMemo(() => {
@@ -59,6 +61,10 @@ const Header = () => {
         if (!currentCartAmount || currentCartAmount === 0)
             dispatch(cartAction.setCartAmount(currentUser?.totalCartItem));
     }, [currentUser?.totalCartItem]);
+    useEffect(() => {
+        if (!currentWishAmount || currentWishAmount === 0)
+            dispatch(wishAction.setWishAmount(currentUser?.totalWishItem));
+    }, [currentUser?.totalWishItem]);
     let active =
         'text-3xl block py-2 pr-6 pl-3 border-b-2 border-cyan-500 text-cyan-700 rounded bg-cyan-700 lg:bg-transparent lg:p-0 dark:text-white';
     let inActive =
@@ -85,12 +91,8 @@ const Header = () => {
                                         <ShoppingCart sx={{ fontSize: '3rem' }} />
                                     </Badge>
                                 </Link>
-                                <Link to={config.routes.cart}>
-                                    <Badge
-                                        count={currentUser.totalWishItem}
-                                        className="ml-3 cursor-pointer text-2xl"
-                                        showZero
-                                    >
+                                <Link to={config.routes.wish_list}>
+                                    <Badge count={currentWishAmount} className="ml-3 cursor-pointer text-2xl" showZero>
                                         <Favorite sx={{ fontSize: '3rem' }} />
                                     </Badge>
                                 </Link>

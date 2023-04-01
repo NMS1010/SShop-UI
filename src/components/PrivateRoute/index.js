@@ -15,7 +15,7 @@ const PrivateRoute = ({ children, roles }) => {
         dispatch(getCurrentUser());
         return;
     }
-    if (roles.includes('admin')) {
+    if (roles.includes('admin') && !roles.includes('customer')) {
         const res = currentUser.roles.some((role) => role?.roleName === 'Admin');
         if (!res) {
             return <Navigate to={config.routes.forbidden} replace />;

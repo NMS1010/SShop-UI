@@ -4,6 +4,8 @@ const client = {
     auth: '/auth',
     signup: '/signup',
     forbidden: '/forbidden',
+    cart: '/cart',
+    wish_list: '/wish-list',
 };
 const admin = {
     admin_home: '/admin/',
@@ -13,7 +15,6 @@ const admin = {
     admin_brands: '/admin/brands',
     admin_profile: '/admin/profile',
     admin_products: '/admin/products',
-    cart: '/cart',
 };
 const routes = {
     ...client,

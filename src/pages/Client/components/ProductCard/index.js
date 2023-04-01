@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import * as cartAction from '../../../../redux/features/cart/cartSlice';
+import * as wishAction from '../../../../redux/features/wish/wishSlice';
 import * as authUtil from '../../../../utils/authUtils';
 const ProductCard = ({ product }) => {
     const [hide, setHide] = useState(true);
@@ -14,6 +15,12 @@ const ProductCard = ({ product }) => {
         formData.append('productId', product.productId);
         formData.append('userId', authUtil.getUserId());
         dispatch(cartAction.addCartItem({ cartItem: formData }));
+    };
+    const addWishItem = () => {
+        const formData = new FormData();
+        formData.append('productId', product.productId);
+        formData.append('userId', authUtil.getUserId());
+        dispatch(wishAction.addWishItem({ wishItem: formData }));
     };
     return (
         <div
@@ -35,6 +42,7 @@ const ProductCard = ({ product }) => {
                         padding: '1rem',
                         cursor: 'pointer',
                     }}
+                    onClick={addWishItem}
                 >
                     <FontAwesomeIcon icon={faHeart} />
                     <p className="ml-2 -mt-1 mb-0">Yêu thích</p>

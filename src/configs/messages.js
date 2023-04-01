@@ -29,6 +29,13 @@ const messages = {
             add_success: 'Product has been added to your cart',
             remove_success: 'Product has been removed from your cart',
         },
+        wish: {
+            retrieve_err: 'Cannot get your wish, please try again',
+            add_success: 'Product has been added to your wish',
+            remove_success: 'Product has been removed from your wish',
+            remove_all_success: 'Your wish has been cleared',
+            remove_all_failed: 'Error while clearing your wish list',
+        },
     },
 };
 
