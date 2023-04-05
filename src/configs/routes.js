@@ -6,6 +6,7 @@ const client = {
     forbidden: '/forbidden',
     cart: '/cart',
     wish_list: '/wish-list',
+    product_detail: '/products/:productId',
 };
 const admin = {
     admin_home: '/admin/',

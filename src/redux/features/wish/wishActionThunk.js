@@ -20,7 +20,7 @@ export const addWishItem = createAsyncThunk('wish/addWishItem', async (data, thu
         thunkAPI.dispatch(
             messageAction.setMessage({
                 id: Math.random(),
-                title: 'Cart',
+                title: 'Wish',
                 message: messages.client.wish.add_success,
                 backgroundColor: BACKGROUND_COLOR_SUCCESS,
                 icon: '',

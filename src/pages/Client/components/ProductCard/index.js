@@ -6,10 +6,12 @@ import { useDispatch } from 'react-redux';
 import * as cartAction from '../../../../redux/features/cart/cartSlice';
 import * as wishAction from '../../../../redux/features/wish/wishSlice';
 import * as authUtil from '../../../../utils/authUtils';
+import { useNavigate } from 'react-router-dom';
 const ProductCard = ({ product }) => {
     const [hide, setHide] = useState(true);
     // const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const addCartItem = () => {
         const formData = new FormData();
         formData.append('productId', product.productId);
@@ -21,6 +23,9 @@ const ProductCard = ({ product }) => {
         formData.append('productId', product.productId);
         formData.append('userId', authUtil.getUserId());
         dispatch(wishAction.addWishItem({ wishItem: formData }));
+    };
+    const getProductDetail = () => {
+        navigate(`/products/${product.productId}`);
     };
     return (
         <div
@@ -81,7 +86,7 @@ const ProductCard = ({ product }) => {
                         {product?.categoryName}
                     </li>
                 </ul>
-                <div className="text-3xl font-bold">
+                <div onClick={getProductDetail} className="text-3xl font-bold">
                     <span className="cursor-pointer hover:text-cyan-500 ease-in duration-300">{product?.name}</span>
                 </div>
                 <p className="text-cyan-500 mt-3">{product?.price} VND</p>
