@@ -24,7 +24,7 @@ const Home = () => {
             <h2 className="capitalize p-8 text-center text-4xl">Watches for you</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-20">
                 {loading
-                    ? Array.from(Array(8)).map((val) => <ProductLoading />)
+                    ? Array.from(Array(8)).map((val, idx) => <ProductLoading key={idx} />)
                     : products.map((product) => <ProductCard key={product.productId} product={product} />)}
             </div>
         </div>

@@ -81,24 +81,24 @@ const Login = () => {
                             </button>
                         </div>
                     </div>
-                    <div class="flex items-center justify-center w-max m-auto">
-                        <hr class="w-64 h-1 my-8 bg-gray-500 border-0 rounded dark:bg-gray-700" />
+                    <div className="flex items-center justify-center w-max m-auto">
+                        <hr className="w-64 h-1 my-8 bg-gray-500 border-0 rounded dark:bg-gray-700" />
                         <p className="text-2xl mx-4 mt-2 text-slate-400">Or sign in with</p>
-                        <hr class="w-64 h-1 my-8 bg-gray-500 border-0 rounded dark:bg-gray-700" />
+                        <hr className="w-64 h-1 my-8 bg-gray-500 border-0 rounded dark:bg-gray-700" />
                     </div>
                     <div>
                         <form className="mt-8 space-y-6" action="#" method="POST" onSubmit={handleSubmit}>
                             <input type="hidden" name="remember" value="true" />
                             <div className="-space-y-px rounded-md shadow-sm">
                                 <div>
-                                    <label for="username" className="text-2xl font-bold mb-3">
+                                    <label htmlFor="username" className="text-2xl font-bold mb-3">
                                         Username
                                     </label>
                                     <input
                                         id="username"
                                         name="username"
                                         type="text"
-                                        autocomplete="username"
+                                        autoComplete="username"
                                         className="relative text-2xl block w-full h-16 rounded-xl border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:leading-6"
                                         placeholder="Email address"
                                         onChange={handleChange}
@@ -108,14 +108,14 @@ const Login = () => {
                                     )}
                                 </div>
                                 <div className="mt-3">
-                                    <label for="password" className="text-2xl font-bold mb-3">
+                                    <label htmlFor="password" className="text-2xl font-bold mb-3">
                                         Password
                                     </label>
                                     <input
                                         id="password"
                                         name="password"
                                         type="password"
-                                        autocomplete="current-password"
+                                        autoComplete="current-password"
                                         className="relative block w-full h-16 rounded-xl text-2xl border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:leading-6"
                                         placeholder="Password"
                                         onChange={handleChange}

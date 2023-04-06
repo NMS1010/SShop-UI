@@ -7,6 +7,7 @@ const client = {
     cart: '/cart',
     wish_list: '/wish-list',
     product_detail: '/products/:productId',
+    checkout: '/checkout',
 };
 const admin = {
     admin_home: '/admin/',

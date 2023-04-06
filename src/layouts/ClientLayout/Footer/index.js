@@ -22,25 +22,25 @@ const Footer = () => {
                     <div className="sm:ml-0 ml-8 flex flex-col">
                         <h2 className="text-4xl font-semibold leading-4 text-gray-800 dark:text-white">Quick access</h2>
                         <a
-                            href="javascript:void(0)"
+                            href=""
                             className="text-2xl focus:outline-none focus:underline hover:text-gray-500 leading-4 mt-6 text-gray-800 dark:text-white cursor-pointer"
                         >
                             Cart
                         </a>
                         <a
-                            href="javascript:void(0)"
+                            href=""
                             className="text-2xl focus:outline-none focus:underline hover:text-gray-500 leading-4 mt-6 text-gray-800 dark:text-white cursor-pointer"
                         >
                             Wish List
                         </a>
                         <a
-                            href="javascript:void(0)"
+                            href=""
                             className="text-2xl focus:outline-none focus:underline hover:text-gray-500 leading-4 mt-6 text-gray-800 dark:text-white cursor-pointer"
                         >
                             Order Tracking
                         </a>
                         <a
-                            href="javascript:void(0)"
+                            href=""
                             className="text-2xl focus:outline-none focus:underline hover:text-gray-500 leading-4 mt-6 text-gray-800 dark:text-white cursor-pointer"
                         >
                             Contact us

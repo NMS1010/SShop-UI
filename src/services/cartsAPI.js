@@ -1,8 +1,9 @@
 import * as baseAPI from './baseAPI';
 
-export const getCartByUserId = async (id) => {
+export const getCartByUserId = async (id, status = -1) => {
     const formData = new FormData();
     formData.append('userId', id);
+    formData.append('status', status);
     return await baseAPI.createFormData(`carts/all`, formData);
 };
 export const addCartItem = async (cartItem) => {

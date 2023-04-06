@@ -11,6 +11,8 @@ import * as messageAction from '../../../redux/features/message/messageSlice';
 import * as cartAction from '../../../redux/features/cart/cartSlice';
 import messages from '../../../configs/messages';
 import Loading from '../../../components/Loading';
+import { Link } from 'react-router-dom';
+import config from '../../../configs';
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -130,9 +132,11 @@ const Cart = () => {
                                     Tổng thanh toán <br />({selectedItems.totalItem} sản phẩm):
                                     <br /> <span>{selectedItems.totalPayment} VNĐ</span>
                                 </p>
-                                <Button className="ml-7" type="primary" danger>
-                                    <span className="">Thanh toán</span>
-                                </Button>
+                                <Link to={config.routes.checkout}>
+                                    <Button className="ml-7" type="primary" danger>
+                                        Thanh toán
+                                    </Button>
+                                </Link>
                             </div>
                         </div>
                     )}

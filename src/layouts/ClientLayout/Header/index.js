@@ -98,9 +98,9 @@ const Header = () => {
                                 </Link>
                                 <Dropdown className=" hover:cursor-pointer" menu={{ items }}>
                                     <Space>
-                                        <div class="w-14 h-14 ml-5">
+                                        <div className="w-14 h-14 ml-5">
                                             <img
-                                                class="rounded-full h-full border border-gray-100 shadow-sm"
+                                                className="rounded-full h-full border border-gray-100 shadow-sm"
                                                 src={`${process.env.REACT_APP_HOST}${currentUser.avatar}`}
                                                 alt="user image"
                                             />
