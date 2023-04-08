@@ -37,6 +37,7 @@ const ProductDetail = () => {
     const addToCart = () => {
         const formData = new FormData();
         formData.append('productId', productId);
+        formData.append('quantity', quantity);
         formData.append('userId', authUtil.getUserId());
         dispatch(cartAction.addCartItem({ cartItem: formData }));
     };
