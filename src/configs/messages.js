@@ -36,6 +36,13 @@ const messages = {
             remove_all_success: 'Your wish has been cleared',
             remove_all_failed: 'Error while clearing your wish list',
         },
+        profile: {
+            address: {
+                retrieve_err: 'Cannot get your addresses, please try again',
+                add_success: 'Address has been created',
+                update_success: 'Address has been updated',
+            },
+        },
     },
 };
 

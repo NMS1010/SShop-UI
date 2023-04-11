@@ -8,6 +8,8 @@ const client = {
     wish_list: '/wish-list',
     product_detail: '/products/:productId',
     checkout: '/checkout',
+    profile: '/user/account/profile',
+    orders: '/user/account/orders',
 };
 const admin = {
     admin_home: '/admin/',

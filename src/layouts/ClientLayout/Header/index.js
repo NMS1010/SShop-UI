@@ -25,9 +25,7 @@ const Header = () => {
             {
                 key: '1',
                 label: (
-                    <Link
-                    // to={config.routes.admin_profile}
-                    >
+                    <Link to={config.routes.profile}>
                         <span>My profile</span>
                     </Link>
                 ),
@@ -35,9 +33,7 @@ const Header = () => {
             {
                 key: '2',
                 label: (
-                    <Link
-                    // to={config.routes.admin_profile}
-                    >
+                    <Link to={config.routes.orders}>
                         <span>My order</span>
                     </Link>
                 ),
@@ -132,12 +128,18 @@ const Header = () => {
                     >
                         <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
                             <li>
-                                <NavLink to={'/'} className={({ isActive }) => (isActive ? active : inActive)}>
+                                <NavLink
+                                    to={config.routes.home}
+                                    className={({ isActive }) => (isActive ? active : inActive)}
+                                >
                                     Home
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink to={'/shop'} className={({ isActive }) => (isActive ? active : inActive)}>
+                                <NavLink
+                                    to={config.routes.shop}
+                                    className={({ isActive }) => (isActive ? active : inActive)}
+                                >
                                     Shop
                                 </NavLink>
                             </li>

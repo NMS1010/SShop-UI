@@ -90,15 +90,15 @@ const ProductCard = ({ product }) => {
                     <span className="cursor-pointer hover:text-cyan-500 ease-in duration-300">{product?.name}</span>
                 </div>
                 <p className="text-cyan-500 mt-3">{product?.price} VND</p>
-                <div class="flex items-center justify-center mt-2.5 mb-3">
-                    <span class="bg-blue-100 text-blue-800 text-2sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">
+                <div className="flex items-center justify-center mt-2.5 mb-3">
+                    <span className="bg-blue-100 text-blue-800 text-2sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">
                         {product?.averageRating || 0}
                     </span>
                     {Array.from(Array(5)).map((val) => {
                         return val < product?.averageRating ? (
                             <svg
                                 aria-hidden="true"
-                                class="h-8 text-yellow-300"
+                                className="h-8 text-yellow-300"
                                 fill="currentColor"
                                 viewBox="0 0 20 20"
                                 xmlns="http://www.w3.org/2000/svg"
@@ -108,7 +108,7 @@ const ProductCard = ({ product }) => {
                         ) : (
                             <svg
                                 aria-hidden="true"
-                                class="h-8 "
+                                className="h-8 "
                                 fill="currentColor"
                                 viewBox="0 0 20 20"
                                 xmlns="http://www.w3.org/2000/svg"

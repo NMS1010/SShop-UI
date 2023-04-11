@@ -9,11 +9,11 @@ export const getAddressById = async (id) => {
 export const getAddressByUserId = async (userId) => {
     return await baseAPI.getData(`addresses/address/${userId}`);
 };
-export const createAddress = async (deliveryMethod) => {
-    return await baseAPI.createFormData('addresses/add', deliveryMethod);
+export const createAddress = async (address) => {
+    return await baseAPI.createFormData('addresses/add', address);
 };
-export const updateAddress = async (deliveryMethod) => {
-    return await baseAPI.updateFormData('addresses/update', deliveryMethod);
+export const updateAddress = async (address) => {
+    return await baseAPI.updateFormData('addresses/update', address);
 };
 export const deleteAddress = async (id) => {
     return await baseAPI.deleteData(`addresses/delete/${id}`);

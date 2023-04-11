@@ -184,7 +184,9 @@ const Checkout = () => {
                     <div>
                         <div className="flex mt-8">
                             <p className="text-3xl font-medium">Billing Address</p>
-                            <Link className="text-xl mt-2 ml-auto font-medium">Change address ?</Link>
+                            <Link className="text-xl mt-2 ml-auto font-medium" to={config.routes.profile}>
+                                Change address ?
+                            </Link>
                         </div>
                         <form className="mt-5 grid gap-6">
                             {userAddress && (
@@ -201,11 +203,6 @@ const Checkout = () => {
                                         className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
                                         htmlFor="radio_user_address"
                                     >
-                                        <img
-                                            className="w-14 object-contain"
-                                            src="/images/oG8xsl3xsOkwkMsrLGKM4.png"
-                                            alt=""
-                                        />
                                         <div className="ml-5">
                                             <span className="mt-2 text-3xl font-semibold">{`${userAddress?.firstName} ${userAddress?.lastName}`}</span>
                                             <p className="text-slate-500 text-xl leading-6">{userAddress?.phone}</p>
