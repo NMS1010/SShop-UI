@@ -43,6 +43,9 @@ const messages = {
                 update_success: 'Address has been updated',
             },
         },
+        order: {
+            create_succss: 'Your order has been placed, please check your email for more information',
+        },
     },
 };
 

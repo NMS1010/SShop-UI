@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as authAPI from './authAPI';
-
+import * as authUtil from '../utils/authUtils';
 const axiosClient = () => {
     const axiosClient = axios.create({
         baseURL: process.env.REACT_APP_API_URL,
@@ -35,7 +35,8 @@ const refreshToken = async (error) => {
         const accessToken = localStorage.getItem('accessToken');
         const refreshToken = localStorage.getItem('refreshToken');
         const response = await authAPI.refreshToken(accessToken, refreshToken);
-        if (!response || !response.data) {
+        if (!response?.data) {
+            authUtil.clearToken();
             return axios(error.config);
         }
         localStorage.setItem('accessToken', response?.data.accessToken);

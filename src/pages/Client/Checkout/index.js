@@ -1,15 +1,22 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Loading from '../../../components/Loading';
 import { useCallback } from 'react';
 import * as cartsAPI from '../../../services/cartsAPI';
 import * as deliveryMethodAPI from '../../../services/deliveryMethodAPI';
 import * as paymentMethodAPI from '../../../services/paymentMethodAPI';
 import * as addressAPI from '../../../services/addressAPI';
+import * as ordersAPI from '../../../services/ordersAPI';
 import * as authUtil from '../../../utils/authUtils';
 import { useEffect } from 'react';
 import config from '../../../configs';
+import { useDispatch, useSelector } from 'react-redux';
+import * as messageAction from '../../../redux/features/message/messageSlice';
+import * as cartAction from '../../../redux/features/cart/cartSlice';
+import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../constants';
+import messages from '../../../configs/messages';
 const Checkout = () => {
+    const { currentUser } = useSelector((state) => state?.auth);
     const [loading, setLoading] = useState(true);
     const [selectedCartItems, setSelectedCartItem] = useState([]);
     const [deliveryMethods, setDeliveryMethods] = useState([]);
@@ -21,6 +28,8 @@ const Checkout = () => {
     });
     const [chosenDeliveryMethod, setChosenDeliveryMethod] = useState(null);
     const [chosenPaymentMethod, setChosenPaymentMethod] = useState(null);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const fetch = useCallback(async () => {
         setLoading(true);
         const cartResp = await cartsAPI.getCartByUserId(authUtil.getUserId(), 1);
@@ -51,6 +60,9 @@ const Checkout = () => {
         }
         setTotal({ shipping: shipping, subTotal: totalPrice });
         setPaymentMethods(paymentMethods);
+        if (paymentMethods.length > 0) {
+            setChosenDeliveryMethod(paymentMethods[0]);
+        }
         setUserAddress(addressItems.find((val) => val.isDefault === true));
 
         setLoading(false);
@@ -65,6 +77,42 @@ const Checkout = () => {
     };
     const onPaymentChange = (id) => {
         setChosenPaymentMethod(paymentMethods.find((val) => val.paymentMethodId === id));
+    };
+
+    const handleCreateOrder = async () => {
+        let orderFrmData = new FormData();
+        orderFrmData.append('userId', authUtil.getUserId());
+        orderFrmData.append('deliveryMethodId', chosenDeliveryMethod.deliveryMethodId);
+        orderFrmData.append('paymentMethodId', chosenPaymentMethod.paymentMethodId);
+        orderFrmData.append('totalItemPrice', total.subTotal);
+        orderFrmData.append('shipping', total.shipping);
+        orderFrmData.append('addressId', userAddress.addressId);
+        setLoading(true);
+
+        const response = await ordersAPI.createOrder(orderFrmData);
+        if (!response?.isSuccess) {
+            dispatch(
+                messageAction.setMessage({
+                    id: Math.random(),
+                    title: 'Order',
+                    message: response?.errors?.join('\n'),
+                    backgroundColor: BACKGROUND_COLOR_FAILED,
+                    icon: '',
+                }),
+            );
+        } else {
+            dispatch(
+                messageAction.setMessage({
+                    id: Math.random(),
+                    title: 'Order',
+                    message: messages.client.order.create_succss,
+                    backgroundColor: BACKGROUND_COLOR_SUCCESS,
+                    icon: '',
+                }),
+            );
+            dispatch(cartAction.setCartAmount(currentUser?.totalCartItem - selectedCartItems?.length));
+            navigate(config.routes.cart);
+        }
     };
     return loading ? (
         <Loading />
@@ -263,7 +311,10 @@ const Checkout = () => {
                             </p>
                         </div>
                     </div>
-                    <button className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white">
+                    <button
+                        className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white"
+                        onClick={handleCreateOrder}
+                    >
                         Place Order
                     </button>
                 </div>
