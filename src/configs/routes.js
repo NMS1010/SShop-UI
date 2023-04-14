@@ -9,7 +9,8 @@ const client = {
     product_detail: '/products/:productId',
     checkout: '/checkout',
     profile: '/user/account/profile',
-    orders: '/user/account/orders',
+    orders: '/user/purchase/orders',
+    order_items: '/user/purchase/orders/:orderId',
 };
 const admin = {
     admin_home: '/admin/',

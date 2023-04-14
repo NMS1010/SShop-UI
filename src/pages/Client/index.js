@@ -7,3 +7,5 @@ export { default as WishList } from './WishList';
 export { default as ProductDetail } from './ProductDetail';
 export { default as Checkout } from './Checkout';
 export { default as Profile } from './Profile';
+export { default as Order } from './Order';
+export { default as OrderItem } from './OrderItem';

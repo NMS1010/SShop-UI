@@ -28,6 +28,7 @@ const Checkout = () => {
     });
     const [chosenDeliveryMethod, setChosenDeliveryMethod] = useState(null);
     const [chosenPaymentMethod, setChosenPaymentMethod] = useState(null);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const fetch = useCallback(async () => {
@@ -51,17 +52,18 @@ const Checkout = () => {
         let totalPrice = 0;
         let shipping = 0;
         cartItems.forEach((val) => (totalPrice += val.totalPrice));
-
+        console.log(deliveryMethods);
+        console.log(paymentMethods);
         setSelectedCartItem(cartItems);
-        setDeliveryMethods(deliveryMethods);
         if (deliveryMethods.length > 0) {
             shipping = deliveryMethods[0].deliveryMethodPrice;
             setChosenDeliveryMethod(deliveryMethods[0]);
         }
+        setDeliveryMethods(deliveryMethods);
         setTotal({ shipping: shipping, subTotal: totalPrice });
         setPaymentMethods(paymentMethods);
         if (paymentMethods.length > 0) {
-            setChosenDeliveryMethod(paymentMethods[0]);
+            setChosenPaymentMethod(paymentMethods[0]);
         }
         setUserAddress(addressItems.find((val) => val.isDefault === true));
 
@@ -274,7 +276,7 @@ const Checkout = () => {
                                             id={`radio_payment_${item.paymentMethodId}`}
                                             type="radio"
                                             name="radio"
-                                            checked
+                                            checked={item.paymentMethodId === chosenPaymentMethod.paymentMethodId}
                                         />
                                         <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
                                         <label

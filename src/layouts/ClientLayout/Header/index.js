@@ -80,7 +80,7 @@ const Header = () => {
                         </span>
                     </a>
                     <div className="flex items-center lg:order-2">
-                        {isLogin ? (
+                        {currentUser ? (
                             <div className="flex justify-between items-center">
                                 <Link to={config.routes.cart}>
                                     <Badge count={currentCartAmount} className="mr-3 cursor-pointer" showZero>
