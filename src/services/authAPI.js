@@ -6,7 +6,13 @@ export const login = async (username, password) => {
     formData.append('password', password);
     return await baseAPI.createFormData('users/login', formData);
 };
-
+export const googleLogin = async (providerKey, email) => {
+    let formData = new FormData();
+    formData.append('providerKey', providerKey);
+    formData.append('email', email);
+    formData.append('loginProvider', 'Google');
+    return await baseAPI.createFormData('users/google-login', formData);
+};
 export const refreshToken = async (accessToken, refreshToken) => {
     let formData = new FormData();
     formData.append('accessToken', accessToken);

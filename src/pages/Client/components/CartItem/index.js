@@ -2,7 +2,7 @@ import { Checkbox, InputNumber, Spin } from 'antd';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BACKGROUND_COLOR_FAILED } from '../../../../constants';
 import ModalWrapper from '../../../../components/ModalWrapper';
 import Alert from '../../../../components/Alert';
@@ -12,6 +12,7 @@ import * as cartAction from '../../../../redux/features/cart/cartSlice';
 import * as messageAction from '../../../../redux/features/message/messageSlice';
 
 const CartItem = ({ cartItem, cartItems, setCartItems, setSelectedItem, selectedItems }) => {
+    let { currentCartAmount } = useSelector((state) => state?.cart);
     const [quantity, setQuantity] = useState(cartItem.quantity);
     const [btnLoading, setBtnLoading] = useState(false);
     const [deleteAlert, setDeleteAlert] = useState(false);
@@ -29,6 +30,7 @@ const CartItem = ({ cartItem, cartItems, setCartItems, setSelectedItem, selected
                 });
             }
         }
+        await dispatch(cartAction.setCartAmount(currentCartAmount - 1));
         setBtnLoading(false);
         setDeleteAlert(false);
     };

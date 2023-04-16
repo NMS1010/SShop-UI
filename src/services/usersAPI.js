@@ -22,3 +22,7 @@ export const checkUsername = async (username) => {
 export const checkPhone = async (phone) => {
     return await baseAPI.getData(`users/check-phone?phone=${phone}`);
 };
+
+export const verifyToken = async (params) => {
+    return await baseAPI.getData('users/register-confirm', params);
+};

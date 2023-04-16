@@ -9,6 +9,6 @@ const logoutHandler = async (dispatch, navigate, messageAction, authAction) => {
     //     }),
     // );
     dispatch(authAction.logout());
-    navigate('/admin/login');
+    navigate('/auth');
 };
 export default logoutHandler;

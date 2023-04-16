@@ -2,7 +2,7 @@ import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ModalWrapper from '../../../../components/ModalWrapper';
 import Alert from '../../../../components/Alert';
 import * as wishAction from '../../../../redux/features/wish/wishSlice';
@@ -12,6 +12,7 @@ import * as authUtil from '../../../../utils/authUtils';
 const WishItem = ({ wishItem, wishItems, setWishItems }) => {
     const [btnLoading, setBtnLoading] = useState(false);
     const [deleteAlert, setDeleteAlert] = useState(false);
+    let { currentWishAmount } = useSelector((state) => state?.wish);
     const dispatch = useDispatch();
 
     const onRemoveWishItem = async () => {
@@ -20,6 +21,7 @@ const WishItem = ({ wishItem, wishItems, setWishItems }) => {
         if (res?.payload?.isSuccess) {
             setWishItems(wishItems.filter((w) => w.wishItemId !== wishItem.wishItemId));
         }
+        await dispatch(wishAction.setWishAmount(currentWishAmount - 1));
         setBtnLoading(false);
         setDeleteAlert(false);
     };

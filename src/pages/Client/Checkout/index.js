@@ -52,8 +52,6 @@ const Checkout = () => {
         let totalPrice = 0;
         let shipping = 0;
         cartItems.forEach((val) => (totalPrice += val.totalPrice));
-        console.log(deliveryMethods);
-        console.log(paymentMethods);
         setSelectedCartItem(cartItems);
         if (deliveryMethods.length > 0) {
             shipping = deliveryMethods[0].deliveryMethodPrice;
@@ -112,7 +110,9 @@ const Checkout = () => {
                     icon: '',
                 }),
             );
-            dispatch(cartAction.setCartAmount(currentUser?.totalCartItem - selectedCartItems?.length));
+            let currAmount = currentUser?.totalCartItem - selectedCartItems?.length;
+            if (currAmount < 0) currAmount = 0;
+            dispatch(cartAction.setCartAmount(currAmount));
             navigate(config.routes.cart);
         }
     };
@@ -313,12 +313,14 @@ const Checkout = () => {
                             </p>
                         </div>
                     </div>
-                    <button
-                        className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white"
-                        onClick={handleCreateOrder}
-                    >
-                        Place Order
-                    </button>
+                    {selectedCartItems.length > 0 && (
+                        <button
+                            className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white"
+                            onClick={handleCreateOrder}
+                        >
+                            Place Order
+                        </button>
+                    )}
                 </div>
             </div>
         </div>

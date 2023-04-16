@@ -11,6 +11,7 @@ const client = {
     profile: '/user/account/profile',
     orders: '/user/purchase/orders',
     order_items: '/user/purchase/orders/:orderId',
+    verify: '/register-confirm',
 };
 const admin = {
     admin_home: '/admin/',

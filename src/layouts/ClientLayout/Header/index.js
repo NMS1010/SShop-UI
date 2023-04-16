@@ -1,23 +1,19 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import config from '../../../configs';
-import { faHeart, faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import { ShoppingCart, Favorite } from '@mui/icons-material';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as authUtils from '../../../utils/authUtils';
 import * as authAction from '../../../redux/features/auth/authSlice';
 import * as cartAction from '../../../redux/features/cart/cartSlice';
 import * as wishAction from '../../../redux/features/wish/wishSlice';
-import * as messageAction from '../../../redux/features/message/messageSlice';
-import logoutHandler from '../../../utils/logoutHandler';
 import { Badge, Dropdown, Space } from 'antd';
 import { useMemo } from 'react';
 import { useEffect } from 'react';
 
 const Header = () => {
     const { currentUser, isLogin } = useSelector((state) => state?.auth);
-    const { currentCartAmount } = useSelector((state) => state?.cart);
-    const { currentWishAmount } = useSelector((state) => state?.wish);
+    let { currentCartAmount } = useSelector((state) => state?.cart);
+    let { currentWishAmount } = useSelector((state) => state?.wish);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const items = useMemo(() => {
@@ -41,7 +37,14 @@ const Header = () => {
             {
                 key: '3',
                 label: (
-                    <Link onClick={async () => await logoutHandler(dispatch, navigate, messageAction, authAction)}>
+                    <Link
+                        onClick={async () => {
+                            await dispatch(authAction.logout());
+                            await dispatch(cartAction.setCartAmount(undefined));
+                            await dispatch(wishAction.setWishAmount(undefined));
+                            navigate('/auth');
+                        }}
+                    >
                         Logout
                     </Link>
                 ),
@@ -54,12 +57,13 @@ const Header = () => {
         }
     }
     useEffect(() => {
-        if (!currentCartAmount || currentCartAmount === 0)
-            dispatch(cartAction.setCartAmount(currentUser?.totalCartItem));
+        console.log(currentCartAmount);
+        currentCartAmount = currentCartAmount || currentUser?.totalCartItem;
+        dispatch(cartAction.setCartAmount(currentCartAmount));
     }, [currentUser?.totalCartItem]);
     useEffect(() => {
-        if (!currentWishAmount || currentWishAmount === 0)
-            dispatch(wishAction.setWishAmount(currentUser?.totalWishItem));
+        currentWishAmount = currentWishAmount || currentUser?.totalWishItem;
+        dispatch(wishAction.setWishAmount(currentWishAmount));
     }, [currentUser?.totalWishItem]);
     let active =
         'text-3xl block py-2 pr-6 pl-3 border-b-2 border-cyan-500 text-cyan-700 rounded bg-cyan-700 lg:bg-transparent lg:p-0 dark:text-white';
@@ -80,7 +84,7 @@ const Header = () => {
                         </span>
                     </a>
                     <div className="flex items-center lg:order-2">
-                        {currentUser ? (
+                        {isLogin ? (
                             <div className="flex justify-between items-center">
                                 <Link to={config.routes.cart}>
                                     <Badge count={currentCartAmount} className="mr-3 cursor-pointer" showZero>

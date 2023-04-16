@@ -59,7 +59,7 @@ const Order = () => {
     ) : (
         <div className="bg-white max-w-screen-xl mx-auto">
             <div className="py-8 sm:py-8">
-                <div className="w-full my-5 p-5 mx-auto mb-3 flex overflow-hidden sticky t-0 z-10 bg-white rounded-t-sm">
+                <div className="w-full my-5 p-5 mx-auto mb-3 flex overflow-hidden sticky t-0 bg-white rounded-t-sm">
                     <NavLink
                         className={`cursor-pointer select-none p-4 text-2xl text-black text-center  border-b-2 flex flex-1 overflow-hidden justify-center transition-colors ' +
                         ${

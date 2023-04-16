@@ -10,6 +10,7 @@ import {
     Profile,
     Order,
     OrderItem,
+    RegisterConfirm,
 } from '../pages/Client';
 import { Dashboard, User, Brand, Category, Product, AdminProfile, Role, Forbidden } from '../pages/Admin';
 import { AdminLayout, ClientLayout } from '../layouts';
@@ -22,6 +23,7 @@ const publicRoutes = [
     { path: config.routes.signup, component: Register, layout: ClientLayout, private: false, roles: [] },
     { path: config.routes.forbidden, component: Forbidden, layout: null, private: false, roles: [] },
     { path: config.routes.product_detail, component: ProductDetail, layout: ClientLayout, private: false, roles: [] },
+    { path: config.routes.verify, component: RegisterConfirm, layout: null, private: false, roles: [] },
 ];
 
 //must login

@@ -14,12 +14,17 @@ import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../constants';
 import messages from '../../../configs/messages';
-
+import { useNavigate } from 'react-router-dom';
+import configs from '../../../configs';
+import Loading from '../../../components/Loading';
 const Register = () => {
     const dispatch = useDispatch();
+    const googleUser = JSON.parse(localStorage.getItem('googleUser'));
+    const [loading, setLoading] = useState(false);
     const [nextFields, setNextFields] = useState(false);
     const [validated, setValidated] = useState(false);
     const [isPasswordMatch, setIsPasswordMatch] = useState(true);
+    const navigate = useNavigate();
     const [isContainRegisterValue, setIsContainRegisterValue] = useState({
         username: false,
         phone: false,
@@ -32,13 +37,15 @@ const Register = () => {
     const [registerFormInput, setRegisterFormInput] = useState({
         userName: '',
         password: '',
-        firstName: '',
-        lastName: '',
+        firstName: googleUser?.given_name || '',
+        lastName: googleUser?.family_name || '',
         phoneNumber: '',
-        email: '',
+        email: googleUser?.email || '',
         gender: 'Nam',
         dob: new Date().toLocaleDateString(),
         confirmPassword: '',
+        providerKey: googleUser ? googleUser['sub'] : '',
+        loginProvider: googleUser ? 'Google' : '',
     });
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -79,12 +86,15 @@ const Register = () => {
             return;
         }
         setIsPasswordMatch(true);
+        setLoading(true);
         const containUsername = await checkUsername();
+
         if (containUsername) {
             setIsContainRegisterValue({ ...isContainRegisterValue, username: containUsername });
             setNextFields(false);
             return;
         }
+        setLoading(false);
         setIsContainRegisterValue({ ...isContainRegisterValue, username: false });
         setNextFields(!nextFields);
         setIsSubmit(true);
@@ -95,17 +105,23 @@ const Register = () => {
         if (!validatedForm()) {
             return;
         }
+        setLoading(true);
         const containEmail = await checkEmail();
         const containPhone = await checkPhone();
+
         setIsContainRegisterValue({ ...isContainRegisterValue, email: containEmail, phone: containPhone });
 
-        if (containEmail || containPhone) return;
+        if (containEmail || containPhone) {
+            setLoading(false);
+            return;
+        }
         const registerFormData = new FormData();
         const keys = Object.keys(registerFormInput);
         for (let key of keys) {
             registerFormData.append(key, registerFormInput[key]);
         }
         registerFormData.append('avatar', avatar);
+        registerFormData.append('host', window.location.protocol + '//' + window.location.host);
         const response = await authAPI.register(registerFormData);
         let message = {
             id: Math.random(),
@@ -119,8 +135,12 @@ const Register = () => {
             message.message = messages.client.register.register_succ;
         }
         dispatch(messageAction.setMessage(message));
+        setLoading(false);
+        navigate(configs.routes.auth);
     };
-    return (
+    return loading ? (
+        <Loading />
+    ) : (
         <div className="mx-auto max-w-screen-xl text-center">
             <h2 className="text-center text-6xl font-bold">Register your account</h2>
             <div>
@@ -159,6 +179,7 @@ const Register = () => {
                             />
                         ) : (
                             <Info
+                                googleUser={googleUser}
                                 avatar={avatar}
                                 isContainRegisterValue={isContainRegisterValue}
                                 fileSelectedError={fileSelectedError}

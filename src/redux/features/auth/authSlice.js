@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { login, logout, getCurrentUser } from './authActionThunk';
+import { login, logout, getCurrentUser, googleLogin } from './authActionThunk';
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
@@ -10,6 +10,20 @@ const authSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(login.fulfilled, (state, action) => {
+                const response = action.payload;
+                if (!response || !response?.isSuccess) {
+                    return {
+                        ...state,
+                        isLogin: false,
+                    };
+                }
+                return {
+                    ...state,
+                    currentUser: response.data,
+                    isLogin: true,
+                };
+            })
+            .addCase(googleLogin.fulfilled, (state, action) => {
                 const response = action.payload;
                 if (!response || !response?.isSuccess) {
                     return {
@@ -47,5 +61,5 @@ const authSlice = createSlice({
     },
 });
 
-export { login, logout, getCurrentUser };
+export { login, logout, getCurrentUser, googleLogin };
 export default authSlice.reducer;

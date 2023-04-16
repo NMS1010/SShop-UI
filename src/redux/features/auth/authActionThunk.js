@@ -49,7 +49,51 @@ export const login = createAsyncThunk('auth/login', async (data, thunkAPI) => {
     }
     return response;
 });
-
+export const googleLogin = createAsyncThunk('auth/google-login', async (data, thunkAPI) => {
+    let response = await authAPI.googleLogin(data.providerKey, data.email);
+    console.log(response);
+    if (!response || !response?.isSuccess) {
+        authUtils.clearToken();
+        thunkAPI.dispatch(
+            messageAction.setMessage({
+                id: Math.random(),
+                title: 'Login',
+                message: response?.errors || 'Cannot connect to server',
+                backgroundColor: BACKGROUND_COLOR_FAILED,
+                icon: '',
+            }),
+        );
+    } else {
+        let { accessToken, refreshToken } = response.data;
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('refreshToken', refreshToken);
+        let userId = authUtils.getUserId();
+        response = await usersAPI.getUserById(userId);
+        if (!response || !response?.isSuccess) {
+            authUtils.clearToken();
+            thunkAPI.dispatch(
+                messageAction.setMessage({
+                    id: Math.random(),
+                    title: 'Login',
+                    message: 'Failed to login',
+                    backgroundColor: BACKGROUND_COLOR_FAILED,
+                    icon: '',
+                }),
+            );
+        } else {
+            thunkAPI.dispatch(
+                messageAction.setMessage({
+                    id: Math.random(),
+                    title: 'Login',
+                    message: 'Login successfully',
+                    backgroundColor: BACKGROUND_COLOR_SUCCESS,
+                    icon: '',
+                }),
+            );
+        }
+    }
+    return response;
+});
 export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
     let userId = authUtils.getUserId();
     const response = await authAPI.revokeToken(userId);

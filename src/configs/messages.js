@@ -46,6 +46,10 @@ const messages = {
         order: {
             create_succss: 'Your order has been placed, please check your email for more information',
         },
+        verify: {
+            succ: 'Your account has been confirmed, please login to continue',
+            failed: 'Failed to verify your account, please check your email to gain new verified link',
+        },
     },
 };
 

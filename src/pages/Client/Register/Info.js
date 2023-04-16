@@ -10,6 +10,7 @@ const Info = ({
     setFileSelectedError,
     fileSelectedError,
     isContainRegisterValue,
+    googleUser = null,
 }) => {
     return (
         <div className="text-left">
@@ -92,6 +93,7 @@ const Info = ({
                         size="lg"
                         type="email"
                         required
+                        readOnly={googleUser ? true : false}
                         onChange={handleChange}
                         value={registerFormInput.email}
                     />

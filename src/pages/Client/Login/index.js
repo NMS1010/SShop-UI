@@ -3,17 +3,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../../../components/Button';
 import loginBg from '../../../assets/images/client/login.jpg';
 import * as authAction from '../../../redux/features/auth/authSlice';
 import * as messageAction from '../../../redux/features/message/messageSlice';
+import * as authUtil from '../../../utils/authUtils';
 import * as usersAPI from '../../../services/usersAPI';
 import config from '../../../configs';
 import { getUserId } from '../../../utils/authUtils';
+import Google from './Google';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import jwtDecode from 'jwt-decode';
 const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { state } = useLocation();
     const [loading, setLoading] = useState(false);
     const [submitFirstPress, setSubmitFirstPress] = useState(false);
     const [loginFormInput, setLoginFormInput] = useState({
@@ -45,6 +50,40 @@ const Login = () => {
     useEffect(() => {
         if (submitFirstPress) validattion();
     }, [loginFormInput]);
+    const googleLogin = async (googleCredential) => {
+        console.log(googleCredential);
+        const objGoogleToken = jwtDecode(googleCredential.credential);
+        const email = objGoogleToken['email'];
+        setLoading(true);
+        const resp = await usersAPI.checkEmail(email);
+        if (resp?.isSuccess) {
+            if (resp.data) {
+                await dispatch(authAction.googleLogin({ providerKey: objGoogleToken['sub'], email: email }));
+                const res = await usersAPI.getUserById(authUtil.getUserId());
+                const currentUser = res.data;
+                let url = config.routes.home;
+                if (currentUser && currentUser.roles) {
+                    const res = currentUser.roles.some((role) => role?.roleName === 'Admin');
+                    if (res) {
+                        url = config.routes.admin_home;
+                    }
+                }
+                setLoading(false);
+                navigate(url);
+            } else {
+                localStorage.setItem('googleUser', JSON.stringify(objGoogleToken));
+                navigate(config.routes.signup);
+            }
+        }
+        setLoading(false);
+    };
+    useEffect(() => {
+        const googleCredential = localStorage.getItem('googleCredential');
+        if (googleCredential) {
+            googleLogin(JSON.parse(googleCredential));
+            localStorage.removeItem('googleCredential');
+        }
+    }, [state]);
     const handleSubmit = async (e) => {
         setSubmitFirstPress(true);
         e.preventDefault();
@@ -76,9 +115,9 @@ const Login = () => {
                             </button>
                         </div>
                         <div className="">
-                            <button className="py-2 px-24 border border-1 hover:bg-red-400 transition-all duration-500">
-                                <FontAwesomeIcon icon={faGoogle} />
-                            </button>
+                            <GoogleOAuthProvider clientId="903062961446-ri29gdpngnr71lil7fgkpnckc296eeoa.apps.googleusercontent.com">
+                                <Google />
+                            </GoogleOAuthProvider>
                         </div>
                     </div>
                     <div className="flex items-center justify-center w-max m-auto">
