@@ -12,6 +12,8 @@ const client = {
     orders: '/user/purchase/orders',
     order_items: '/user/purchase/orders/:orderId',
     verify: '/register-confirm',
+    forgot_password: '/forgot-password',
+    reset_password: '/reset-password',
 };
 const admin = {
     admin_home: '/admin/',

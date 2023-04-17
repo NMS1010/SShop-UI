@@ -50,6 +50,14 @@ const messages = {
             succ: 'Your account has been confirmed, please login to continue',
             failed: 'Failed to verify your account, please check your email to gain new verified link',
         },
+        forgot: {
+            succ: 'A link is sent to your email to reset password, please check it',
+            failed: 'Failed to recognition your account, please check your email',
+        },
+        reset: {
+            succ: 'Change your password successfully. Now you can sign in to your account',
+            failed: 'Failed to reset your password, please try again',
+        },
     },
 };
 

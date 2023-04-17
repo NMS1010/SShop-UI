@@ -10,3 +10,5 @@ export { default as Profile } from './Profile';
 export { default as Order } from './Order';
 export { default as OrderItem } from './OrderItem';
 export { default as RegisterConfirm } from './RegisterConfirm';
+export { default as ForgotPassword } from './ForgotPassword';
+export { default as ChangePassword } from './ChangePassword';

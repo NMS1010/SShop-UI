@@ -6,7 +6,7 @@ import { clearMessage } from '../../redux/features/message/messageSlice';
 
 const cx = classNames.bind(styles);
 
-const Toast = ({ children, position, autoDelete, autoDeleteTime = 3000 }) => {
+const Toast = ({ children, position, autoDelete, autoDeleteTime = 5000 }) => {
     const message = useSelector((state) => {
         return state?.message;
     });

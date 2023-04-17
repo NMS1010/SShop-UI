@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Button from '../../../components/Button';
 import loginBg from '../../../assets/images/client/login.jpg';
 import * as authAction from '../../../redux/features/auth/authSlice';
@@ -166,9 +166,12 @@ const Login = () => {
 
                             <div className="flex items-center justify-between">
                                 <div className="text-sm">
-                                    <a href="#" className="text-2xl font-medium text-indigo-600 hover:text-indigo-500">
+                                    <Link
+                                        to={config.routes.forgot_password}
+                                        className="text-2xl font-medium text-indigo-600 hover:text-indigo-500"
+                                    >
                                         Forgot your password?
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
 

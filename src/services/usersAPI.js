@@ -26,3 +26,11 @@ export const checkPhone = async (phone) => {
 export const verifyToken = async (params) => {
     return await baseAPI.getData('users/register-confirm', params);
 };
+
+export const forgotPassword = async (frmData) => {
+    return await baseAPI.createFormData('users/forgot-password', frmData);
+};
+
+export const resetPassword = async (frmData) => {
+    return await baseAPI.createFormData('users/reset-password', frmData);
+};
