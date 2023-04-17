@@ -14,6 +14,8 @@ import * as productsAPI from '../../../services/productsAPI';
 import logoutHandler from '../../../utils/logoutHandler';
 import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../constants';
 import messages from '../../../configs/messages';
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Product = () => {
     const dispatch = useDispatch();
@@ -125,34 +127,34 @@ const Product = () => {
                     />
                     {action.add && !isOutClick && (
                         <ModalWrapper>
-                            <OutsideAlerter setIsOut={setIsOutClick}>
-                                <ProductForm setAction={setAction} products={products} getAllProducts={fetchAPI} />
-                            </OutsideAlerter>
+                            <ProductForm
+                                setIsOutClick={setIsOutClick}
+                                setAction={setAction}
+                                products={products}
+                                getAllProducts={fetchAPI}
+                            />
                         </ModalWrapper>
                     )}
                     {action.edit && !isOutClick && (
                         <ModalWrapper>
-                            <OutsideAlerter setIsOut={setIsOutClick}>
-                                <ProductForm
-                                    products={products}
-                                    product={selectedProduct}
-                                    getAllProducts={fetchAPI}
-                                    setAction={setAction}
-                                />
-                            </OutsideAlerter>
+                            <ProductForm
+                                setIsOutClick={setIsOutClick}
+                                products={products}
+                                product={selectedProduct}
+                                getAllProducts={fetchAPI}
+                                setAction={setAction}
+                            />
                         </ModalWrapper>
                     )}
                     {action.delete && !isOutClick && (
                         <ModalWrapper>
-                            <OutsideAlerter setIsOut={setIsOutClick}>
-                                <Alert
-                                    title={'Delete Confirmation'}
-                                    content={'Do you want to remove this product ?'}
-                                    cancelClick={() => setIsOutClick(true)}
-                                    confirmClick={() => deleteProduct()}
-                                    loading={buttonLoading}
-                                />
-                            </OutsideAlerter>
+                            <Alert
+                                title={'Delete Confirmation'}
+                                content={'Do you want to remove this product ?'}
+                                cancelClick={() => setIsOutClick(true)}
+                                confirmClick={() => deleteProduct()}
+                                loading={buttonLoading}
+                            />
                         </ModalWrapper>
                     )}
                 </>

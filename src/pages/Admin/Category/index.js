@@ -18,7 +18,7 @@ import messages from '../../../configs/messages';
 const Category = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const hiddenColumns = ['parentCategoryId', 'parentCategoryName'];
+    const hiddenColumns = ['parentCategoryId', 'parentCategoryName', 'content'];
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [buttonLoading, setButtonLoading] = useState(false);

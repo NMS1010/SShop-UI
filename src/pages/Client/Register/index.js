@@ -17,6 +17,8 @@ import messages from '../../../configs/messages';
 import { useNavigate } from 'react-router-dom';
 import configs from '../../../configs';
 import Loading from '../../../components/Loading';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import Google from '../Login/Google';
 const Register = () => {
     const dispatch = useDispatch();
     const googleUser = JSON.parse(localStorage.getItem('googleUser'));
@@ -144,19 +146,6 @@ const Register = () => {
         <div className="mx-auto max-w-screen-xl text-center">
             <h2 className="text-center text-6xl font-bold">Register your account</h2>
             <div>
-                <h3 className="text-2xl mt-5 mb-3 text-center">Sign in with</h3>
-                <div className="flex justify-center my-3">
-                    <div className="">
-                        <button className="py-2 mr-4 px-24 border border-1 hover:bg-cyan-500 transition-all duration-500">
-                            <FontAwesomeIcon icon={faFacebook} />
-                        </button>
-                    </div>
-                    <div className="">
-                        <button className="py-2 ml-4 px-24 border border-1 hover:bg-red-400 transition-all duration-500">
-                            <FontAwesomeIcon icon={faGoogle} />
-                        </button>
-                    </div>
-                </div>
                 <div class="flex items-center justify-center w-max m-auto">
                     <hr class="w-64 h-1 my-8 bg-gray-500 border-0 rounded dark:bg-gray-700" />
                     <p className="text-2xl mx-4 mt-2 text-slate-400">Or register</p>

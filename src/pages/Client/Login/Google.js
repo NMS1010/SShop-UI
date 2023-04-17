@@ -5,6 +5,7 @@ import config from '../../../configs';
 import { nanoid } from '@reduxjs/toolkit';
 const Google = () => {
     const navigate = useNavigate();
+
     const onSuccess = (credentialResponse) => {
         localStorage.setItem('googleCredential', JSON.stringify(credentialResponse));
         navigate(config.routes.auth, { state: nanoid() });

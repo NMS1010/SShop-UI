@@ -17,7 +17,7 @@ import logoutHandler from '../../../../utils/logoutHandler';
 import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../../constants';
 import messages from '../../../../configs/messages';
 
-const ProductImages = ({ productId, setEditImage }) => {
+const ProductImages = ({ productId, setOutClick, setEditImage }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const hiddenColumns = ['productId'];
@@ -112,7 +112,7 @@ const ProductImages = ({ productId, setEditImage }) => {
                     <FontAwesomeIcon
                         className="position-absolute fs-1"
                         style={{ top: '6%', left: '50%', transform: 'translate(-50%, -50%)', cursor: 'pointer' }}
-                        onClick={() => setEditImage(false)}
+                        onClick={() => setOutClick(true)}
                         icon={faCircleXmark}
                     />
                     <Table
@@ -126,39 +126,34 @@ const ProductImages = ({ productId, setEditImage }) => {
                     />
                     {action.add && !isOutClick && (
                         <ModalWrapper>
-                            <OutsideAlerter setIsOut={setIsOutClick}>
-                                <ProductImagesForm
-                                    productId={productId}
-                                    setAction={setAction}
-                                    productImage={selectedProductImage}
-                                    getAllProductImages={fetchAPI}
-                                />
-                            </OutsideAlerter>
+                            <ProductImagesForm
+                                setIsOutClick={setIsOutClick}
+                                productId={productId}
+                                setAction={setAction}
+                                getAllProductImages={fetchAPI}
+                            />
                         </ModalWrapper>
                     )}
                     {action.edit && !isOutClick && (
                         <ModalWrapper>
-                            <OutsideAlerter setIsOut={setIsOutClick}>
-                                <ProductImagesForm
-                                    productId={productId}
-                                    productImage={selectedProductImage}
-                                    getAllProductImages={fetchAPI}
-                                    setAction={setAction}
-                                />
-                            </OutsideAlerter>
+                            <ProductImagesForm
+                                setIsOutClick={setIsOutClick}
+                                productId={productId}
+                                productImage={selectedProductImage}
+                                getAllProductImages={fetchAPI}
+                                setAction={setAction}
+                            />
                         </ModalWrapper>
                     )}
                     {action.delete && !isOutClick && (
                         <ModalWrapper>
-                            <OutsideAlerter setIsOut={setIsOutClick}>
-                                <Alert
-                                    title={'Delete Confirmation'}
-                                    content={'Do you want to remove this product ?'}
-                                    cancelClick={() => setIsOutClick(true)}
-                                    confirmClick={() => deleteProductImages()}
-                                    loading={buttonLoading}
-                                />
-                            </OutsideAlerter>
+                            <Alert
+                                title={'Delete Confirmation'}
+                                content={'Do you want to remove this product ?'}
+                                cancelClick={() => setIsOutClick(true)}
+                                confirmClick={() => deleteProductImages()}
+                                loading={buttonLoading}
+                            />
                         </ModalWrapper>
                     )}
                 </div>

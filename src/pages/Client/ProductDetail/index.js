@@ -10,7 +10,7 @@ import Loading from '../../../components/Loading';
 import { useDispatch } from 'react-redux';
 import * as cartAction from '../../../redux/features/cart/cartSlice';
 import * as wishAction from '../../../redux/features/wish/wishSlice';
-
+import ReactHtmlParser from 'react-html-parser';
 const ProductDetail = () => {
     const { productId } = useParams();
     const dispatch = useDispatch();
@@ -59,7 +59,7 @@ const ProductDetail = () => {
                                 <Carousel.Item>
                                     <img
                                         alt="img"
-                                        className="object-cover object-center rounded border border-gray-200 w-full h-96 "
+                                        className="object-cover object-center rounded border border-gray-200 w-full"
                                         src={`${process.env.REACT_APP_HOST}${p.image}`}
                                     />
                                 </Carousel.Item>
@@ -100,7 +100,6 @@ const ProductDetail = () => {
                                     </span>
                                 </span>
                             </div>
-                            <p className="leading-relaxed pb-5 border-b-2">{product.description}</p>
 
                             <div className="flex mt-5 items-center">
                                 <span className="title-font font-medium text-2xl text-gray-900">
@@ -142,6 +141,15 @@ const ProductDetail = () => {
                     </div>
                 </div>
             </section>
+            <div className="mt-20 bg-white py-12 px-4 md:px-6 2xl:px-0 2xl:container 2xl:mx-auto flex justify-center items-center  rounded-3xl ">
+                <div className="flex flex-col justify-start items-start w-full space-y-8">
+                    <p className="w-full text-center text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9 text-gray-800 dark:text-white ">
+                        Description
+                    </p>
+
+                    <div className="w-full">{ReactHtmlParser(product.description)}</div>
+                </div>
+            </div>
             <div className="mt-20 bg-white py-12 px-4 md:px-6 2xl:px-0 2xl:container 2xl:mx-auto flex justify-center items-center  rounded-3xl ">
                 <div className="flex flex-col justify-start items-start w-full space-y-8">
                     <p className="w-full text-center text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9 text-gray-800 dark:text-white ">

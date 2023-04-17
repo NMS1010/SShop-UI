@@ -51,7 +51,6 @@ const Login = () => {
         if (submitFirstPress) validattion();
     }, [loginFormInput]);
     const googleLogin = async (googleCredential) => {
-        console.log(googleCredential);
         const objGoogleToken = jwtDecode(googleCredential.credential);
         const email = objGoogleToken['email'];
         setLoading(true);
@@ -109,11 +108,11 @@ const Login = () => {
                 <div>
                     <h3 className="text-2xl mt-5 mb-3 text-center">Sign in with</h3>
                     <div className="flex justify-evenly my-3">
-                        <div className="">
+                        {/* <div className="">
                             <button className="py-2 px-24 border border-1 hover:bg-cyan-500 transition-all duration-500">
                                 <FontAwesomeIcon icon={faFacebook} />
                             </button>
-                        </div>
+                        </div> */}
                         <div className="">
                             <GoogleOAuthProvider clientId="903062961446-ri29gdpngnr71lil7fgkpnckc296eeoa.apps.googleusercontent.com">
                                 <Google />

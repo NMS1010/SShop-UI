@@ -21,6 +21,7 @@ const ProductImagesForm = ({
     setAction = () => {},
     productImage = null,
     productId,
+    setIsOutClick,
     getAllProductImages = () => {},
 }) => {
     const navigate = useNavigate();
@@ -88,7 +89,7 @@ const ProductImagesForm = ({
         handleProductImages();
     };
     return (
-        <div className={cx('container')} style={{ textAlign: 'center' }}>
+        <div className={cx('container')} style={{ textAlign: 'center', height: 'max-content' }}>
             <h1 className={cx('title')}>Product Images</h1>
             <form className={cx('form')} onSubmit={handleSubmit}>
                 <div className={cx('form-group')}>
@@ -104,6 +105,9 @@ const ProductImagesForm = ({
                 <div className={cx('action-btn')}>
                     <Button className={cx('submit-btn')} type="submit" loading={loading}>
                         {productImage ? 'Update' : 'Create'}
+                    </Button>
+                    <Button className={cx('cancel-btn')} onClick={() => setIsOutClick(true)}>
+                        Cancel
                     </Button>
                 </div>
             </form>
