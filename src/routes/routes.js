@@ -14,7 +14,7 @@ import {
     ForgotPassword,
     ChangePassword,
 } from '../pages/Client';
-import { Dashboard, User, Brand, Category, Product, AdminProfile, Role, Forbidden } from '../pages/Admin';
+import { Dashboard, User, Brand, Category, Product, AdminProfile, Role, Forbidden, OrderAdmin } from '../pages/Admin';
 import { AdminLayout, ClientLayout } from '../layouts';
 import config from '../configs/index';
 //not login
@@ -45,6 +45,8 @@ const privateRoutes = [
         roles: ['admin'],
     },
     { path: config.routes.admin_products, component: Product, layout: AdminLayout, private: true, roles: ['admin'] },
+    { path: config.routes.admin_orders, component: OrderAdmin, layout: AdminLayout, private: true, roles: ['admin'] },
+
     { path: config.routes.cart, component: Cart, layout: ClientLayout, private: true, roles: ['customer', 'admin'] },
     {
         path: config.routes.checkout,

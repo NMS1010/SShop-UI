@@ -7,7 +7,8 @@ import Button from '../Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import Dropdown from 'react-bootstrap/Dropdown';
-
+import * as orderStateUtil from '../../utils/orderStateUtils';
+import { Badge } from 'react-bootstrap';
 const cx = classNames.bind(styles);
 const Table = ({
     data,
@@ -147,6 +148,20 @@ const Table = ({
                                     if (typeof cell.value == 'boolean') {
                                         return <td {...cell.getCellProps()}>{cell.value ? 'true' : 'false'}</td>;
                                     }
+                                    let date = Date.parse(cell.value);
+                                    if (!isNaN(date) && typeof cell.value === 'string' && cell.value.includes('T')) {
+                                        return (
+                                            <td {...cell.getCellProps()}>{new Date(cell.value).toLocaleString()}</td>
+                                        );
+                                    }
+                                    const bg = orderStateUtil.orderState(cell.value);
+                                    if (bg) {
+                                        return (
+                                            <td {...cell.getCellProps()}>
+                                                <Badge bg={bg}>{cell.render('Cell')}</Badge>
+                                            </td>
+                                        );
+                                    }
                                     return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
                                 })}
                                 <td className={cx('action')}>
@@ -159,9 +174,13 @@ const Table = ({
                                             <Dropdown.Item onClick={() => handleUpdateItem(row.values[uniqueField])}>
                                                 Sửa
                                             </Dropdown.Item>
-                                            <Dropdown.Item onClick={() => handleDeleteItem(row.values[uniqueField])}>
-                                                Xoá
-                                            </Dropdown.Item>
+                                            {!uniqueField.includes('order') && (
+                                                <Dropdown.Item
+                                                    onClick={() => handleDeleteItem(row.values[uniqueField])}
+                                                >
+                                                    Xoá
+                                                </Dropdown.Item>
+                                            )}
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 </td>

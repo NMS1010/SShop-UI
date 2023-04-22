@@ -169,7 +169,7 @@ const Order = () => {
                                                 </Link>
                                             </div>
                                             <span className="bg-green-500 py-1 px-2 rounded text-white text-xl w-1/3">
-                                                {order.orderState.orderStateName}
+                                                {order.orderStateName}
                                             </span>
                                         </div>
 
@@ -225,7 +225,7 @@ const Order = () => {
                                                                 />
                                                             </svg>
                                                             <p className="ml-2 mt-3 text-xl font-medium text-gray-500">
-                                                                Delivered on {order.dateDone}
+                                                                Delivered on {new Date(order.dateDone).toLocaleString()}
                                                             </p>
                                                         </div>
                                                     )}

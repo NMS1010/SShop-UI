@@ -7,21 +7,21 @@ const CANCELLED = 1;
 const OrderState = ({ order }) => {
     const [currentPercent, setCurrentPercent] = useState(0);
     useEffect(() => {
-        switch (order.orderState.orderStateName) {
-            case 'Đang chuẩn bị':
+        switch (order.orderStateName) {
+            case 'Pending':
                 setCurrentPercent(PENDING);
                 break;
-            case 'Đang vận chuyển':
+            case 'On the way':
                 setCurrentPercent(ON_THE_WAY);
                 break;
-            case 'Đã hoàn thành':
+            case 'Delivered':
                 setCurrentPercent(DELIVERED);
                 break;
-            case 'Đã huỷ':
+            case 'Cancelled':
                 setCurrentPercent(CANCELLED);
                 break;
         }
-    }, [order.orderState.orderStateName]);
+    }, [order.orderStateName]);
     return (
         <div className="px-6 py-10 bg-white max-w-screen-xl mx-auto my-5">
             <div className="stepper">

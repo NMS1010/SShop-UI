@@ -19,6 +19,7 @@ const messages = {
             update_profile_suc: 'Update your profile successfull',
             update_profile_err: 'Failed to update your profile',
         },
+        order: generateAdminMessage('order'),
     },
     client: {
         register: {

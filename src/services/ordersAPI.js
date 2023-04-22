@@ -15,3 +15,7 @@ export const getOrderById = async (id) => {
 export const createOrder = async (order) => {
     return await baseAPI.createFormData('orders/add', order);
 };
+
+export const updateOrder = async (order) => {
+    return await baseAPI.updateFormData('orders/update', order);
+};

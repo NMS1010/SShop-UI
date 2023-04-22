@@ -18,7 +18,6 @@ const OrderItem = () => {
     const fetchOrderDetail = useCallback(async () => {
         setLoading(true);
         const response = await ordersAPI.getOrderById(orderId);
-        console.log(response);
         if (!response?.isSuccess) {
             dispatch(
                 messageAction.setMessage({
@@ -32,6 +31,7 @@ const OrderItem = () => {
             return;
         }
         setLoading(false);
+        console.log(response.data);
         setOrder(response.data);
     }, [orderId]);
     useEffect(() => {
@@ -151,11 +151,11 @@ const OrderItem = () => {
                                 </h3>
                                 <div className="flex justify-between items-start w-full">
                                     <div className="flex justify-center items-center space-x-4">
-                                        <div className="w-8 h-8">
+                                        <div className="w-20 h-20">
                                             <img
                                                 className="w-full h-full"
                                                 alt="logo"
-                                                src="https://i.ibb.co/L8KSdNQ/image-3.png"
+                                                src={`${process.env.REACT_APP_HOST}${order.deliveryMethod.image}`}
                                             />
                                         </div>
                                         <div className="flex flex-col justify-start items-center">
@@ -168,6 +168,26 @@ const OrderItem = () => {
                                     <p className="text-xl font-semibold leading-6 dark:text-white text-gray-800">
                                         {order.deliveryMethod.deliveryMethodPrice} VND
                                     </p>
+                                </div>
+                                <h3 className="text-2xl dark:text-white font-semibold leading-5 text-gray-800">
+                                    Payment
+                                </h3>
+                                <div className="flex justify-between items-start w-full">
+                                    <div className="flex justify-center items-center space-x-4">
+                                        <div className="w-20 h-20">
+                                            <img
+                                                className="w-full h-full"
+                                                alt="logo"
+                                                src={`${process.env.REACT_APP_HOST}${order.paymentMethod.image}`}
+                                            />
+                                        </div>
+                                        <div className="flex flex-col justify-start items-center">
+                                            <p className="text-xl leading-6 dark:text-white font-semibold text-gray-800">
+                                                {order.paymentMethod.paymentMethodName}
+                                                <br />
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -235,21 +255,13 @@ const OrderItem = () => {
                                             {`${order.address.specificAddress}, ${order.address.wardName}, ${order.address.districtName}, ${order.address.provinceName}`}
                                         </p>
                                     </div>
-                                    <div className="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4">
-                                        <p className="text-xl dark:text-white font-semibold leading-4 text-center md:text-left text-gray-800">
-                                            Payment Method
-                                        </p>
-                                        <p className="w-48 lg:w-full dark:text-gray-300 text-center md:text-left text-xl leading-5 text-gray-600">
-                                            {order.paymentMethod.paymentMethodName}
-                                        </p>
-                                    </div>
                                     {order?.dateDone && (
                                         <div className="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4">
                                             <p className="text-xl dark:text-white font-semibold leading-4 text-center md:text-left text-gray-800">
                                                 Date done
                                             </p>
                                             <p className="w-48 lg:w-full dark:text-gray-300 text-center md:text-left text-xl leading-5 text-gray-600">
-                                                {order.dateDone}
+                                                {new Date(order.dateDone).toLocaleString()}
                                             </p>
                                         </div>
                                     )}
@@ -259,7 +271,7 @@ const OrderItem = () => {
                                                 Date paid
                                             </p>
                                             <p className="w-48 lg:w-full dark:text-gray-300 text-center md:text-left text-xl leading-5 text-gray-600">
-                                                {order.datePaid}
+                                                {new Date(order.datePaid).toLocaleString()}
                                             </p>
                                         </div>
                                     )}
