@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import './style.scss';
-const PENDING = 7;
-const ON_THE_WAY = 5;
-const DELIVERED = 3;
-const CANCELLED = 1;
+const PENDING = 6;
+const ON_THE_WAY = 3.5;
+const DELIVERED = 1;
+const CANCELLED = 0.9;
 const OrderState = ({ order }) => {
     const [currentPercent, setCurrentPercent] = useState(0);
     useEffect(() => {
@@ -12,6 +12,9 @@ const OrderState = ({ order }) => {
                 setCurrentPercent(PENDING);
                 break;
             case 'On the way':
+                setCurrentPercent(ON_THE_WAY);
+                break;
+            case 'Ready to ship':
                 setCurrentPercent(ON_THE_WAY);
                 break;
             case 'Delivered':
@@ -245,28 +248,6 @@ const OrderState = ({ order }) => {
                             <div className="stepper__step-date">
                                 {order.dateDone && new Date(order.dateDone).toLocaleString()}
                             </div>
-                        </div>
-                        <div className="stepper__step">
-                            <div className="stepper__step-icon">
-                                <svg
-                                    enableBackground="new 0 0 32 32"
-                                    viewBox="0 0 32 32"
-                                    x="0"
-                                    y="0"
-                                    className="shopee-svg-icon icon-order-rating"
-                                >
-                                    <polygon
-                                        fill="none"
-                                        points="16 3.2 20.2 11.9 29.5 13 22.2 19 24.3 28.8 16 23.8 7.7 28.8 9.8 19 2.5 13 11.8 11.9"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeMiterlimit="10"
-                                        strokeWidth="3"
-                                    ></polygon>
-                                </svg>
-                            </div>
-                            <div className="stepper__step-text">Review</div>
-                            <div className="stepper__step-date"></div>
                         </div>
                     </>
                 ) : (

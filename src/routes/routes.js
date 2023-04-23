@@ -14,7 +14,20 @@ import {
     ForgotPassword,
     ChangePassword,
 } from '../pages/Client';
-import { Dashboard, User, Brand, Category, Product, AdminProfile, Role, Forbidden, OrderAdmin } from '../pages/Admin';
+import {
+    Dashboard,
+    User,
+    Brand,
+    Category,
+    Product,
+    AdminProfile,
+    Role,
+    Forbidden,
+    OrderAdmin,
+    OrderDetail,
+    Delivery,
+    ReviewAdmin,
+} from '../pages/Admin';
 import { AdminLayout, ClientLayout } from '../layouts';
 import config from '../configs/index';
 //not login
@@ -38,6 +51,13 @@ const privateRoutes = [
     { path: config.routes.admin_categories, component: Category, layout: AdminLayout, private: true, roles: ['admin'] },
     { path: config.routes.admin_brands, component: Brand, layout: AdminLayout, private: true, roles: ['admin'] },
     {
+        path: config.routes.admin_deliveryMethod,
+        component: Delivery,
+        layout: AdminLayout,
+        private: true,
+        roles: ['admin'],
+    },
+    {
         path: config.routes.admin_profile,
         component: AdminProfile,
         layout: AdminLayout,
@@ -46,6 +66,14 @@ const privateRoutes = [
     },
     { path: config.routes.admin_products, component: Product, layout: AdminLayout, private: true, roles: ['admin'] },
     { path: config.routes.admin_orders, component: OrderAdmin, layout: AdminLayout, private: true, roles: ['admin'] },
+    { path: config.routes.admin_reviews, component: ReviewAdmin, layout: AdminLayout, private: true, roles: ['admin'] },
+    {
+        path: config.routes.admin_order_detail,
+        component: OrderDetail,
+        layout: AdminLayout,
+        private: true,
+        roles: ['admin'],
+    },
 
     { path: config.routes.cart, component: Cart, layout: ClientLayout, private: true, roles: ['customer', 'admin'] },
     {

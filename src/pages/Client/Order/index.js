@@ -91,7 +91,8 @@ const Order = () => {
                                 <div className=" mx-auto space-y-8 sm:px-4 lg:px-0">
                                     <div className="bg-white border-t border-b border-gray-200 shadow-sm sm:rounded-lg sm:border">
                                         <h3 className="sr-only">
-                                            Order placed on <time datetime="2021-07-06">Jul 6, 2021</time>
+                                            Order placed on{' '}
+                                            <time dateTime="2021-07-06">{order.dateCreated.split('T')[0]}</time>
                                         </h3>
 
                                         <div className="flex items-center p-4 border-b border-gray-200 sm:p-6 sm:grid sm:grid-cols-4 sm:gap-x-6">
@@ -131,7 +132,7 @@ const Order = () => {
                                                             fill="none"
                                                             viewBox="0 0 24 24"
                                                             stroke="currentColor"
-                                                            ariaHidden="true"
+                                                            aria-hidden="true"
                                                         >
                                                             <path
                                                                 strokeLinecap="round"
@@ -147,7 +148,7 @@ const Order = () => {
                                                     role="menu"
                                                     aria-orientation="vertical"
                                                     aria-labelledby="menu-0-button"
-                                                    tabindex="-1"
+                                                    tabIndex="-1"
                                                 >
                                                     <div className="py-1" role="none">
                                                         <Link
@@ -216,7 +217,7 @@ const Order = () => {
                                                                 xmlns="http://www.w3.org/2000/svg"
                                                                 viewBox="0 0 20 20"
                                                                 fill="currentColor"
-                                                                ariaHidden="true"
+                                                                aria-hidden="true"
                                                             >
                                                                 <path
                                                                     fillRule="evenodd"

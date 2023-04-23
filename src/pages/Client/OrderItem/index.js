@@ -9,10 +9,17 @@ import { BACKGROUND_COLOR_FAILED } from '../../../constants';
 import Loading from '../../../components/Loading';
 import { useEffect } from 'react';
 import OrderState from '../components/OrderState';
+import RatingForm from '../components/RatingForm';
+import ModalWrapper from '../../../components/ModalWrapper';
+import { ORDER_STATE } from '../../../utils/orderStateUtils';
 const OrderItem = () => {
     const [loading, setLoading] = useState(true);
     const [order, setOrder] = useState(null);
     const { currentUser } = useSelector((state) => state?.auth);
+    const [review, setReview] = useState({
+        click: false,
+        productId: -1,
+    });
     const { orderId } = useParams();
     const dispatch = useDispatch();
     const fetchOrderDetail = useCallback(async () => {
@@ -31,7 +38,6 @@ const OrderItem = () => {
             return;
         }
         setLoading(false);
-        console.log(response.data);
         setOrder(response.data);
     }, [orderId]);
     useEffect(() => {
@@ -104,6 +110,29 @@ const OrderItem = () => {
                                                 </p>
                                             </div>
                                         </div>
+                                        {order.orderStateName === ORDER_STATE.DELIVERED && (
+                                            <button
+                                                onClick={() => {
+                                                    setReview({
+                                                        click: true,
+                                                        productId: oi.productId,
+                                                    });
+                                                }}
+                                                className="py-3 w-1/12  text-xl bg-gradient-to-r from-purple-500 to-indigo-600 rounded-xl text-white"
+                                            >
+                                                Rate now
+                                            </button>
+                                        )}
+
+                                        {review.click && (
+                                            <ModalWrapper>
+                                                <RatingForm
+                                                    productId={review.productId}
+                                                    setReview={setReview}
+                                                    orderItem={oi}
+                                                />
+                                            </ModalWrapper>
+                                        )}
                                     </div>
                                 );
                             })}

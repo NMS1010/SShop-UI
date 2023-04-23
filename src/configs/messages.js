@@ -20,6 +20,8 @@ const messages = {
             update_profile_err: 'Failed to update your profile',
         },
         order: generateAdminMessage('order'),
+        delivery: generateAdminMessage('delivery'),
+        review: generateAdminMessage('review'),
     },
     client: {
         register: {
@@ -58,6 +60,9 @@ const messages = {
         reset: {
             succ: 'Change your password successfully. Now you can sign in to your account',
             failed: 'Failed to reset your password, please try again',
+        },
+        review: {
+            succ: 'you has been rating for this product',
         },
     },
 };
