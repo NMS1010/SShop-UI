@@ -1,19 +1,27 @@
+export const ORDER_STATE = {
+    PENDING: 'Pending',
+    ON_THE_WAY: 'On the way',
+    READY_TO_SHIP: 'Ready to ship',
+    DELIVERED: 'Delivered',
+    CANCELLED: 'Cancelled',
+};
+
 export const orderState = (name) => {
     let bg = '';
     switch (name) {
-        case 'Pending':
+        case ORDER_STATE.PENDING:
             bg = 'primary';
             break;
-        case 'On the way':
+        case ORDER_STATE.ON_THE_WAY:
             bg = 'info';
             break;
-        case 'Delivered':
+        case ORDER_STATE.DELIVERED:
             bg = 'success';
             break;
-        case 'Cancelled':
+        case ORDER_STATE.CANCELLED:
             bg = 'danger';
             break;
-        case 'Ready to ship':
+        case ORDER_STATE.READY_TO_SHIP:
             bg = 'secondary';
             break;
         default:

@@ -9,6 +9,8 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import Dropdown from 'react-bootstrap/Dropdown';
 import * as orderStateUtil from '../../utils/orderStateUtils';
 import { Badge } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import configs from '../../configs';
 const cx = classNames.bind(styles);
 const Table = ({
     data,
@@ -20,6 +22,7 @@ const Table = ({
     handleUpdateItem = (id) => {},
     handleDeleteItem = (id) => {},
 }) => {
+    const navigate = useNavigate();
     const [filterData, setFilterData] = useState({ keyword: '', items: data });
     const columns = useMemo(
         () =>
@@ -162,6 +165,21 @@ const Table = ({
                                             </td>
                                         );
                                     }
+                                    if (typeof cell.value === 'string') {
+                                        if (cell.value.toLowerCase() === 'active') {
+                                            return (
+                                                <td {...cell.getCellProps()}>
+                                                    <Badge bg={'success'}>{cell.render('Cell')}</Badge>
+                                                </td>
+                                            );
+                                        } else if (cell.value.toLowerCase() === 'inactive') {
+                                            return (
+                                                <td {...cell.getCellProps()}>
+                                                    <Badge bg={'danger'}>{cell.render('Cell')}</Badge>
+                                                </td>
+                                            );
+                                        }
+                                    }
                                     return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
                                 })}
                                 <td className={cx('action')}>
@@ -171,14 +189,34 @@ const Table = ({
                                         </Dropdown.Toggle>
 
                                         <Dropdown.Menu>
-                                            <Dropdown.Item onClick={() => handleUpdateItem(row.values[uniqueField])}>
-                                                Sửa
-                                            </Dropdown.Item>
-                                            {!uniqueField.includes('order') && (
+                                            {!uniqueField.includes('review') ? (
+                                                <Dropdown.Item
+                                                    onClick={() => handleUpdateItem(row.values[uniqueField])}
+                                                >
+                                                    Edit
+                                                </Dropdown.Item>
+                                            ) : (
                                                 <Dropdown.Item
                                                     onClick={() => handleDeleteItem(row.values[uniqueField])}
                                                 >
-                                                    Xoá
+                                                    Change status
+                                                </Dropdown.Item>
+                                            )}
+                                            {!uniqueField.includes('order') ? (
+                                                <Dropdown.Item
+                                                    onClick={() => handleDeleteItem(row.values[uniqueField])}
+                                                >
+                                                    Remove
+                                                </Dropdown.Item>
+                                            ) : (
+                                                <Dropdown.Item
+                                                    onClick={() =>
+                                                        navigate(
+                                                            `${configs.routes.admin_orders}/${row.values[uniqueField]}`,
+                                                        )
+                                                    }
+                                                >
+                                                    Order detail
                                                 </Dropdown.Item>
                                             )}
                                         </Dropdown.Menu>

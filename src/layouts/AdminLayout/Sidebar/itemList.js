@@ -5,6 +5,8 @@ import brandIcon from '../../../assets/images/admin/icons/brand.svg';
 import productIcon from '../../../assets/images/admin/icons/product.png';
 import roleIcon from '../../../assets/images/admin/icons/role.png';
 import inventoryIcon from '../../../assets/images/admin/icons/inventory.png';
+import deliveryIcon from '../../../assets/images/admin/icons/fast-delivery.png';
+import reviewIcon from '../../../assets/images/admin/icons/reviews.png';
 import config from '../../../configs';
 
 const sideBarItemList = [
@@ -42,6 +44,16 @@ const sideBarItemList = [
         path: config.routes.admin_orders,
         content: 'Orders',
         icon: inventoryIcon,
+    },
+    {
+        path: config.routes.admin_deliveryMethod,
+        content: 'Deliveries',
+        icon: deliveryIcon,
+    },
+    {
+        path: config.routes.admin_reviews,
+        content: 'Review',
+        icon: reviewIcon,
     },
 ];
 
