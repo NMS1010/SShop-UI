@@ -57,18 +57,20 @@ const Login = () => {
         const resp = await usersAPI.checkEmail(email);
         if (resp?.isSuccess) {
             if (resp.data) {
-                await dispatch(authAction.googleLogin({ providerKey: objGoogleToken['sub'], email: email }));
-                const res = await usersAPI.getUserById(authUtil.getUserId());
-                const currentUser = res.data;
-                let url = config.routes.home;
-                if (currentUser && currentUser.roles) {
-                    const res = currentUser.roles.some((role) => role?.roleName === 'Admin');
-                    if (res) {
-                        url = config.routes.admin_home;
+                let t = await dispatch(authAction.googleLogin({ providerKey: objGoogleToken['sub'], email: email }));
+                if (t?.payload?.isSuccess) {
+                    const res = await usersAPI.getUserById(authUtil.getUserId());
+                    const currentUser = res.data;
+                    let url = config.routes.home;
+                    if (currentUser && currentUser.roles) {
+                        const res = currentUser.roles.some((role) => role?.roleName === 'Admin');
+                        if (res) {
+                            url = config.routes.admin_home;
+                        }
                     }
+                    setLoading(false);
+                    navigate(url);
                 }
-                setLoading(false);
-                navigate(url);
             } else {
                 localStorage.setItem('googleUser', JSON.stringify(objGoogleToken));
                 navigate(config.routes.signup);
@@ -88,7 +90,10 @@ const Login = () => {
         e.preventDefault();
         if (!validattion()) return;
         setLoading(true);
-        await dispatch(authAction.login({ username: loginFormInput.username, password: loginFormInput.password }));
+        let t = await dispatch(
+            authAction.login({ username: loginFormInput.username, password: loginFormInput.password }),
+        );
+        console.log(t);
         setLoading(false);
         const res = await usersAPI.getUserById(getUserId());
         const currentUser = res.data;

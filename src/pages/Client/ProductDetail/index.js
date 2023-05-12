@@ -18,7 +18,7 @@ const ProductDetail = () => {
     const [loading, setLoading] = useState(true);
     const [product, setProduct] = useState(null);
     const [index, setIndex] = useState(0);
-
+    const [reviewStatistic, setReviewStatistic] = useState([]);
     const handleSelect = (selectedIndex, e) => {
         setIndex(selectedIndex);
     };
@@ -31,9 +31,30 @@ const ProductDetail = () => {
             setProduct(response.data);
         }
     }, [productId]);
+    const calculate = () => {
+        let arr = [];
+        const total = product.productReview.items.length;
+        Array.from(Array(5)).forEach((val, idx) => {
+            let count = product.productReview.items.filter((rv) => rv.rating === idx + 1).length;
+            let width = Math.round((count * 12) / total);
+            let clss = `bg-indigo-600 rounded-lg h-2 `;
+            let obj = {
+                count: count,
+                percent: ((count / total) * 100).toPrecision(3),
+                widthClass: width > 0 && clss + `w-${width}/12`,
+            };
+            arr.push(obj);
+        });
+        console.log(arr);
+        setReviewStatistic(arr);
+    };
     useEffect(() => {
         fetchProduct();
     }, [productId]);
+    useEffect(() => {
+        if (loading) return;
+        calculate();
+    }, [loading]);
     const addToCart = () => {
         const formData = new FormData();
         formData.append('productId', productId);
@@ -87,7 +108,7 @@ const ProductDetail = () => {
                                                 strokeLinecap="round"
                                                 strokeLinejoin="round"
                                                 strokeWidth="2"
-                                                className="w-6 h-6 text-red-500"
+                                                className="w-6 h-6 text-yellow-500"
                                                 viewBox="0 0 24 24"
                                             >
                                                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
@@ -96,7 +117,7 @@ const ProductDetail = () => {
                                     })}
 
                                     <span className="text-gray-600 ml-3">
-                                        {product.productReview.items.length} Reviews
+                                        {product.productReview.items.length} reviews
                                     </span>
                                 </span>
                             </div>
@@ -160,74 +181,36 @@ const ProductDetail = () => {
                         <div className="mx-10 bg-white shadow-lg rounded-lg px-4 py-4 w-1/2 ">
                             <div className="mb-1 tracking-wide px-4 py-4">
                                 <h2 className="text-gray-800 font-semibold mt-1 text-center">
-                                    {product.productReview.items.length} users reviews
+                                    {product.productReview.items.length} reviews
                                 </h2>
                                 <div className="border-b -mx-8 px-8 pb-3">
-                                    <div className="flex items-center mt-1">
-                                        <div className=" w-1/5 text-indigo-500 tracking-tighter">
-                                            <span>5 star</span>
-                                        </div>
-                                        <div className="w-3/5">
-                                            <div className="bg-gray-300 w-full rounded-lg h-2">
-                                                <div className=" w-7/12 bg-indigo-600 rounded-lg h-2"></div>
+                                    {reviewStatistic.map((val, idx) => {
+                                        return (
+                                            <div className="flex items-center mt-1">
+                                                <div className=" w-1/5 text-indigo-500 tracking-tighter">
+                                                    <div className="flex">
+                                                        <span>{idx + 1}</span>
+                                                        <svg
+                                                            className="ml-3 w-8 h-8 text-yellow-500"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            viewBox="0 0 20 20"
+                                                            fill="currentColor"
+                                                        >
+                                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                                <div className="w-3/5">
+                                                    <div className="bg-gray-300 w-full rounded-lg h-2">
+                                                        <div className={val.widthClass}></div>
+                                                    </div>
+                                                </div>
+                                                <div className="w-1/5 text-gray-700 pl-3">
+                                                    <span className="text-lg">{val.percent} %</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="w-1/5 text-gray-700 pl-3">
-                                            <span className="text-sm">51%</span>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center mt-1">
-                                        <div className="w-1/5 text-indigo-500 tracking-tighter">
-                                            <span>4 star</span>
-                                        </div>
-                                        <div className="w-3/5">
-                                            <div className="bg-gray-300 w-full rounded-lg h-2">
-                                                <div className="w-1/5 bg-indigo-600 rounded-lg h-2"></div>
-                                            </div>
-                                        </div>
-                                        <div className="w-1/5 text-gray-700 pl-3">
-                                            <span className="text-sm">17%</span>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center mt-1">
-                                        <div className="w-1/5 text-indigo-500 tracking-tighter">
-                                            <span>3 star</span>
-                                        </div>
-                                        <div className="w-3/5">
-                                            <div className="bg-gray-300 w-full rounded-lg h-2">
-                                                <div className=" w-3/12 bg-indigo-600 rounded-lg h-2"></div>
-                                            </div>
-                                        </div>
-                                        <div className="w-1/5 text-gray-700 pl-3">
-                                            <span className="text-sm">19%</span>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center mt-1">
-                                        <div className=" w-1/5 text-indigo-500 tracking-tighter">
-                                            <span>2 star</span>
-                                        </div>
-                                        <div className="w-3/5">
-                                            <div className="bg-gray-300 w-full rounded-lg h-2">
-                                                <div className=" w-1/5 bg-indigo-600 rounded-lg h-2"></div>
-                                            </div>
-                                        </div>
-                                        <div className="w-1/5 text-gray-700 pl-3">
-                                            <span className="text-sm">8%</span>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center mt-1">
-                                        <div className="w-1/5 text-indigo-500 tracking-tighter">
-                                            <span>1 star</span>
-                                        </div>
-                                        <div className="w-3/5">
-                                            <div className="bg-gray-300 w-full rounded-lg h-2">
-                                                <div className=" w-2/12 bg-indigo-600 rounded-lg h-2"></div>
-                                            </div>
-                                        </div>
-                                        <div className="w-1/5 text-gray-700 pl-3">
-                                            <span className="text-sm">5%</span>
-                                        </div>
-                                    </div>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         </div>
@@ -236,10 +219,11 @@ const ProductDetail = () => {
                                 product.productReview.items.map((productRv) => {
                                     return (
                                         <>
-                                            <div className="flex flex-col md:flex-row justify-between w-full">
+                                            <div className="flex flex-col md:flex-row justify-between w-full ">
                                                 <div className="mt-6 flex justify-start items-center flex-row space-x-2.5">
                                                     <div>
                                                         <img
+                                                            className="w-20 h-20 rounded-full "
                                                             src={`${process.env.REACT_APP_HOST}${productRv.userAvatar}`}
                                                             alt="avatar"
                                                         />
@@ -249,83 +233,32 @@ const ProductDetail = () => {
                                                             {productRv.userName}
                                                         </p>
                                                         <p className="text-xl leading-none text-gray-600 dark:text-white">
-                                                            {productRv.dateUpdated}
+                                                            {new Date(productRv.dateUpdated).toLocaleString()}
                                                         </p>
                                                     </div>
                                                 </div>
-                                                <div className="cursor-pointer mt-2 md:mt-0">
-                                                    <svg
-                                                        className="text-yellow-500"
-                                                        width="152"
-                                                        height="24"
-                                                        viewBox="0 0 152 24"
-                                                        fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                    >
-                                                        {Array.from(Array(5)).map((val, idx) => {
-                                                            if (idx < productRv.rating) {
-                                                                return (
-                                                                    <g clip-path="url(#clip0)">
-                                                                        <path
-                                                                            d="M17.5598 24.4285C17.3999 24.4291 17.2422 24.3914 17.0998 24.3185L11.9998 21.6485L6.89982 24.3185C6.73422 24.4056 6.5475 24.4444 6.3609 24.4307C6.1743 24.4169 5.9953 24.3511 5.84425 24.2407C5.6932 24.1303 5.57616 23.9797 5.50644 23.8061C5.43671 23.6324 5.4171 23.4427 5.44982 23.2585L6.44982 17.6285L2.32982 13.6285C2.20128 13.5002 2.1101 13.3394 2.06605 13.1632C2.02201 12.987 2.02677 12.8022 2.07982 12.6285C2.13778 12.4508 2.2444 12.2928 2.38757 12.1726C2.53075 12.0525 2.70475 11.9748 2.88982 11.9485L8.58982 11.1185L11.0998 5.98849C11.1817 5.81942 11.3096 5.67683 11.4687 5.57706C11.6279 5.47729 11.812 5.42438 11.9998 5.42438C12.1877 5.42438 12.3717 5.47729 12.5309 5.57706C12.6901 5.67683 12.8179 5.81942 12.8998 5.98849L15.4398 11.1085L21.1398 11.9385C21.3249 11.9648 21.4989 12.0425 21.6421 12.1626C21.7852 12.2828 21.8919 12.4408 21.9498 12.6185C22.0029 12.7922 22.0076 12.977 21.9636 13.1532C21.9196 13.3294 21.8284 13.4902 21.6998 13.6185L17.5798 17.6185L18.5798 23.2485C18.6155 23.436 18.5968 23.6297 18.526 23.8069C18.4551 23.9841 18.335 24.1374 18.1798 24.2485C17.9987 24.3754 17.7807 24.4387 17.5598 24.4285V24.4285Z"
-                                                                            fill="currentColor"
-                                                                        />
-                                                                    </g>
-                                                                );
-                                                            }
-                                                            return (
-                                                                <g clip-path="url(#clip4)">
-                                                                    <path
-                                                                        d="M135.146 16.911L131.052 12.9355L136.734 12.1081L137.256 12.032L137.488 11.558L139.998 6.42798L139.998 6.42798L140 6.42443L140.004 6.4329L142.544 11.5529L142.777 12.0225L143.296 12.0981L148.978 12.9255L144.883 16.901L144.502 17.2708L144.595 17.7934L145.595 23.4234L145.595 23.4234L145.597 23.4356L145.605 23.4463L145.56 24.4285L145.556 23.4474L145.564 23.4326L140.464 20.7626L140 20.5197L139.536 20.7626L134.436 23.4326L134.434 23.4334L135.434 17.8034L135.527 17.2808L135.146 16.911Z"
-                                                                        stroke="currentColor"
-                                                                        stroke-width="2"
-                                                                    />
-                                                                </g>
-                                                            );
-                                                        })}
-
-                                                        <defs>
-                                                            <clipPath id="clip0">
-                                                                <rect width="24" height="24" fill="white" />
-                                                            </clipPath>
-                                                            <clipPath id="clip1">
-                                                                <rect
-                                                                    width="24"
-                                                                    height="24"
-                                                                    fill="white"
-                                                                    transform="translate(32)"
-                                                                />
-                                                            </clipPath>
-                                                            <clipPath id="clip2">
-                                                                <rect
-                                                                    width="24"
-                                                                    height="24"
-                                                                    fill="white"
-                                                                    transform="translate(64)"
-                                                                />
-                                                            </clipPath>
-                                                            <clipPath id="clip3">
-                                                                <rect
-                                                                    width="24"
-                                                                    height="24"
-                                                                    fill="white"
-                                                                    transform="translate(96)"
-                                                                />
-                                                            </clipPath>
-                                                            <clipPath id="clip4">
-                                                                <rect
-                                                                    width="24"
-                                                                    height="24"
-                                                                    fill="white"
-                                                                    transform="translate(128)"
-                                                                />
-                                                            </clipPath>
-                                                        </defs>
-                                                    </svg>
+                                                <div className="cursor-pointer flex mt-2 md:mt-0">
+                                                    {Array.from(Array(5)).map((val, idx) => {
+                                                        return (
+                                                            <svg
+                                                                key={idx}
+                                                                className={`w-12 h-12 ${
+                                                                    idx < productRv.rating
+                                                                        ? 'text-yellow-500'
+                                                                        : 'text-gray-500'
+                                                                }`}
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 20 20"
+                                                                fill="currentColor"
+                                                            >
+                                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                            </svg>
+                                                        );
+                                                    })}
                                                 </div>
                                             </div>
                                             <div id="menu" className="md:block">
-                                                <p className="mt-3 text-2xl leading-normal text-gray-600 dark:text-white w-full md:w-9/12 xl:w-5/6">
+                                                <p className="mt-3 text-2xl leading-normal text-gray-600 dark:text-white w-full">
                                                     {productRv.content}
                                                 </p>
                                             </div>
@@ -333,7 +266,7 @@ const ProductDetail = () => {
                                     );
                                 })
                             ) : (
-                                <h2 className="text-3xl">Không có đánh giá</h2>
+                                <h2 className="text-3xl">No reviews</h2>
                             )}
                         </div>
                     </div>

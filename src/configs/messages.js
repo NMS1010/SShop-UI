@@ -22,6 +22,7 @@ const messages = {
         order: generateAdminMessage('order'),
         delivery: generateAdminMessage('delivery'),
         review: generateAdminMessage('review'),
+        statistic: generateAdminMessage('statistics'),
     },
     client: {
         register: {
@@ -47,7 +48,8 @@ const messages = {
             },
         },
         order: {
-            create_succss: 'Your order has been placed, please check your email for more information',
+            create_succ: 'Your order has been placed, please check your email for more information',
+            create_fail: 'An error occured with your payment',
         },
         verify: {
             succ: 'Your account has been confirmed, please login to continue',

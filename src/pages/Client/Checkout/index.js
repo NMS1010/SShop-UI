@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Loading from '../../../components/Loading';
 import { useCallback } from 'react';
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+
 import * as cartsAPI from '../../../services/cartsAPI';
 import * as deliveryMethodAPI from '../../../services/deliveryMethodAPI';
 import * as paymentMethodAPI from '../../../services/paymentMethodAPI';
@@ -15,6 +17,7 @@ import * as messageAction from '../../../redux/features/message/messageSlice';
 import * as cartAction from '../../../redux/features/cart/cartSlice';
 import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../constants';
 import messages from '../../../configs/messages';
+
 const Checkout = () => {
     const { currentUser } = useSelector((state) => state?.auth);
     const [loading, setLoading] = useState(true);
@@ -105,7 +108,7 @@ const Checkout = () => {
                 messageAction.setMessage({
                     id: Math.random(),
                     title: 'Order',
-                    message: messages.client.order.create_succss,
+                    message: messages.client.order.create_succ,
                     backgroundColor: BACKGROUND_COLOR_SUCCESS,
                     icon: '',
                 }),
@@ -115,6 +118,78 @@ const Checkout = () => {
             dispatch(cartAction.setCartAmount(currAmount));
             navigate(config.routes.cart);
         }
+    };
+
+    const createPaypalOrder = (data, actions) => {
+        return actions.order
+            .create({
+                application_context: {
+                    shipping_preferences: 'SET_PROVIDED_ADDRESS',
+                },
+                purchase_units: [
+                    {
+                        amount: {
+                            value: total.subTotal + total.shipping,
+                            breakdown: {
+                                item_total: {
+                                    currency_code: 'USD',
+                                    value: total.subTotal,
+                                },
+                                shipping: {
+                                    value: total.shipping,
+                                    currency_code: 'USD',
+                                },
+                            },
+                        },
+                        shipping: {
+                            name: {
+                                full_name: `${userAddress?.firstName} ${userAddress?.lastName}`,
+                            },
+                            address: {
+                                address_line_1: userAddress?.specificAddress,
+                                address_line_2: userAddress?.wardName,
+                                admin_area_2: userAddress?.districtName,
+                                admin_area_1: userAddress?.provinceName,
+                                postal_code: '71000',
+                                country_code: 'VN',
+                            },
+                        },
+                        items: selectedCartItems.map((ci) => {
+                            return {
+                                name: ci.productName,
+                                quantity: ci.quantity,
+                                unit_amount: {
+                                    currency_code: 'USD',
+                                    value: ci.unitPrice,
+                                },
+                                category: 'DONATION',
+                            };
+                        }),
+                    },
+                ],
+            })
+            .then((orderID) => {
+                return orderID;
+            });
+    };
+
+    const onApprove = (data, actions) => {
+        return actions.order.capture().then(function(details) {
+            const { payer } = details;
+            handleCreateOrder();
+        });
+    };
+
+    const onError = (data, actions) => {
+        dispatch(
+            messageAction.setMessage({
+                id: Math.random(),
+                title: 'Order',
+                message: messages.client.order.create_fail,
+                backgroundColor: BACKGROUND_COLOR_FAILED,
+                icon: '',
+            }),
+        );
     };
     return loading ? (
         <Loading />
@@ -313,14 +388,28 @@ const Checkout = () => {
                             </p>
                         </div>
                     </div>
-                    {selectedCartItems.length > 0 && (
-                        <button
-                            className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white"
-                            onClick={handleCreateOrder}
-                        >
-                            Place Order
-                        </button>
-                    )}
+                    {selectedCartItems.length > 0 &&
+                        (chosenPaymentMethod.paymentMethodName.toLowerCase() !== 'paypal' ? (
+                            <button
+                                className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white"
+                                onClick={handleCreateOrder}
+                            >
+                                Place Order
+                            </button>
+                        ) : (
+                            <PayPalScriptProvider
+                                options={{
+                                    'client-id': `AR52hDoJM7wVzALLe_nPlzKxMS8CTJfoUAeRt9IocXy4c4EDG0T2KPBwG4f38RtLYz9Pem_DDPkT0-ID`,
+                                }}
+                            >
+                                <PayPalButtons
+                                    createOrder={createPaypalOrder}
+                                    onApprove={onApprove}
+                                    onError={onError}
+                                    style={{ layout: 'horizontal' }}
+                                />
+                            </PayPalScriptProvider>
+                        ))}
                 </div>
             </div>
         </div>

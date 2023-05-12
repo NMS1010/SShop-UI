@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import routes from './routes';
+import NotFound from './components/NotFound';
 function App() {
     return (
         <Router>
@@ -33,6 +34,7 @@ function App() {
                             />
                         );
                     })}
+                    <Route path="*" element={<NotFound />} />
                 </Routes>
             </div>
         </Router>
