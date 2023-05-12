@@ -51,7 +51,6 @@ export const login = createAsyncThunk('auth/login', async (data, thunkAPI) => {
 });
 export const googleLogin = createAsyncThunk('auth/google-login', async (data, thunkAPI) => {
     let response = await authAPI.googleLogin(data.providerKey, data.email);
-    console.log(response);
     if (!response || !response?.isSuccess) {
         authUtils.clearToken();
         thunkAPI.dispatch(

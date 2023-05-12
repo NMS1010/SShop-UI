@@ -41,7 +41,7 @@ const Table = ({
                           return {
                               ...obj,
                               Cell: ({ value }) => (
-                                  <img width={'80rem'} height={'80rem'} src={`${process.env.REACT_APP_HOST}${value}`} />
+                                  <img className="w-20 h-20 rounded-lg" src={`${process.env.REACT_APP_HOST}${value}`} />
                               ),
                           };
                       return obj;
@@ -102,7 +102,11 @@ const Table = ({
             items: data.filter((val) => {
                 return Object.keys(val).some((attr) => {
                     return (
-                        attr !== 'image' && val[attr]?.toString().toLowerCase().includes(e.target.value.toLowerCase())
+                        attr !== 'image' &&
+                        val[attr]
+                            ?.toString()
+                            .toLowerCase()
+                            .includes(e.target.value.toLowerCase())
                     );
                 });
             }),
@@ -202,13 +206,16 @@ const Table = ({
                                                     Change status
                                                 </Dropdown.Item>
                                             )}
-                                            {!uniqueField.includes('order') ? (
-                                                <Dropdown.Item
-                                                    onClick={() => handleDeleteItem(row.values[uniqueField])}
-                                                >
-                                                    Remove
-                                                </Dropdown.Item>
-                                            ) : (
+                                            {!uniqueField.includes('order') &&
+                                                !uniqueField.includes('review') &&
+                                                !uniqueField.includes('userId') && (
+                                                    <Dropdown.Item
+                                                        onClick={() => handleDeleteItem(row.values[uniqueField])}
+                                                    >
+                                                        Remove
+                                                    </Dropdown.Item>
+                                                )}
+                                            {uniqueField.includes('order') && (
                                                 <Dropdown.Item
                                                     onClick={() =>
                                                         navigate(

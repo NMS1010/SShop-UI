@@ -15,7 +15,7 @@ import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../cons
 import messages from '../../../configs/messages';
 
 const Review = () => {
-    const hiddenColumns = [];
+    const hiddenColumns = ['reviewItemId', 'productId', 'userId', 'userAvatar'];
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [reviews, setReviews] = useState([]);
@@ -105,8 +105,8 @@ const Review = () => {
                         <ModalWrapper>
                             <OutsideAlerter setIsOut={setIsOutClick}>
                                 <Alert
-                                    title={'Delete Confirmation'}
-                                    content={'Do you want to remove this review ?'}
+                                    title={'Change confirmation'}
+                                    content={'Do you want to change this review status?'}
                                     cancelClick={() => setIsOutClick(true)}
                                     confirmClick={() => deleteReview()}
                                     loading={buttonLoading}

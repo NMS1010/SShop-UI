@@ -9,6 +9,10 @@ import * as usersAPI from '../../../services/usersAPI';
 import logoutHandler from '../../../utils/logoutHandler';
 import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../constants';
 import messages from '../../../configs/messages';
+import ModalWrapper from '../../../components/ModalWrapper';
+import OutsideAlerter from '../../../components/OutsideAlerter';
+import UserForm from '../components/UserForm';
+
 const User = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -33,7 +37,6 @@ const User = () => {
     const [selectedUser, setSelectedUser] = useState(null);
     const [action, setAction] = useState({
         edit: false,
-        delete: false,
     });
     const fetchAPI = useCallback(async () => {
         setLoading(true);
@@ -64,7 +67,7 @@ const User = () => {
 
     const handleUpdateUser = (userId) => {
         const user = users.find((val) => val.userId === userId);
-        setAction({ edit: true, delete: false });
+        setAction({ edit: true });
         setSelectedUser(user);
         setIsOutClick(false);
     };
@@ -115,18 +118,13 @@ const User = () => {
                         // handleDeleteItem={handleDeleteUser}
                         hiddenColumns={hiddenColumns}
                     />
-                    {/* {action.edit && !isOutClick && (
+                    {action.edit && !isOutClick && (
                         <ModalWrapper>
                             <OutsideAlerter setIsOut={setIsOutClick}>
-                                <UserForm
-                                    users={users}
-                                    user={selectedUser}
-                                    getAllUsers={fetchAPI}
-                                    setAction={setAction}
-                                />
+                                <UserForm user={selectedUser} getAllUsers={fetchAPI} setAction={setAction} />
                             </OutsideAlerter>
                         </ModalWrapper>
-                    )} */}
+                    )}
                     {/* {action.delete && !isOutClick && (
                         <ModalWrapper>
                             <OutsideAlerter setIsOut={setIsOutClick}>

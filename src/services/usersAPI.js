@@ -9,6 +9,9 @@ export const getUserById = async (id) => {
 export const updateUser = async (user) => {
     return await baseAPI.updateFormData('users/update', user);
 };
+export const updateAdminUser = async (user) => {
+    return await baseAPI.updateFormData('users/admin-update', user);
+};
 export const deleteUser = async (id) => {
     return await baseAPI.deleteData(`users/delete/${id}`);
 };
