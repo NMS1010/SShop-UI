@@ -97,7 +97,6 @@ const AddressForm = ({ setOpenForm, address }) => {
             setValidated(true);
             return;
         }
-        console.log(dataFields);
         let form_data = new FormData();
         form_data.append('userId', authUtil.getUserId());
         for (let key of Object.keys(dataFields)) {

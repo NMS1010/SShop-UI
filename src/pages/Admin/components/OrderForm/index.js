@@ -30,8 +30,6 @@ const OrderForm = ({ setAction = () => {}, order = null, orderStates = [], getAl
     };
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(order?.orderId);
-        console.log(inputFields?.orderStateId);
         const orderObj = new FormData();
         orderObj.append('orderId', order?.orderId);
         orderObj.append('orderStateId', inputFields?.orderStateId);

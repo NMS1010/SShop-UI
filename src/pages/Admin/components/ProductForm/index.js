@@ -100,7 +100,6 @@ const ProductForm = ({
     };
     const handleSubmit = (e) => {
         const form = e.currentTarget;
-        console.log(!inputFields.description);
         e.preventDefault();
         if (
             form.checkValidity() === false ||

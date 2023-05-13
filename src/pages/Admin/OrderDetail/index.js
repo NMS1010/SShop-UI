@@ -9,6 +9,8 @@ import { BACKGROUND_COLOR_FAILED } from '../../../constants';
 import Loading from '../../../components/Loading';
 import { useEffect } from 'react';
 import OrderState from '../../Client/components/OrderState';
+import formatter from '../../../utils/numberFormatter';
+
 const OrderItem = () => {
     const [loading, setLoading] = useState(true);
     const [order, setOrder] = useState(null);
@@ -31,7 +33,6 @@ const OrderItem = () => {
             return;
         }
         setLoading(false);
-        console.log(response.data);
         setOrder(response.data);
     }, [orderId]);
     useEffect(() => {
@@ -94,13 +95,13 @@ const OrderItem = () => {
                                             </div>
                                             <div className="flex justify-between space-x-8 items-start w-full">
                                                 <p className="text-xl dark:text-white xl:text-2xl leading-6">
-                                                    {oi.unitPrice} VND
+                                                    {formatter.format(oi.unitPrice)}
                                                 </p>
                                                 <p className="text-xl dark:text-white xl:text-2xl leading-6 text-gray-800">
                                                     {oi.quantity}
                                                 </p>
                                                 <p className="text-xl dark:text-white xl:text-2xl font-semibold leading-6 text-gray-800">
-                                                    {oi.totalPrice} VND
+                                                    {formatter.format(oi.totalPrice)}
                                                 </p>
                                             </div>
                                         </div>
@@ -117,7 +118,7 @@ const OrderItem = () => {
                                     <div className="flex justify-between w-full">
                                         <p className="text-xl dark:text-white leading-4 text-gray-800">Subtotal</p>
                                         <p className="text-xl dark:text-gray-300 leading-4 text-gray-600">
-                                            {order.totalItemPrice} VND
+                                            {formatter.format(order.totalItemPrice)}
                                         </p>
                                     </div>
                                     <div className="flex justify-between items-center w-full">
@@ -132,7 +133,7 @@ const OrderItem = () => {
                                     <div className="flex justify-between items-center w-full">
                                         <p className="text-xl dark:text-white leading-4 text-gray-800">Shipping</p>
                                         <p className="text-xl dark:text-gray-300 leading-4 text-gray-600">
-                                            {order.deliveryMethod.deliveryMethodPrice} VND
+                                            {formatter.format(order.deliveryMethod.deliveryMethodPrice)}
                                         </p>
                                     </div>
                                 </div>
@@ -141,7 +142,7 @@ const OrderItem = () => {
                                         Total
                                     </p>
                                     <p className="text-xl dark:text-gray-300 font-semibold leading-4 text-gray-600">
-                                        {order.totalPrice} VND
+                                        {formatter.format(order.totalPrice)}
                                     </p>
                                 </div>
                             </div>
@@ -166,7 +167,7 @@ const OrderItem = () => {
                                         </div>
                                     </div>
                                     <p className="text-xl font-semibold leading-6 dark:text-white text-gray-800">
-                                        {order.deliveryMethod.deliveryMethodPrice} VND
+                                        {formatter.format(order.deliveryMethod.deliveryMethodPrice)}
                                     </p>
                                 </div>
                                 <h3 className="text-2xl dark:text-white font-semibold leading-5 text-gray-800">

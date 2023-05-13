@@ -15,12 +15,10 @@ const FileUploader = ({
         imgUrl && !imgUrl.includes('blob') ? `${process.env.REACT_APP_HOST}${imgUrl}` : '',
     );
     const handleSelectFile = (e) => {
-        console.log(e);
         const file = e.target.files[0];
         if (!file) setFileSelectedError('File is required');
         else {
             if (file.size > fileSize) {
-                console.log(file.size);
                 setFileSelectedError(`File size cannot exceed more than ${fileSize}`);
             } else {
                 setImageURL(URL.createObjectURL(file));
@@ -28,7 +26,6 @@ const FileUploader = ({
                 setFileSelectedError('');
             }
         }
-        // console.log(imgUrl);
     };
     const id = Math.random();
     return (

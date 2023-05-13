@@ -57,7 +57,6 @@ const Header = () => {
         }
     }
     useEffect(() => {
-        console.log(currentCartAmount);
         currentCartAmount = currentCartAmount || currentUser?.totalCartItem;
         dispatch(cartAction.setCartAmount(currentCartAmount));
     }, [currentUser?.totalCartItem]);

@@ -324,7 +324,6 @@ const Dashboard = () => {
                 dt.satTotal,
                 dt.sunTotal,
             ];
-            console.log(replace.series);
             setChartTwoOpts(replace);
             setLoading(false);
         }

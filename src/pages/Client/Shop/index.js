@@ -81,9 +81,6 @@ const Shop = () => {
                 });
                 setLoading(false);
             }
-            // Array.from(params.keys()).forEach((p) => console.log(p));
-
-            // navigateSearch('/shop', { ...params, sortBy: sortVal.param });
         })();
     }, [debouncedSearchVal, sortVal, paging.pageIndex, paging.pageSize, debouncedFiltersVal]);
     const handleChange = (e) => {

@@ -175,7 +175,6 @@ const Checkout = () => {
                 },
             ],
         };
-        console.log(orderObj);
         return actions.order.create(orderObj).then((orderID) => {
             return orderID;
         });

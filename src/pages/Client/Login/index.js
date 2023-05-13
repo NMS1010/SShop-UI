@@ -93,7 +93,6 @@ const Login = () => {
         let t = await dispatch(
             authAction.login({ username: loginFormInput.username, password: loginFormInput.password }),
         );
-        console.log(t);
         setLoading(false);
         const res = await usersAPI.getUserById(getUserId());
         const currentUser = res.data;
