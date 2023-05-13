@@ -28,6 +28,7 @@ const Order = () => {
         'totalItemPrice',
         'discountCode',
         'orderId',
+        'discountValue',
     ];
     const dispatch = useDispatch();
     const navigate = useNavigate();

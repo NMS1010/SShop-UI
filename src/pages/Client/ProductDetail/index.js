@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import * as cartAction from '../../../redux/features/cart/cartSlice';
 import * as wishAction from '../../../redux/features/wish/wishSlice';
 import ReactHtmlParser from 'react-html-parser';
+import formatter from '../../../utils/numberFormatter';
 const ProductDetail = () => {
     const { productId } = useParams();
     const dispatch = useDispatch();
@@ -31,29 +32,27 @@ const ProductDetail = () => {
             setProduct(response.data);
         }
     }, [productId]);
-    const calculate = () => {
-        let arr = [];
-        const total = product.productReview.items.length;
-        Array.from(Array(5)).forEach((val, idx) => {
-            let count = product.productReview.items.filter((rv) => rv.rating === idx + 1).length;
-            let width = Math.round((count * 12) / total);
-            let clss = `bg-indigo-600 rounded-lg h-2 `;
-            let obj = {
-                count: count,
-                percent: ((count / total) * 100).toPrecision(3),
-                widthClass: width > 0 && clss + `w-${width}/12`,
-            };
-            arr.push(obj);
-        });
-        console.log(arr);
-        setReviewStatistic(arr);
-    };
+
     useEffect(() => {
         fetchProduct();
     }, [productId]);
     useEffect(() => {
-        if (loading) return;
-        calculate();
+        if (!loading) {
+            let arr = [];
+            const total = product.productReview.items.length;
+            Array.from(Array(5)).forEach((val, idx) => {
+                let count = product.productReview.items.filter((rv) => rv.rating === idx + 1).length;
+                let width = Math.round((count * 12) / total);
+                let clss = 'bg-indigo-600 rounded-lg h-2 ';
+                let obj = {
+                    count: count,
+                    percent: ((count / total) * 100).toPrecision(3),
+                    widthClass: width > 0 && clss + `w-${width}/12`,
+                };
+                arr.push(obj);
+            });
+            setReviewStatistic(arr);
+        }
     }, [loading]);
     const addToCart = () => {
         const formData = new FormData();
@@ -124,7 +123,7 @@ const ProductDetail = () => {
 
                             <div className="flex mt-5 items-center">
                                 <span className="title-font font-medium text-2xl text-gray-900">
-                                    {product.price} VND
+                                    {formatter.format(product.price)}
                                 </span>
                                 <button
                                     onClick={addToWish}
@@ -186,7 +185,7 @@ const ProductDetail = () => {
                                 <div className="border-b -mx-8 px-8 pb-3">
                                     {reviewStatistic.map((val, idx) => {
                                         return (
-                                            <div className="flex items-center mt-1">
+                                            <div key={idx} className="flex items-center mt-1">
                                                 <div className=" w-1/5 text-indigo-500 tracking-tighter">
                                                     <div className="flex">
                                                         <span>{idx + 1}</span>

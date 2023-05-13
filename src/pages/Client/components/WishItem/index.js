@@ -8,6 +8,7 @@ import Alert from '../../../../components/Alert';
 import * as wishAction from '../../../../redux/features/wish/wishSlice';
 import * as cartAction from '../../../../redux/features/cart/cartSlice';
 import * as authUtil from '../../../../utils/authUtils';
+import formatter from '../../../../utils/numberFormatter';
 
 const WishItem = ({ wishItem, wishItems, setWishItems }) => {
     const [btnLoading, setBtnLoading] = useState(false);
@@ -45,7 +46,7 @@ const WishItem = ({ wishItem, wishItems, setWishItems }) => {
                     <p className="ml-4">{wishItem.productName}</p>
                 </div>
                 <div className="col col-3">
-                    <p>{wishItem.unitPrice} VND</p>
+                    <p>{formatter.format(wishItem.unitPrice)}</p>
                 </div>
                 <div className="col col-3">
                     <p>{wishItem.productStatus}</p>

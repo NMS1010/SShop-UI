@@ -10,6 +10,7 @@ import * as authUtil from '../../../../utils/authUtils';
 import * as cartsAPI from '../../../../services/cartsAPI';
 import * as cartAction from '../../../../redux/features/cart/cartSlice';
 import * as messageAction from '../../../../redux/features/message/messageSlice';
+import formatter from '../../../../utils/numberFormatter';
 
 const CartItem = ({ cartItem, cartItems, setCartItems, setSelectedItem, selectedItems }) => {
     let { currentCartAmount } = useSelector((state) => state?.cart);
@@ -96,7 +97,7 @@ const CartItem = ({ cartItem, cartItems, setCartItems, setSelectedItem, selected
                     <p className="ml-4">{cartItem.productName}</p>
                 </div>
                 <div className="col col-2">
-                    <p>{cartItem.unitPrice} VND</p>
+                    <p>{formatter.format(cartItem.unitPrice)}</p>
                 </div>
                 <div className="col col-2">
                     {btnLoading ? (
@@ -112,7 +113,7 @@ const CartItem = ({ cartItem, cartItems, setCartItems, setSelectedItem, selected
                     )}
                 </div>
                 <div className="col col-2">
-                    <p>{cartItem.totalPrice} VND</p>
+                    <p>{formatter.format(cartItem.totalPrice)}</p>
                 </div>
                 <div className="col col-2">
                     <FontAwesomeIcon

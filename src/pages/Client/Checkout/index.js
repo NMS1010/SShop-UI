@@ -17,6 +17,9 @@ import * as messageAction from '../../../redux/features/message/messageSlice';
 import * as cartAction from '../../../redux/features/cart/cartSlice';
 import { BACKGROUND_COLOR_FAILED, BACKGROUND_COLOR_SUCCESS } from '../../../constants';
 import messages from '../../../configs/messages';
+import formatter from '../../../utils/numberFormatter';
+
+const EXCHANGE_VALUE = 23000;
 
 const Checkout = () => {
     const { currentUser } = useSelector((state) => state?.auth);
@@ -121,56 +124,61 @@ const Checkout = () => {
     };
 
     const createPaypalOrder = (data, actions) => {
-        return actions.order
-            .create({
-                application_context: {
-                    shipping_preferences: 'SET_PROVIDED_ADDRESS',
-                },
-                purchase_units: [
-                    {
-                        amount: {
-                            value: total.subTotal + total.shipping,
-                            breakdown: {
-                                item_total: {
-                                    currency_code: 'USD',
-                                    value: total.subTotal,
-                                },
-                                shipping: {
-                                    value: total.shipping,
-                                    currency_code: 'USD',
-                                },
+        let sub = selectedCartItems.reduce((total, currVal, currIdx) => {
+            return total + Math.round(currVal.unitPrice / EXCHANGE_VALUE) * currVal.quantity;
+        }, 0.0);
+        let ship = Math.round(total.shipping / EXCHANGE_VALUE);
+        // total = Math.round(sub + total.shipping / EXCHANGE_VALUE);
+        let orderObj = {
+            application_context: {
+                shipping_preferences: 'SET_PROVIDED_ADDRESS',
+            },
+            purchase_units: [
+                {
+                    amount: {
+                        value: sub + ship,
+                        breakdown: {
+                            item_total: {
+                                currency_code: 'USD',
+                                value: sub,
+                            },
+                            shipping: {
+                                value: ship,
+                                currency_code: 'USD',
                             },
                         },
-                        shipping: {
-                            name: {
-                                full_name: `${userAddress?.firstName} ${userAddress?.lastName}`,
-                            },
-                            address: {
-                                address_line_1: userAddress?.specificAddress,
-                                address_line_2: userAddress?.wardName,
-                                admin_area_2: userAddress?.districtName,
-                                admin_area_1: userAddress?.provinceName,
-                                postal_code: '71000',
-                                country_code: 'VN',
-                            },
-                        },
-                        items: selectedCartItems.map((ci) => {
-                            return {
-                                name: ci.productName,
-                                quantity: ci.quantity,
-                                unit_amount: {
-                                    currency_code: 'USD',
-                                    value: ci.unitPrice,
-                                },
-                                category: 'DONATION',
-                            };
-                        }),
                     },
-                ],
-            })
-            .then((orderID) => {
-                return orderID;
-            });
+                    shipping: {
+                        name: {
+                            full_name: `${userAddress?.firstName} ${userAddress?.lastName}`,
+                        },
+                        address: {
+                            address_line_1: userAddress?.specificAddress,
+                            address_line_2: userAddress?.wardName,
+                            admin_area_2: userAddress?.districtName,
+                            admin_area_1: userAddress?.provinceName,
+                            postal_code: '71000',
+                            country_code: 'VN',
+                        },
+                    },
+                    items: selectedCartItems.map((ci) => {
+                        return {
+                            name: ci.productName,
+                            quantity: ci.quantity,
+                            unit_amount: {
+                                currency_code: 'USD',
+                                value: Math.round(ci.unitPrice / EXCHANGE_VALUE),
+                            },
+                            category: 'DONATION',
+                        };
+                    }),
+                },
+            ],
+        };
+        console.log(orderObj);
+        return actions.order.create(orderObj).then((orderID) => {
+            return orderID;
+        });
     };
 
     const onApprove = (data, actions) => {
@@ -259,9 +267,9 @@ const Checkout = () => {
                                     <div className="flex w-full flex-col px-4 py-4">
                                         <span className="font-semibold text-3xl">{item.productName}</span>
                                         <span className="float-right text-xl  text-gray-400">
-                                            {item.quantity} x {item.unitPrice} VND
+                                            {item.quantity} x {formatter.format(item.unitPrice)}
                                         </span>
-                                        <p className="text-xl font-bold">Total: {item.totalPrice} VND</p>
+                                        <p className="text-xl font-bold">Total: {formatter.format(item.totalPrice)}</p>
                                     </div>
                                 </div>
                             );
@@ -294,7 +302,7 @@ const Checkout = () => {
                                         <div className="ml-5">
                                             <span className="mt-2 font-semibold">{item.deliveryMethodName}</span>
                                             <p className="text-slate-500 text-xl leading-6">
-                                                {item.deliveryMethodPrice} VND
+                                                {formatter.format(item.deliveryMethodPrice)}
                                             </p>
                                         </div>
                                     </label>
@@ -374,17 +382,17 @@ const Checkout = () => {
                         <div className="mt-6 border-t border-b py-2">
                             <div className="flex items-center justify-between">
                                 <p className="text-2xl font-medium text-gray-900">Subtotal</p>
-                                <p className="font-semibold text-gray-900">{total.subTotal} VND</p>
+                                <p className="font-semibold text-gray-900">{formatter.format(total.subTotal)}</p>
                             </div>
                             <div className="flex items-center justify-between">
                                 <p className="text-2xl font-medium text-gray-900">Shipping</p>
-                                <p className="font-semibold text-gray-900">{total.shipping} VND</p>
+                                <p className="font-semibold text-gray-900">{formatter.format(total.shipping)}</p>
                             </div>
                         </div>
                         <div className="mt-6 flex items-center justify-between">
                             <p className="text-2xl font-medium text-gray-900">Total</p>
                             <p className="text-2xl font-semibold text-gray-900">
-                                {total.shipping + total.subTotal} VND
+                                {formatter.format(total.shipping + total.subTotal)}
                             </p>
                         </div>
                     </div>

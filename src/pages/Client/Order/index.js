@@ -7,6 +7,7 @@ import config from '../../../configs';
 import { BACKGROUND_COLOR_FAILED } from '../../../constants';
 import * as messageAction from '../../../redux/features/message/messageSlice';
 import { useDispatch } from 'react-redux';
+import formatter from '../../../utils/numberFormatter';
 const Order = () => {
     const dispatch = useDispatch();
     const location = useLocation();
@@ -110,7 +111,7 @@ const Order = () => {
                                                 <div>
                                                     <dt className="font-medium text-green-600">Total amount</dt>
                                                     <dd className="mt-1 font-medium text-gray-900">
-                                                        {order.totalPrice} VND
+                                                        {formatter.format(order.totalPrice)}
                                                     </dd>
                                                 </div>
                                             </dl>
@@ -194,7 +195,8 @@ const Order = () => {
                                                                 {order.orderItems.items[0].productName}
                                                             </Link>
                                                             <p className="mt-2 sm:mt-0">
-                                                                Total: {order.orderItems.items[0].totalPrice} VND
+                                                                Total:{' '}
+                                                                {formatter.format(order.orderItems.items[0].totalPrice)}
                                                             </p>
                                                         </div>
                                                         <p className="hidden text-gray-500 sm:block sm:mt-2">
@@ -204,7 +206,8 @@ const Order = () => {
                                                             </span>
                                                         </p>
                                                         <p className="hidden text-gray-500 sm:block sm:mt-2">
-                                                            Unit Price: {order.orderItems.items[0].unitPrice} VND
+                                                            Unit Price:{' '}
+                                                            {formatter.format(order.orderItems.items[0].unitPrice)}
                                                         </p>
                                                     </div>
                                                 </div>

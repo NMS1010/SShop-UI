@@ -13,6 +13,7 @@ import messages from '../../../configs/messages';
 import Loading from '../../../components/Loading';
 import { Link } from 'react-router-dom';
 import config from '../../../configs';
+import formatter from '../../../utils/numberFormatter';
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -130,7 +131,7 @@ const Cart = () => {
                             <div className="flex">
                                 <p className="mr-7">
                                     Tổng thanh toán <br />({selectedItems.totalItem} sản phẩm):
-                                    <br /> <span>{selectedItems.totalPayment} VNĐ</span>
+                                    <br /> <span>{formatter.format(selectedItems.totalPayment)}</span>
                                 </p>
                                 <Link to={config.routes.checkout}>
                                     <Button className="ml-7" type="primary" danger>

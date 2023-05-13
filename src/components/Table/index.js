@@ -11,6 +11,7 @@ import * as orderStateUtil from '../../utils/orderStateUtils';
 import { Badge } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import configs from '../../configs';
+import formatter from '../../utils/numberFormatter';
 const cx = classNames.bind(styles);
 const Table = ({
     data,
@@ -37,13 +38,20 @@ const Table = ({
                           key === 'avatar' ||
                           key.toLowerCase().includes('image') ||
                           key.toLowerCase().includes('avatar')
-                      )
+                      ) {
                           return {
                               ...obj,
                               Cell: ({ value }) => (
                                   <img className="w-20 h-20 rounded-lg" src={`${process.env.REACT_APP_HOST}${value}`} />
                               ),
                           };
+                      }
+                      if (key.toLowerCase().includes('price')) {
+                          return {
+                              ...obj,
+                              Cell: ({ value }) => formatter.format(value),
+                          };
+                      }
                       return obj;
                   })
                 : [],

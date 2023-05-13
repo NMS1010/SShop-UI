@@ -7,6 +7,7 @@ import * as cartAction from '../../../../redux/features/cart/cartSlice';
 import * as wishAction from '../../../../redux/features/wish/wishSlice';
 import * as authUtil from '../../../../utils/authUtils';
 import { useNavigate } from 'react-router-dom';
+import formatter from '../../../../utils/numberFormatter';
 const ProductCard = ({ product }) => {
     const [hide, setHide] = useState(true);
     // const [loading, setLoading] = useState(false);
@@ -89,13 +90,13 @@ const ProductCard = ({ product }) => {
                 <div onClick={getProductDetail} className="text-3xl font-bold">
                     <span className="cursor-pointer hover:text-cyan-500 ease-in duration-300">{product?.name}</span>
                 </div>
-                <p className="text-cyan-500 mt-3">{product?.price} VND</p>
+                <p className="text-cyan-500 mt-3">{formatter.format(product?.price)}</p>
                 <div className="flex items-center justify-center mt-2.5 mb-3">
                     <span className="bg-blue-100 text-blue-800 text-2sm font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">
                         {product?.averageRating || 0}
                     </span>
-                    {Array.from(Array(5)).map((val) => {
-                        return val < product?.averageRating ? (
+                    {Array.from(Array(5)).map((val, idx) => {
+                        return idx < product?.averageRating ? (
                             <svg
                                 aria-hidden="true"
                                 className="h-8 text-yellow-300"

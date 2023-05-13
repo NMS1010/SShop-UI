@@ -21,6 +21,7 @@ import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import useNavigateSearch from '../../../hooks/useNavigateSearch';
 import { Checkbox, FormControlLabel } from '@mui/material';
+import formatter from '../../../utils/numberFormatter';
 
 const Shop = () => {
     const [searchVal, setSearchVal] = useState('');
@@ -110,16 +111,12 @@ const Shop = () => {
                             <div className="bg-red-300 p-3 rounded-xl">
                                 <span>FROM</span>
                                 <br></br>
-                                <span className="font-bold">
-                                    {new Intl.NumberFormat().format(filters.minPrice)} VND
-                                </span>
+                                <span className="font-bold">{formatter.format(filters.minPrice)}</span>
                             </div>
                             <div className="bg-red-300 p-3 rounded-xl">
                                 <span>TO </span>
                                 <br></br>
-                                <span className="font-bold">
-                                    {new Intl.NumberFormat().format(filters.maxPrice)} VND
-                                </span>
+                                <span className="font-bold">{formatter.format(filters.maxPrice)}</span>
                             </div>
                         </div>
                     </div>
@@ -163,7 +160,7 @@ const Shop = () => {
                     </div>
                     <div>
                         <h2 className="text-yellow-600 capitalize p-8 text-2xl border-t-2 mt-5">Brands</h2>
-                        <div className="text-center">
+                        <div className="flex flex-col ml-8">
                             {brands.map((brand) => {
                                 return (
                                     <FormControlLabel
@@ -202,19 +199,19 @@ const Shop = () => {
                 </div>
                 <div className="col-9 px-5">
                     <h1 className="mb-5">Products</h1>
-                    <div className="flex pb-5 ">
+                    <div className="flex pb-5 justify-between ">
                         <InputGroup className="mb-3 w-1/2">
                             <InputGroup.Text className="bg-white">
                                 <FontAwesomeIcon className="p-3 text-2xl" icon={faSearch} />
                             </InputGroup.Text>
                             <input
                                 type={'text'}
-                                className="border focus:ring-0 p-3 border-1 border-solid border-slate-500 rounded-r-lg text-xl"
+                                className="border flex-grow-1 focus:ring-0 p-3 border-1 border-solid border-slate-500 rounded-r-lg text-xl"
                                 placeholder="Search for product...."
                                 onChange={handleChange}
                             />
                         </InputGroup>
-                        <div className="flex">
+                        <div className="flex ">
                             <div className="group inline-block relative w-max">
                                 <button className="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center">
                                     <span className="mr-1">{sortVal.value}</span>
@@ -232,9 +229,8 @@ const Shop = () => {
                                         return (
                                             <li key={data.key} className="">
                                                 <Link
-                                                    className={`text-yellow-500 bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap ${
-                                                        data.key === sortVal.key && 'bg-amber-500 text-white'
-                                                    }`}
+                                                    className={`text-yellow-500 bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap ${data.key ===
+                                                        sortVal.key && 'bg-amber-500 text-white'}`}
                                                     onClick={() => {
                                                         setSortVal({
                                                             key: data.key,
@@ -269,9 +265,8 @@ const Shop = () => {
                                         return (
                                             <li
                                                 key={val}
-                                                className={`cursor-pointer text-yellow-500 bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap ${
-                                                    val === paging.pageSize && 'bg-amber-500 text-white'
-                                                }`}
+                                                className={`cursor-pointer text-yellow-500 bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap ${val ===
+                                                    paging.pageSize && 'bg-amber-500 text-white'}`}
                                                 onClick={() => {
                                                     setPaging({ ...paging, pageSize: val });
                                                 }}
