@@ -19,38 +19,11 @@ const Footer = () => {
                         <p className="leading-none text-gray-800 mt-4 dark:text-white">Copyright © 2023 SShop</p>
                         <p className="leading-none text-gray-800 mt-4 dark:text-white">All rights reserved</p>
                     </div>
-                    <div className="sm:ml-0 ml-8 flex flex-col">
-                        <h2 className="text-4xl font-semibold leading-4 text-gray-800 dark:text-white">Quick access</h2>
-                        <a
-                            href=""
-                            className="text-2xl focus:outline-none focus:underline hover:text-gray-500 leading-4 mt-6 text-gray-800 dark:text-white cursor-pointer"
-                        >
-                            Cart
-                        </a>
-                        <a
-                            href=""
-                            className="text-2xl focus:outline-none focus:underline hover:text-gray-500 leading-4 mt-6 text-gray-800 dark:text-white cursor-pointer"
-                        >
-                            Wish List
-                        </a>
-                        <a
-                            href=""
-                            className="text-2xl focus:outline-none focus:underline hover:text-gray-500 leading-4 mt-6 text-gray-800 dark:text-white cursor-pointer"
-                        >
-                            Order Tracking
-                        </a>
-                        <a
-                            href=""
-                            className="text-2xl focus:outline-none focus:underline hover:text-gray-500 leading-4 mt-6 text-gray-800 dark:text-white cursor-pointer"
-                        >
-                            Contact us
-                        </a>
-                    </div>
                     <div className="flex flex-col">
                         <h2 className="font-semibold leading-4 text-gray-800 dark:text-white">Address</h2>
 
                         <p className="text-2xl leading-none text-gray-800 mt-4 dark:text-white">
-                            Linh Dong ward, Thu Duc City, Ho Chi Minh City
+                            To Ngoc Van, Linh Dong, Thu Duc, Ho Chi Minh
                         </p>
                     </div>
                 </div>
