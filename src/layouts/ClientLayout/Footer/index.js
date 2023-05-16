@@ -26,6 +26,15 @@ const Footer = () => {
                             To Ngoc Van, Linh Dong, Thu Duc, Ho Chi Minh
                         </p>
                     </div>
+                    <div className="flex flex-col">
+                        <h2 className="font-semibold leading-4 text-gray-800 dark:text-white">Contact</h2>
+
+                        <p className="text-2xl leading-none text-gray-800 mt-4 dark:text-white">Nguyen Minh Son</p>
+                        <p className="text-2xl leading-none text-gray-800 mt-4 dark:text-white">
+                            Email: nguyenminhson102002@gmail.com
+                        </p>
+                        <p className="text-2xl leading-none text-gray-800 mt-4 dark:text-white">Phone: 0354964840</p>
+                    </div>
                 </div>
                 <div className="mt-10 lg:block text-center">
                     <label className="mt-5 text-3xl font-medium leading-5 text-gray-800 dark:text-white">

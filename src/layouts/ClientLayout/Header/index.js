@@ -146,11 +146,6 @@ const Header = () => {
                                     Shop
                                 </NavLink>
                             </li>
-                            <li>
-                                <NavLink to={'/contact'} className={({ isActive }) => (isActive ? active : inActive)}>
-                                    Contact
-                                </NavLink>
-                            </li>
                         </ul>
                     </div>
                 </div>
