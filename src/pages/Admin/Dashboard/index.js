@@ -9,7 +9,7 @@ import * as statisticsAPI from '../../../services/statisticsAPI';
 import * as messageAction from '../../../redux/features/message/messageSlice';
 import messages from '../../../configs/messages';
 import Loading from '../../../components/Loading';
-
+import formatter from '../../../utils/numberFormatter';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { BACKGROUND_COLOR_FAILED } from '../../../constants';
@@ -369,7 +369,7 @@ const Dashboard = () => {
                             </h4>
                             <span className="text-2xl">Total Revenue</span>
                         </div>
-                        <FontAwesomeIcon icon={faMoneyBill} className="text-6xl" />
+                        <FontAwesomeIcon icon={formatter.format(faMoneyBill)} className="text-6xl" />
                     </div>
                 </div>
                 <div className="rounded-sm border border-stroke bg-white  py-10 px-8 shadow-lg dark:border-strokedark dark:bg-boxdark">
@@ -481,7 +481,9 @@ const Dashboard = () => {
                                     </div>
 
                                     <div class="hidden items-center justify-center p-3 sm:flex xl:p-5">
-                                        <p class="font-medium text-black dark:text-white">{user.totalCost}</p>
+                                        <p class="font-medium text-black dark:text-white">
+                                            {formatter.format(user.totalCost)}
+                                        </p>
                                     </div>
                                 </div>
                             );
