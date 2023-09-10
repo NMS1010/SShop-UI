@@ -1,20 +1,23 @@
 import { useEffect } from 'react';
 import { useCallback } from 'react';
 import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import * as productsAPI from '../../../services/productsAPI';
 import Carousel from 'react-bootstrap/Carousel';
 import * as authUtil from '../../../utils/authUtils';
 import { InputNumber } from 'antd';
 import Loading from '../../../components/Loading';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as cartAction from '../../../redux/features/cart/cartSlice';
 import * as wishAction from '../../../redux/features/wish/wishSlice';
 import ReactHtmlParser from 'react-html-parser';
 import formatter from '../../../utils/numberFormatter';
+import config from '../../../configs';
 const ProductDetail = () => {
     const { productId } = useParams();
+    const { currentUser, isLogin } = useSelector((state) => state?.auth);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [quantity, setQuantity] = useState(1);
     const [loading, setLoading] = useState(true);
     const [product, setProduct] = useState(null);
@@ -42,12 +45,11 @@ const ProductDetail = () => {
             const total = product.productReview.items.length;
             Array.from(Array(5)).forEach((val, idx) => {
                 let count = product.productReview.items.filter((rv) => rv.rating === idx + 1).length;
-                let width = Math.round((count * 12) / total);
                 let clss = 'bg-indigo-600 rounded-lg h-2 ';
                 let obj = {
                     count: count,
                     percent: ((count / total) * 100).toPrecision(3),
-                    widthClass: width > 0 && clss + `w-${width}/12`,
+                    widthClass: clss,
                 };
                 arr.push(obj);
             });
@@ -55,6 +57,9 @@ const ProductDetail = () => {
         }
     }, [loading]);
     const addToCart = () => {
+        if (!currentUser) {
+            navigate(config.routes.auth);
+        }
         const formData = new FormData();
         formData.append('productId', productId);
         formData.append('quantity', quantity);
@@ -62,6 +67,9 @@ const ProductDetail = () => {
         dispatch(cartAction.addCartItem({ cartItem: formData }));
     };
     const addToWish = () => {
+        if (!currentUser) {
+            navigate(config.routes.auth);
+        }
         const formData = new FormData();
         formData.append('productId', productId);
         formData.append('userId', authUtil.getUserId());
@@ -71,7 +79,7 @@ const ProductDetail = () => {
         <Loading />
     ) : (
         <div className="max-w-screen-xl m-auto">
-            <section className="text-gray-700 body-font overflow-hidden bg-white rounded-3xl ">
+            <section className="text-gray-700 body-font overflow-hidden bg-white rounded-3xl">
                 <div className="container px-5 py-24 mx-auto">
                     <div className="lg:w-4/5 mx-auto flex flex-wrap">
                         <Carousel className="w-1/2 p-5" activeIndex={index} onSelect={handleSelect} interval={1000}>
@@ -92,7 +100,7 @@ const ProductDetail = () => {
                             <h1 className="mb-3">
                                 <Link className="text-blue-300 text-2xl tracking-widest">{product.categoryName}</Link>
                             </h1>
-                            <h1 className="text-gray-900 text-5xl title-font font-medium mb-1">{product.name}</h1>
+                            <h1 className="text-gray-900 my-2 text-5xl title-font font-medium">{product.name}</h1>
                             <div className="flex mb-4">
                                 <span className="flex items-center">
                                     {Array.from(Array(5)).map((val, idx) => {
@@ -122,24 +130,9 @@ const ProductDetail = () => {
                             </div>
 
                             <div className="flex mt-5 items-center">
-                                <span className="title-font font-medium text-2xl text-gray-900">
+                                <span className="title-font font-medium text-5xl text-red-900">
                                     {formatter.format(product.price)}
                                 </span>
-                                <button
-                                    onClick={addToWish}
-                                    className="rounded-full ml-auto w-20 h-20 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500"
-                                >
-                                    <svg
-                                        fill="currentColor"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        className="w-10 h-10"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
-                                    </svg>
-                                </button>
                             </div>
                             <div className="flex mt-5">
                                 <InputNumber
@@ -152,9 +145,24 @@ const ProductDetail = () => {
                                 />
                                 <button
                                     onClick={addToCart}
-                                    className=" text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded"
+                                    className=" text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded-xl"
                                 >
                                     Add to cart
+                                </button>
+                                <button
+                                    onClick={addToWish}
+                                    className="rounded-full ml-auto w-20 h-20 bg-gray-100 p-0 border-0 inline-flex items-center justify-center hover:text-red-500 animate-pulse"
+                                >
+                                    <svg
+                                        fill="currentColor"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        className="w-10 h-10"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
+                                    </svg>
                                 </button>
                             </div>
                         </div>
@@ -201,11 +209,18 @@ const ProductDetail = () => {
                                                 </div>
                                                 <div className="w-3/5">
                                                     <div className="bg-gray-300 w-full rounded-lg h-2">
-                                                        <div className={val.widthClass}></div>
+                                                        <div
+                                                            style={{
+                                                                width: `${isNaN(val.percent) ? 0 : val.percent}%`,
+                                                            }}
+                                                            className={val.widthClass}
+                                                        ></div>
                                                     </div>
                                                 </div>
                                                 <div className="w-1/5 text-gray-700 pl-3">
-                                                    <span className="text-lg">{val.percent} %</span>
+                                                    <span className="text-lg">
+                                                        {isNaN(val.percent) ? 0 : val.percent} %
+                                                    </span>
                                                 </div>
                                             </div>
                                         );
