@@ -365,11 +365,11 @@ const Dashboard = () => {
                     <div className="mt-4 flex items-center justify-between">
                         <div>
                             <h4 className="text-4xl font-bold text-black dark:text-white">
-                                {statistics?.totalRevenue}
+                                {formatter.format(statistics?.totalRevenue)}
                             </h4>
                             <span className="text-2xl">Total Revenue</span>
                         </div>
-                        <FontAwesomeIcon icon={formatter.format(faMoneyBill)} className="text-6xl" />
+                        <FontAwesomeIcon icon={faMoneyBill} className="text-6xl" />
                     </div>
                 </div>
                 <div className="rounded-sm border border-stroke bg-white  py-10 px-8 shadow-lg dark:border-strokedark dark:bg-boxdark">

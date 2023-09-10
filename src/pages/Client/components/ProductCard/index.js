@@ -2,24 +2,32 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as cartAction from '../../../../redux/features/cart/cartSlice';
 import * as wishAction from '../../../../redux/features/wish/wishSlice';
 import * as authUtil from '../../../../utils/authUtils';
 import { useNavigate } from 'react-router-dom';
 import formatter from '../../../../utils/numberFormatter';
+import config from '../../../../configs';
 const ProductCard = ({ product }) => {
     const [hide, setHide] = useState(true);
+    const { currentUser, isLogin } = useSelector((state) => state?.auth);
     // const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const addCartItem = () => {
+        if (!currentUser) {
+            navigate(config.routes.auth);
+        }
         const formData = new FormData();
         formData.append('productId', product.productId);
         formData.append('userId', authUtil.getUserId());
         dispatch(cartAction.addCartItem({ cartItem: formData }));
     };
     const addWishItem = () => {
+        if (!currentUser) {
+            navigate(config.routes.auth);
+        }
         const formData = new FormData();
         formData.append('productId', product.productId);
         formData.append('userId', authUtil.getUserId());
