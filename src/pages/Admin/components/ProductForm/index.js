@@ -110,10 +110,10 @@ const ProductForm = () => {
                 setLoading(false);
             }
         };
-        fetchProduct();
+        if (productId !== 'add') fetchProduct();
         fetchBrands();
         fetchCategories();
-    }, []);
+    }, [productId, editImage]);
     const handleChange = (e) => {
         const { name, value } = e.target;
         setInputFields({ ...inputFields, [name]: value });

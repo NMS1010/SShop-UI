@@ -66,8 +66,7 @@ const Product = () => {
         fetchAPI();
     }, [isOutClick]);
     const handleAddProduct = () => {
-        setAction({ add: true, edit: false, delete: false, list: false });
-        setIsOutClick(false);
+        navigate(`${config.routes.admin_products}/add`);
     };
     const handleUpdateProduct = (productId) => {
         navigate(`${config.routes.admin_products}/${productId}`);
@@ -126,10 +125,8 @@ const Product = () => {
                             handleDeleteItem={handleDeleteProduct}
                         />
                     )}
-                    {action.add && <ProductForm setAction={setAction} getAllProducts={fetchAPI} />}
-                    {action.edit && (
-                        <ProductForm product={selectedProduct} getAllProducts={fetchAPI} setAction={setAction} />
-                    )}
+                    {action.add && <ProductForm />}
+                    {action.edit && <ProductForm />}
                     {action.delete && !isOutClick && (
                         <ModalWrapper>
                             <Alert
