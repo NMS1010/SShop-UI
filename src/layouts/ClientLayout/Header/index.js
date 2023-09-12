@@ -83,7 +83,7 @@ const Header = () => {
                         </span>
                     </a>
                     <div className="flex items-center lg:order-2">
-                        {isLogin ? (
+                        {authUtils.isTokenStoraged() ? (
                             <div className="flex justify-between items-center">
                                 <Link to={config.routes.cart}>
                                     <Badge count={currentCartAmount} className="mr-3 cursor-pointer" showZero>
@@ -100,11 +100,11 @@ const Header = () => {
                                         <div className="w-14 h-14 ml-5">
                                             <img
                                                 className="rounded-full h-full border border-gray-100 shadow-sm"
-                                                src={`${process.env.REACT_APP_HOST}${currentUser.avatar}`}
+                                                src={`${process.env.REACT_APP_HOST}${currentUser?.avatar}`}
                                                 alt="user image"
                                             />
                                         </div>
-                                        <p className="mt-3 text-2xl">{currentUser.userName}</p>
+                                        <p className="mt-3 text-2xl">{currentUser?.userName}</p>
                                     </Space>
                                 </Dropdown>
                             </div>
