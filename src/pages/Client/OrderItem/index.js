@@ -3,7 +3,7 @@ import * as messageAction from '../../../redux/features/message/messageSlice';
 import message from '../../../configs/messages';
 import { useState } from 'react';
 import { useCallback } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, NavLink, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { BACKGROUND_COLOR_FAILED } from '../../../constants';
 import Loading from '../../../components/Loading';
@@ -15,6 +15,7 @@ import { ORDER_STATE } from '../../../utils/orderStateUtils';
 import formatter from '../../../utils/numberFormatter';
 import { Breadcrumb } from 'antd';
 import config from '../../../configs';
+import { HomeOutlined } from '@mui/icons-material';
 
 const OrderItem = () => {
     const [loading, setLoading] = useState(true);
@@ -53,22 +54,24 @@ const OrderItem = () => {
         <div>
             <div className="py-14 px-4 md:px-6 2xl:px-20  max-w-screen-xl mx-auto">
                 <Breadcrumb
-                    className="mb-3 font-bold text-3xl"
-                    separator={<span className="text-blue-300">/</span>}
+                    className="text-3xl ml-5 mb-5 "
                     items={[
                         {
                             title: (
-                                <Link className="text-blue-300" to={config.routes.home}>
-                                    Home
-                                </Link>
+                                <NavLink to={config.routes.home}>
+                                    <HomeOutlined className="text-4xl text-black" />
+                                </NavLink>
                             ),
                         },
                         {
                             title: (
-                                <Link className="text-blue-300" to={config.routes.orders}>
-                                    Orders
-                                </Link>
+                                <NavLink className={'text-cyan-500'} to={config.routes.orders}>
+                                    Đơn hàng
+                                </NavLink>
                             ),
+                        },
+                        {
+                            title: <span className={'text-cyan-500'}>Order #{order.orderId}</span>,
                         },
                     ]}
                 />

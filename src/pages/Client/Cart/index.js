@@ -1,4 +1,4 @@
-import { Button, Checkbox } from 'antd';
+import { Breadcrumb, Button, Checkbox } from 'antd';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useCallback } from 'react';
@@ -11,9 +11,10 @@ import * as messageAction from '../../../redux/features/message/messageSlice';
 import * as cartAction from '../../../redux/features/cart/cartSlice';
 import messages from '../../../configs/messages';
 import Loading from '../../../components/Loading';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import config from '../../../configs';
 import formatter from '../../../utils/numberFormatter';
+import { HomeOutlined } from '@mui/icons-material';
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -95,7 +96,26 @@ const Cart = () => {
             {loading ? (
                 <Loading />
             ) : (
-                <div>
+                <div className="">
+                    <Breadcrumb
+                        className="text-3xl ml-5 mb-5  max-w-screen-xl m-auto"
+                        items={[
+                            {
+                                title: (
+                                    <NavLink to={config.routes.home}>
+                                        <HomeOutlined className="text-4xl text-black" />
+                                    </NavLink>
+                                ),
+                            },
+                            {
+                                title: (
+                                    <NavLink className={'text-cyan-500'} to={config.routes.cart}>
+                                        Giỏ hàng
+                                    </NavLink>
+                                ),
+                            },
+                        ]}
+                    />
                     {cartItems.length > 0 ? (
                         <div className="max-w-screen-xl m-auto">
                             <div className="bg-white py-4 rounded-lg">

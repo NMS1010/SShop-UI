@@ -1,4 +1,4 @@
-import { Button } from 'antd';
+import { Breadcrumb, Button } from 'antd';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useCallback } from 'react';
@@ -15,6 +15,9 @@ import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ModalWrapper from '../../../components/ModalWrapper';
 import Alert from '../../../components/Alert';
+import { NavLink } from 'react-router-dom';
+import { HomeOutlined } from '@mui/icons-material';
+import config from '../../../configs';
 const WishList = () => {
     const [wishItems, setWishItems] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -81,6 +84,25 @@ const WishList = () => {
                 <Loading />
             ) : (
                 <div>
+                    <Breadcrumb
+                        className="text-3xl ml-5 mb-5  max-w-screen-xl m-auto"
+                        items={[
+                            {
+                                title: (
+                                    <NavLink to={config.routes.home}>
+                                        <HomeOutlined className="text-4xl text-black" />
+                                    </NavLink>
+                                ),
+                            },
+                            {
+                                title: (
+                                    <NavLink className={'text-cyan-500'} to={config.routes.wish_list}>
+                                        Yêu thích
+                                    </NavLink>
+                                ),
+                            },
+                        ]}
+                    />
                     <div className="max-w-screen-xl m-auto">
                         {wishItems.length > 0 ? (
                             <div>
